@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/main"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical"
+  tools:context=".RegisterActivity">
+
+  <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="💊"
+    android:layout_gravity="start"
+    android:gravity="center"
+    android:textSize="35sp"
+    android:layout_marginTop="100dp"/>
+
+
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="start"
+    android:layout_marginTop="5dp"
+    android:layout_marginLeft="40dp"
+    android:padding="10sp"
+    android:text="VitaMate 회원가입이 완료됐어요!"
+    android:textSize="22sp"
+    android:textStyle="bold" />
+
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="50dp"
+    android:gravity="center"
+    android:padding="10sp"
+    android:layout_marginLeft="100dp"
+    android:text="아래 네가지 규칙을 명심해 주세요." />
+
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="50dp"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <CheckBox
+      android:id="@+id/checkBox1"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:paddingBottom="16dp"
+      android:textSize="16dp"
+      android:textStyle="bold"
+      android:text="내 모습 그대로 당당하게 🤓" />
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center"
+      android:text="사진, 나이, 자기소개를 사실대로 올려주세요." />
+
+    <CheckBox
+      android:id="@+id/checkBox2"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:paddingBottom="16dp"
+      android:textSize="16dp"
+      android:textStyle="bold"
+      android:text="안전을 최우선으로 👆 " />
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center"
+      android:text="상대방을 잘 모르는 상태에서 개인정보를 알려주지 마세요." />
+
+    <CheckBox
+      android:id="@+id/checkBox3"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:paddingBottom="16dp"
+      android:textSize="16dp"
+      android:textStyle="bold"
+      android:text="매너있는 태도 👍" />
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center"
+      android:text="존중받고 싶은 만큼 존중을 표현해 주세요." />
+
+    <CheckBox
+      android:id="@+id/checkBox4"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:paddingBottom="16dp"
+      android:textSize="16dp"
+      android:textStyle="bold"
+      android:text="신고는 적극적으로 ⚠️" />
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center"
+      android:text="상대의 잘못된 태도나 언행은 망설이지 말고 신고해 주세요." />
+
+  </LinearLayout>
+
+
+
+
+  <Button
+    android:id="@+id/nextBtn"
+    android:layout_width="290dp"
+    android:layout_height="45dp"
+    android:background="@drawable/solid_button"
+    android:gravity="center"
+    android:padding="1dp"
+    android:textColor="#000000"
+    android:textSize="15sp"
+    android:layout_marginTop="40dp"
+    android:layout_marginLeft="60dp"
+    android:text="다음"
+    android:enabled="false"/>
+
+
+</LinearLayout>

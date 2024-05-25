@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+  <LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".InBodyCheckActivity">
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="start"
+      android:layout_marginTop="150dp"
+      android:layout_marginLeft="100dp"
+      android:gravity="center"
+      android:padding="10sp"
+      android:text="InBody"
+      android:textSize="60sp"
+      android:textStyle="bold"
+      android:textColor="#8B0000"/>
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="start"
+      android:layout_marginTop="25dp"
+      android:layout_marginLeft="32dp"
+      android:gravity="center"
+      android:padding="10sp"
+      android:text="자신의 기초대사량을 입력해 주세요."
+      android:textSize="22sp"
+      android:textStyle="bold" />
+
+    <LinearLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      android:textSize="22sp"
+      android:textColor="#000000"
+      android:layout_marginTop="100dp"
+      android:layout_marginLeft="50dp">
+
+      <EditText
+        android:id="@+id/calorieInput"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/kcalLabel"
+        android:layout_alignParentStart="true"
+        android:layout_alignBaseline="@id/kcalLabel"
+        android:inputType="number"
+        android:padding="10dp"
+        android:textSize="22sp"
+        android:layout_marginEnd="4dp" />
+
+      <TextView
+        android:id="@+id/kcalLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:padding="10dp"
+        android:text="kcal"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      android:textSize="15sp"
+      android:textColor="#000000"
+      android:layout_marginTop="150dp">
+
+      <Button
+        android:id="@+id/previousBtn"
+        android:layout_width="140dp"
+        android:layout_height="45dp"
+        android:background="@drawable/solid_button"
+        android:gravity="center"
+        android:padding="1dp"
+        android:text="이전"
+        android:textColor="#000000"
+        android:layout_marginLeft="40dp" />
+
+      <Button
+        android:id="@+id/nextBtn"
+        android:layout_width="140dp"
+        android:layout_height="45dp"
+        android:background="@drawable/solid_button"
+        android:gravity="center"
+        android:padding="1dp"
+        android:text="다음"
+        android:textColor="#000000"
+        android:layout_marginLeft="50dp" />
+
+    </LinearLayout>
+  </LinearLayout>
+</layout>
