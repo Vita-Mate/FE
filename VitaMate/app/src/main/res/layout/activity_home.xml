@@ -251,7 +251,7 @@
         android:layout_height="wrap_content"
         android:gravity="start"
         android:text="챌린지"
-        android:textSize="50"
+        android:textSize="50dp"
         android:textStyle="bold"
         android:textColor="@color/black"/>
   </LinearLayout>
@@ -349,9 +349,4 @@
                     android:textSize="30dp"/>
         </LinearLayout>
     </LinearLayout>
-
-
-
-
-
 </LinearLayout>
