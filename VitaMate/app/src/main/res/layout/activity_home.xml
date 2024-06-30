@@ -1,221 +1,227 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  xmlns:tools="http://schemas.android.com/tools"
-  android:id="@+id/main"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  tools:context=".HomeActivity"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomeActivity"
     android:orientation="vertical">
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@color/black">
-    <TextView
-        android:id="@+id/today"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/user_greeting"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:text="TODAY"
-        android:textColor="@color/white"
-        android:textSize="30dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:datePickerMode="calendar" />
-    <TextView
-        android:id="@+id/date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="30dp"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:datePickerMode="calendar"/>
-
-</LinearLayout>
-
-
-
-    <LinearLayout
-      android:id="@+id/meals"
-      android:layout_width="match_parent"
-      android:layout_height="350dp"
-      android:layout_margin="20dp"
-      android:background="@drawable/border"
-      android:elevation="5dp"
-      android:orientation="vertical"
-      android:weightSum="4">
-
-      <TextView
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="10dp"
-        android:gravity="right"
-        android:text="식단  |   영양제   |   물         "
-        android:textColor="@android:color/darker_gray"
-        android:textSize="25dp"
-        android:textStyle="bold"/>
-        <!-- 추후 버튼 속성으로 바꿀 예정 -->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <RelativeLayout
-            android:layout_width="125dp"
-            android:layout_height="110dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/button_background"
+        android:orientation="vertical"
+        android:background="@color/black">
+        <TextView
+            android:id="@+id/today"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/user_greeting"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="TODAY"
+            android:textColor="@color/white"
+            android:textSize="20dp"
             android:clickable="true"
-            android:elevation="5dp"
-            android:focusable="true">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:gravity="center"
-                android:text="아침"
-                android:textColor="@color/black"
-                android:textSize="30dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="right"
-                android:text="+"
-                android:textSize="30dp"
-                android:clickable="true"
-                android:focusable="true"/>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="125dp"
-            android:layout_height="110dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/button_background"
-            android:clickable="true"
-            android:elevation="5dp"
-            android:focusable="true">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:gravity="center"
-                android:text="점심"
-                android:textColor="@color/black"
-                android:textSize="30dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="right"
-                android:text="+"
-                android:textSize="30dp"
-                android:clickable="true"
-                android:focusable="true" />
-        </RelativeLayout>
+            android:focusable="true"
+            android:datePickerMode="calendar" />
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:datePickerMode="calendar"/>
     </LinearLayout>
 
+
+
     <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:orientation="horizontal">
+          android:id="@+id/meals"
+          android:layout_width="match_parent"
+          android:layout_height="220dp"
+          android:layout_margin="20dp"
+          android:background="@drawable/border"
+          android:elevation="15dp"
+          android:orientation="vertical"
+          android:weightSum="4">
 
-        <RelativeLayout
-            android:layout_width="125dp"
-            android:layout_height="110dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="20dp"
-            android:layout_weight="1"
-            android:background="@drawable/button_background"
-            android:clickable="true"
-            android:elevation="5dp"
-            android:focusable="true">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="right"
+            android:text="식단  |   영양제   |   물         "
+            android:textColor="@android:color/darker_gray"
+            android:textSize="20dp"
+            android:textStyle="bold"/>
+            <!-- 추후 버튼 속성으로 바꿀 예정 -->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:gravity="center"
-                android:text="저녁"
-                android:textColor="@color/black"
-                android:textSize="30dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="right"
-                android:text="+"
-                android:textSize="30dp"
+            <RelativeLayout
+                android:layout_width="125dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_background"
                 android:clickable="true"
-                android:focusable="true" />
-        </RelativeLayout>
+                android:elevation="5dp"
+                android:focusable="true">
 
-        <RelativeLayout
-            android:layout_width="125dp"
-            android:layout_height="110dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="20dp"
-            android:layout_weight="1"
-            android:background="@drawable/button_background"
-            android:clickable="true"
-            android:elevation="5dp"
-            android:focusable="true">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:text="아침"
+                    android:textColor="@color/black"
+                    android:textSize="25dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:gravity="center"
-                android:text="간식"
-                android:textColor="@color/black"
-                android:textSize="30dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="-1dp"
+                    android:layout_marginRight="13dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:text="+"
+                    android:textSize="17dp" />
+            </RelativeLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="right"
-                android:text="+"
-                android:textSize="30dp"
+            <RelativeLayout
+                android:layout_width="125dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_background"
                 android:clickable="true"
-                android:focusable="true" />
-        </RelativeLayout>
+                android:elevation="5dp"
+                android:focusable="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:text="점심"
+                    android:textColor="@color/black"
+                    android:textSize="25dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="-1dp"
+                    android:layout_marginRight="13dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:text="+"
+                    android:textSize="17dp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="125dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_background"
+                android:clickable="true"
+                android:elevation="5dp"
+                android:focusable="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:text="저녁"
+                    android:textColor="@color/black"
+                    android:textSize="25dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="-1dp"
+                    android:layout_marginRight="13dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:text="+"
+                    android:textSize="17dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="125dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_background"
+                android:clickable="true"
+                android:elevation="5dp"
+                android:focusable="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:text="간식"
+                    android:textColor="@color/black"
+                    android:textSize="25dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="-1dp"
+                    android:layout_marginRight="13dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:text="+"
+                    android:textSize="17dp" />
+            </RelativeLayout>
+        </LinearLayout>
 
     </LinearLayout>
-
-  </LinearLayout>
 
     <LinearLayout
         android:id="@+id/nutrient"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="300dp"
         android:layout_margin="20dp"
         android:background="@drawable/border"
         android:elevation="5dp"
@@ -225,11 +231,10 @@
       <TextView
           android:layout_width="match_parent"
           android:layout_height="60dp"
-          android:layout_marginTop="15dp"
           android:gravity="center"
           android:text="총 섭취 영양소"
           android:textColor="@color/black"
-          android:textSize="45dp"
+          android:textSize="24dp"
           android:textStyle="bold"/>
 
 <!--        <ProgressBar-->
@@ -238,8 +243,17 @@
 <!--            android:layout_height="wrap_content"-->
 <!--            android:max="100"-->
 <!--            android:progress="50" />-->
-
+        <com.github.mikephil.charting.charts.HorizontalBarChart
+            android:id="@+id/nutrient_bar"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="112dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
     </LinearLayout>
+
 
   <LinearLayout
       android:layout_width="match_parent"
@@ -251,7 +265,7 @@
         android:layout_height="wrap_content"
         android:gravity="start"
         android:text="챌린지"
-        android:textSize="50"
+        android:textSize="30dp"
         android:textStyle="bold"
         android:textColor="@color/black"/>
   </LinearLayout>
@@ -274,7 +288,8 @@
           android:clickable="true"
           android:focusable="true"
           android:gravity="center"
-          android:orientation="vertical">
+          android:orientation="vertical"
+          app:layout_constrainedHeight="true">
 
         <TextView
             android:layout_width="wrap_content"
@@ -320,6 +335,12 @@
                 android:textSize="30dp"/>
         </LinearLayout>
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:scrollbars="none">
+
         <LinearLayout
                 android:id="@+id/smoke"
                 android:layout_width="150dp"
@@ -347,11 +368,7 @@
                     android:text="금연"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="30dp"/>
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-
-
-
-
-
+    </ScrollView>
 </LinearLayout>

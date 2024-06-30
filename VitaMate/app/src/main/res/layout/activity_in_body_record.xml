@@ -80,7 +80,7 @@
         android:id="@+id/previousBtn"
         android:layout_width="140dp"
         android:layout_height="45dp"
-        android:background="@drawable/solid_button"
+
         android:gravity="center"
         android:padding="1dp"
         android:text="이전"
@@ -91,7 +91,7 @@
         android:id="@+id/nextBtn"
         android:layout_width="140dp"
         android:layout_height="45dp"
-        android:background="@drawable/solid_button"
+
         android:gravity="center"
         android:padding="1dp"
         android:text="다음"
