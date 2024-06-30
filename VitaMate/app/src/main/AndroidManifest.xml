@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:tools="http://schemas.android.com/tools"
   package="com.my.vitamateapp">
-
   <!-- 인터넷 사용 권한 설정 -->
   <uses-permission android:name="android.permission.INTERNET" />
 
@@ -17,6 +16,10 @@
     android:supportsRtl="true"
     android:theme="@style/Theme.VitaMateApp"
     tools:targetApi="31">
+    <activity
+      android:name=".FoodSearch"
+      android:exported="false" />
+
     <meta-data
       android:name="com.google.android.actions"
       android:resource="@xml/solid_button" />
