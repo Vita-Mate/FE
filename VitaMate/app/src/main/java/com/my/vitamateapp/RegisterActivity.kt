@@ -14,7 +14,11 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
+        //모든 정보를 입력 해야 다음 버튼 활성화 -> 페이지 전환.
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_register)
+
+
 
         binding.nextBtn.setOnClickListener{
             startActivity(Intent(this, InBodyCheckActivity::class.java))
