@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <LinearLayout
+    android:id="@+id/searched_supplement_item"
+    android:layout_width="375dp"
+    android:layout_height="120dp"
+    android:background="@drawable/home_border"
+    android:elevation="10dp"
+    android:layout_margin="13dp"
+    android:layout_marginLeft="5dp"
+    android:padding="20dp"
+    android:orientation="vertical"
+    android:layout_centerHorizontal="true"
+    android:layout_alignParentTop="true"
+    android:layout_marginTop="150dp">
+
+    <TextView
+      android:id="@+id/supplement_name"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textSize="30sp"
+      android:textStyle="bold"
+      android:text="Title Text" />
+
+    <TextView
+      android:id="@+id/supplement_info"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:padding="5dp"
+      android:textSize="17sp"
+      android:text="Subtitle Text" />
+
+  </LinearLayout>
+
+</RelativeLayout>

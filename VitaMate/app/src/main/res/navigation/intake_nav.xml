@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/intake_nav"
+  app:startDestination="@id/intakeFragment">
+  <fragment
+    android:id="@+id/intakeFragment"
+    android:name="com.my.vitamateapp.intakeFragment.IntakeFragment"
+    android:label="IntakeFragment"
+    tools:layout="@layout/fragment_intake" >
+    <action
+      android:id="@+id/action_intakeFragment_to_supplementFragment"
+      app:destination="@id/supplementFragment" />
+    <action
+      android:id="@+id/action_intakeFragment_to_waterFragment"
+      app:destination="@id/waterFragment" />
+  </fragment>
+
+  <fragment
+    android:id="@+id/supplementFragment"
+    android:name="com.my.vitamateapp.intakeFragment.SupplementFragment"
+    android:label="fragment_supplement"
+    tools:layout="@layout/fragment_supplement" >
+    <action
+      android:id="@+id/action_supplementFragment_to_intakeFragment"
+      app:destination="@id/intakeFragment" />
+    <action
+      android:id="@+id/action_supplementFragment_to_waterFragment"
+      app:destination="@id/waterFragment" />
+  </fragment>
+
+  <fragment
+    android:id="@+id/waterFragment"
+    android:name="com.my.vitamateapp.intakeFragment.WaterFragment"
+    android:label="WaterFragment"
+    tools:layout="@layout/fragment_water">
+    <action
+      android:id="@+id/action_waterFragment_to_intakeFragment"
+      app:destination="@id/intakeFragment" />
+    <action
+      android:id="@+id/action_waterFragment_to_supplementFragment"
+      app:destination="@id/supplementFragment" />
+  </fragment>
+
+</navigation>
+

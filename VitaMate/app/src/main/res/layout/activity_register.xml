@@ -1,127 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:tools="http://schemas.android.com/tools"
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <LinearLayout
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="708dp"
+    android:gravity="center"
     android:orientation="vertical"
-    tools:context=".RegisterActivity">
-
+    tools:context=".registerPage.RegisterActivity">
 
     <TextView
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_gravity="start"
       android:layout_marginTop="50dp"
-      android:layout_marginLeft="20dp"
+      android:layout_marginBottom="10dp"
       android:gravity="center"
       android:padding="10sp"
       android:text="닉네임을 설정해 주세요."
       android:textSize="22sp"
       android:textStyle="bold" />
 
+    <!--닉네임 길이제한 10자, 특수문자 사용 불가-->
     <EditText
-        android:id="@+id/editTextId"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="20dp"
-        android:hint="프로필에 표시되는 이름으로 이후에는 변경할 수 없습니다."
-        android:textSize="15sp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="29dp"
-        tools:layout_editor_absoluteY="122dp" />
+      android:id="@+id/nicknameEditText"
+      android:layout_width="300dp"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="8dp"
+      android:hint="프로필에 표시되는 이름으로 이후 변경할 수 없습니다."
+      android:inputType="text"
+      android:maxLength="10"
+      android:padding="10dp"
+      android:textSize="15sp" />
 
 
     <Button
       android:id="@+id/checkDuplicateBtn"
-      android:layout_width="290dp"
+      android:layout_width="300dp"
       android:layout_height="45dp"
+      android:layout_marginBottom="10dp"
       android:background="@drawable/solid_button"
+      android:enabled="false"
       android:gravity="center"
       android:padding="1dp"
       android:text="중복 확인"
       android:textColor="#000000"
-      android:textSize="15sp"
-      android:layout_marginTop="10dp"
-      android:layout_marginLeft="60dp" />
+      android:textSize="15sp" />
 
 
     <TextView
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
+      android:layout_marginTop="20dp"
+      android:layout_marginBottom="10dp"
       android:padding="10sp"
-      android:text="생년원일을 입력해 주세요."
+      android:text="나이를 입력해주세요."
       android:textSize="22sp"
-      android:textStyle="bold"
-      android:layout_marginTop="17dp"
-      android:layout_marginLeft="20dp"
-       />
-
-    <DatePicker
-      android:id="@+id/vDatePicker"
-      android:layout_width="300dp"
-      android:layout_height="wrap_content"
-      android:calendarViewShown="false"
-      android:datePickerMode="spinner"
-      android:layout_marginTop="5dp"
-      android:layout_marginLeft="20dp"/>
-
-
-
-    <TextView
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:padding="10sp"
-      android:text="성별을 선택해 주세요."
-      android:textSize="22sp"
-      android:textStyle="bold"
-      android:layout_marginTop="10dp"
-      android:layout_marginLeft="20dp" />
-
+      android:textStyle="bold" />
 
     <LinearLayout
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginLeft="100dp">
+      android:layout_marginBottom="10dp"
+      android:gravity="center"
+      android:orientation="horizontal">
+
+      <!-- 연도 입력 -->
+      <EditText
+        android:id="@+id/yearEditText"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:gravity="center"
+        android:hint="YYYY"
+        android:inputType="number"
+        android:maxLength="4"
+        android:padding="10dp" />
+
+      <!-- 월 입력 -->
+      <EditText
+        android:id="@+id/monthEditText"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:gravity="center"
+        android:hint="MM"
+        android:inputType="number"
+        android:maxLength="2"
+        android:padding="10dp" />
+
+      <!-- 일 입력 -->
+      <EditText
+        android:id="@+id/dayEditText"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:hint="DD"
+        android:inputType="number"
+        android:maxLength="2"
+        android:padding="10dp" />
+
+    </LinearLayout>
+
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="20dp"
+      android:layout_marginBottom="10dp"
+      android:padding="10sp"
+      android:text="성별을 선택해 주세요."
+      android:textSize="22sp"
+      android:textStyle="bold" />
+
+    <LinearLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="20dp"
+      android:orientation="horizontal">
 
       <ImageButton
-        android:id="@+id/male"
+        android:id="@+id/maleButton"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/male"
-        android:scaleType="fitCenter"
+        android:layout_marginEnd="20dp"
         android:background="@color/white"
-        android:layout_marginTop="20dp"
-        android:contentDescription="male"/>
+        android:contentDescription="male"
+        android:scaleType="fitCenter"
+        android:src="@drawable/male" />
 
       <ImageButton
-        android:id="@+id/female"
-        android:layout_width="44dp"
-        android:layout_height="44dp"
-        android:src="@drawable/female"
-        android:scaleType="fitCenter"
+        android:id="@+id/femaleButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:background="@color/white"
-        android:layout_marginTop="21dp"
-        android:layout_marginLeft="100dp"
-        android:contentDescription="female"/>
-
-
+        android:contentDescription="female"
+        android:scaleType="fitCenter"
+        android:src="@drawable/female" />
     </LinearLayout>
 
     <Button
       android:id="@+id/nextBtn"
-      android:layout_width="140dp"
+      android:layout_width="150dp"
       android:layout_height="45dp"
+      android:layout_marginLeft="70dp"
+      android:layout_marginTop="25dp"
       android:background="@drawable/solid_button"
-      android:gravity="center"
+      android:enabled="false"
       android:padding="1dp"
       android:text="다음"
       android:textColor="#000000"
-      android:textSize="15sp"
-      android:layout_marginTop="40dp"
-      android:layout_marginLeft="230dp" />
+      android:textSize="15sp" />
   </LinearLayout>
 </layout>

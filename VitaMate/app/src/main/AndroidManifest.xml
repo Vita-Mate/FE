@@ -29,25 +29,25 @@
             android:resource="@xml/solid_button" />-->
 
         <activity
-            android:name=".RegistrationCompleteActivity"
+            android:name=".registerPage.RegistrationCompleteActivity"
             android:exported="false" />
         <activity
-            android:name=".NoInBodyRecordActivity"
+            android:name=".registerPage.NoInBodyRecordActivity"
             android:exported="false" />
         <activity
-            android:name=".InBodyRecordActivity"
+            android:name=".registerPage.InBodyRecordActivity"
             android:exported="false" />
         <activity
-            android:name=".InBodyCheckActivity"
+            android:name=".registerPage.InBodyCheckActivity"
             android:exported="false" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".registerPage.RegisterActivity"
             android:exported="false" />
         <activity
             android:name=".HomeActivity"
             android:exported="false" /> <!-- MainActivity가 앱의 런처 엑티비티이며 android:exported="true"로 설정 -->
         <activity
-            android:name=".MainActivity"
+            android:name=".registerPage.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

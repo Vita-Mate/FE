@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <LinearLayout
+    android:layout_width="370dp"
+    android:layout_height="100dp"
+    android:layout_margin="18dp"
+    android:orientation="vertical"
+    android:layout_centerHorizontal="true"
+    android:layout_alignParentTop="true"
+    android:layout_marginTop="150dp"> <!-- 이 값을 조정하여 원하는 위치에 맞출 수 있습니다 -->
+
+    <!-- 제목과 삭제 버튼을 같은 라인에 배치 -->
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal">
+
+      <TextView
+        android:id="@+id/supplement_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="33sp"
+        android:textStyle="bold"
+        android:text="Supplement Name" />
+
+      <ImageView
+        android:id="@+id/delete_button"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_margin="10dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/delete_button"
+        android:contentDescription="Delete Button" />
+    </LinearLayout>
+
+    <TextView
+      android:id="@+id/intake_date"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="10dp"
+      android:textSize="20sp"
+      android:text="Intake Date" />
+
+  </LinearLayout>
+
+</RelativeLayout>

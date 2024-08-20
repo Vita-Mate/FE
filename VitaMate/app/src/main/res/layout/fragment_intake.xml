@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical"
+  android:background="@color/white"
+  android:padding="20dp">
+
+  <!-- 가장 큰 레이아웃 -->
+  <LinearLayout
+    android:layout_width="353dp"
+    android:layout_height="240dp"
+    android:layout_margin="10dp"
+    android:background="@drawable/home_border"
+    android:elevation="15dp"
+    android:orientation="vertical">
+
+    <!--식단 | 영양제 | 물 버튼-->
+    <LinearLayout
+      android:layout_width="255dp"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      android:layout_marginLeft="80dp">
+
+      <TextView
+        android:id="@+id/food"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="식단"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:padding="8dp"
+        android:layout_marginEnd="2dp"/>
+
+      <View
+        android:layout_width="1dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="9dp"
+        android:background="@android:color/darker_gray" />
+
+      <TextView
+        android:id="@+id/supplement"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="영양제"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:padding="8dp"
+        android:layout_marginEnd="2dp"/>
+
+      <View
+        android:layout_width="1dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="9dp"
+        android:background="@android:color/darker_gray" />
+
+      <TextView
+        android:id="@+id/water"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="물"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:padding="8dp"/>
+    </LinearLayout>
+
+    <!-- 아침, 점심 기록 -->
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:padding="4dp"
+      android:orientation="horizontal">
+
+      <RelativeLayout
+        android:id="@+id/breakfast_record"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="1"
+        android:background="@drawable/button_background"
+        android:clickable="true"
+        android:elevation="5dp"
+        android:focusable="true">
+
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_centerInParent="true"
+          android:gravity="center"
+          android:text="아침"
+          android:textColor="@color/black"
+          android:textSize="25sp" />
+
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentTop="true"
+          android:layout_alignParentRight="true"
+          android:layout_gravity="right"
+          android:layout_marginTop="-1dp"
+          android:layout_marginRight="13dp"
+          android:clickable="true"
+          android:focusable="true"
+          android:text="+"
+          android:textSize="17sp" />
+      </RelativeLayout>
+
+      <RelativeLayout
+        android:id="@+id/lunch_record"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="1"
+        android:background="@drawable/button_background"
+        android:clickable="true"
+        android:elevation="5dp"
+        android:focusable="true">
+
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_centerInParent="true"
+          android:gravity="center"
+          android:text="점심"
+          android:textColor="@color/black"
+          android:textSize="25sp" />
+
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentTop="true"
+          android:layout_alignParentRight="true"
+          android:layout_gravity="right"
+          android:layout_marginTop="-1dp"
+          android:layout_marginRight="13dp"
+          android:clickable="true"
+          android:focusable="true"
+          android:text="+"
+          android:textSize="17sp" />
+      </RelativeLayout>
+    </LinearLayout>
+
+    <!-- 저녁, 간식 기록 -->
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:padding="4dp"
+      android:orientation="horizontal">
+
+      <RelativeLayout
+        android:id="@+id/dinner_record"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_weight="1"
+        android:background="@drawable/button_background"
+        android:clickable="true"
+        android:elevation="5dp"
+        android:focusable="true">
+
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_centerInParent="true"
+          android:gravity="center"
+          android:text="저녁"
+          android:textColor="@color/black"
+          android:textSize="25sp" />
+
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentTop="true"
+          android:layout_alignParentRight="true"
+          android:layout_gravity="right"
+          android:layout_marginTop="-1dp"
+          android:layout_marginRight="13dp"
+          android:clickable="true"
+          android:focusable="true"
+          android:text="+"
+          android:textSize="17sp" />
+      </RelativeLayout>
+
+      <RelativeLayout
+        android:id="@+id/snack_record"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_weight="1"
+        android:background="@drawable/button_background"
+        android:clickable="true"
+        android:elevation="5dp"
+        android:focusable="true">
+
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_centerInParent="true"
+          android:gravity="center"
+          android:text="간식"
+          android:textColor="@color/black"
+          android:textSize="25sp" />
+
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentTop="true"
+          android:layout_alignParentRight="true"
+          android:layout_gravity="right"
+          android:layout_marginTop="-1dp"
+          android:layout_marginRight="13dp"
+          android:clickable="true"
+          android:focusable="true"
+          android:text="+"
+          android:textSize="17sp" />
+      </RelativeLayout>
+    </LinearLayout>
+  </LinearLayout>
+</LinearLayout>

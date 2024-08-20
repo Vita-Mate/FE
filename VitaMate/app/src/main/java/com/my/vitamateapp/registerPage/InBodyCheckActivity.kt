@@ -1,9 +1,10 @@
-package com.my.vitamateapp
+package com.my.vitamateapp.registerPage
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.my.vitamateapp.R
 import com.my.vitamateapp.databinding.ActivityInBodyCheckBinding
 
 class InBodyCheckActivity : AppCompatActivity() {

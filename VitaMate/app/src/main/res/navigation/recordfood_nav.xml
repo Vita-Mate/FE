@@ -1,0 +1,17 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/breakfast_nav"
+  app:startDestination="@id/breakfast_list">
+
+  <fragment
+    android:id="@+id/breakfast_list"
+    android:name="com.my.vitamateapp.foodRecord.foodFragment.breakfast_list"
+    android:label="Breakfast List"
+    tools:layout="@layout/fragment_breakfast_list" />
+  <fragment
+    android:id="@+id/add_breakfast"
+    android:name="com.my.vitamateapp.foodRecord.foodFragment.add_breakfast"
+    android:label="Add Breakfast"
+    tools:layout="@layout/fragment_add_breakfast" />
+</navigation>
