@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="vertical"
+    tools:context=".HomeActivity"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:id="@+id/search_chall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/deep_gray">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:text="챌린지 탐색"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="25dp"
+                app:layout_constraintStart_toEndOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="0dp">
+
+                <!-- Shape background -->
+
+                <!-- Plus symbol -->
+
+                <View
+                    android:id="@+id/shape_background"
+                    android:layout_width="33dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/solid_button"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.933"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.548" />
+
+                <TextView
+                    android:id="@+id/plus_symbol"
+                    android:layout_width="wrap_content"
+                    android:layout_height="?attr/actionBarSize"
+                    android:gravity="center"
+                    android:text="+"
+                    android:textColor="@android:color/black"
+                    android:textSize="33dp"
+                    app:layout_constraintBottom_toBottomOf="@id/shape_background"
+                    app:layout_constraintEnd_toEndOf="@id/shape_background"
+                    app:layout_constraintStart_toStartOf="@id/shape_background"
+                    app:layout_constraintTop_toTopOf="@id/shape_background"
+                    app:layout_constraintVertical_bias="0.548" />
+
+                <ImageButton
+                    android:layout_width="33dp"
+                    android:layout_height="33dp"
+                    android:background="@android:color/transparent"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/search_btn"
+                    tools:layout_editor_absoluteX="293dp"
+                    tools:layout_editor_absoluteY="17dp" />
+
+                <ImageButton
+                    android:layout_width="33dp"
+                    android:layout_height="33dp"
+                    android:background="@android:color/transparent"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/backbtn"
+                    tools:layout_editor_absoluteY="18dp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:layout_marginTop="15dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="83dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/count_exercise"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="운동횟수"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="72dp" />
+
+            <Button
+                android:id="@+id/chall_d_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="D-day"
+                tools:layout_editor_absoluteX="132dp"
+                tools:layout_editor_absoluteY="72dp" />
+
+            <Button
+                android:id="@+id/chall_en_people"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="참여인원"
+                tools:layout_editor_absoluteX="237dp"
+                tools:layout_editor_absoluteY="72dp" />
+
+            <Button
+                android:id="@+id/en_chall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="챌린지"
+                tools:layout_editor_absoluteX="252dp"
+                tools:layout_editor_absoluteY="71dp" />
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/challenge_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+</ScrollView>

@@ -17,7 +17,7 @@ class CalendarAdapter(private val cList: List<CalendarVO>) :
             binding.date.text = item.cl_date
             binding.day.text = item.cl_day
 
-            var today = binding.date.text
+            val today = binding.date.text.toString()
 
             // 오늘 날짜
             val now = LocalDate.now().format(DateTimeFormatter.ofPattern("dd").withLocale(Locale.forLanguageTag("ko")))

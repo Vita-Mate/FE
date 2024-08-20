@@ -41,6 +41,10 @@ android {
     viewBinding {
         enable = true
     }
+
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -67,8 +71,11 @@ dependencies {
     implementation ("androidx.appcompat:appcompat:1.7.0")
     implementation ("com.google.android.material:material:1.11.0")
     implementation ("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation ("androidx.recyclerview:recyclerview:1.3.1")//Recycler 캘린더 뷰
+
+    implementation ("androidx.recyclerview:recyclerview:1.3.1")//RecyclerView
 
     implementation ("com.github.PhilJay:MpAndroidChart:v3.1.0") // 막대 그래프 구현 <MPAndroidChart>
+
+
 
 }
