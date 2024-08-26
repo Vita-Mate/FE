@@ -93,7 +93,7 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/backbtn"
+                    android:src="@drawable/pre_btn"
                     tools:layout_editor_absoluteY="18dp" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,4 +6,7 @@
   </style>
 
   <style name="Theme.VitaMateApp" parent="Base.Theme.VitaMateApp" />
+
+  <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />
+
 </resources>

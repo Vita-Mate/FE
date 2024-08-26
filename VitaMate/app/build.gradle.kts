@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.storage.CacheResetOnProcessCanceled.enabled
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -9,10 +11,11 @@ android {
 
     defaultConfig {
         applicationId = "com.my.vitamateapp"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -44,6 +47,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        dataBinding = true
     }
 }
 
@@ -78,6 +82,14 @@ dependencies {
 
     implementation ("com.github.PhilJay:MpAndroidChart:v3.1.0") // 막대 그래프 구현 <MPAndroidChart>
 
+    implementation ("org.jetbrains.kotlin:kotlin-stdlib:1.9.10")
 
+    coreLibraryDesugaring ("com.android.tools:desugar_jdk_libs:1.1.5") // 최신 버전으로 변경 가능
+
+
+//    implementation("com.kizitonwose.calendar:view:2.6.0-beta04")
+////    implementation("com.kizitonwose.calendar:data:2.6.0-beta04")
+////    implementation("com.kizitonwose.calendar:core:2.6.0-beta04")
+//    implementation("com.kizitonwose.calendar:compose-multiplatform-android:2.6.0-alpha05") //kizitonwose의 캘린더
 
 }

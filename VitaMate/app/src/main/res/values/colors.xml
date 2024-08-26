@@ -4,4 +4,7 @@
   <color name="white">#FFFFFFFF</color>
   <color name="gray">#D9D9D9D9</color>
   <color name="deep_gray">#a9a9a9a9</color>
+  <color name="transparent">#00FFFFFF</color>
+  <color name="Jblue">#20DDF4</color>
+  <color name="text_alpha_gray">#99EBEBF5</color>
 </resources>
