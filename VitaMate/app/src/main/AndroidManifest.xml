@@ -16,12 +16,29 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.VitaMateApp"
         tools:targetApi="31">
-
+        <activity
+          android:name=".foodRecord.SearchFoodActivity"
+          android:exported="false" />
+        <activity
+          android:name=".foodRecord.SnackRecordActivity"
+          android:exported="false" />
+        <activity
+          android:name=".foodRecord.DinnerRecordActivity"
+          android:exported="false" />
+        <activity
+          android:name=".foodRecord.LunchRecordActivity"
+          android:exported="false" />
+        <activity
+          android:name=".foodRecord.BreakfastRecordActivity"
+          android:exported="false" />
+        <activity
+          android:name=".mySupplement.SupplementDetailActivity"
+          android:exported="false" />
+        <activity
+          android:name=".mySupplement.MySupplementActivity"
+          android:exported="false" />
         <activity
             android:name=".Challenge.ChallengeActivity"
-            android:exported="false" />
-        <activity
-            android:name=".FoodSearch"
             android:exported="false" />
 
         <!--<meta-data

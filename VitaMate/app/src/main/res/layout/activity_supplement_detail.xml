@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:android="http://schemas.android.com/apk/res/android">
   <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,7 +23,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="15dp">
+        android:padding="15dp"
+        android:layout_marginTop="10dp">
 
         <!-- 영양제 상세 정보 -->
         <LinearLayout
@@ -35,7 +37,7 @@
             android:id="@+id/supplement_name_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="28sp"
+            android:textSize="30sp"
             android:textStyle="bold"
             android:text="영양제 이름" />
 
@@ -43,7 +45,7 @@
           <TextView
             android:id="@+id/supplement_info_detail"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="300dp"
             android:textSize="18sp"
             android:layout_marginTop="8dp"
             android:padding="10dp"
@@ -52,47 +54,95 @@
 
         </LinearLayout>
 
-        <!-- 상품 리뷰 -->
+        <!-- 상품 리뷰 Fragment -->
+        <androidx.fragment.app.FragmentContainerView
+          android:id="@+id/fragmentContainerView2"
+          android:name="androidx.navigation.fragment.NavHostFragment"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_marginTop="20dp"
+          app:defaultNavHost="true"
+          app:navGraph="@navigation/supplement_review_nav"/>
+
+        <!-- 연관 상품 추천 -->
         <LinearLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
+          android:layout_marginTop="30dp"
           android:orientation="vertical">
 
           <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:text="상품리뷰" />
+            android:text="연관상품 추천"
+            android:textSize="26sp"
+            android:textStyle="bold" />
 
-          <TextView
+          <!-- 수평 스크롤뷰 -->
+          <!-- 수평 스크롤뷰 -->
+          <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:textSize="18sp"
-            android:layout_marginTop="8dp"
-            android:padding="10dp"
-            android:background="@drawable/supplement_info_border"
-            android:text="상품리뷰"/>
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
 
-          <TextView
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:textSize="18sp"
-            android:layout_marginTop="8dp"
-            android:padding="10dp"
-            android:background="@drawable/supplement_info_border"
-            android:text="상품리뷰"/>
+            <LinearLayout
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal">
 
-          <!-- 상품 리뷰 내용 추가할 공간을 원하면 여기에 추가 -->
+              <!-- 상품 1~5 텍스트뷰 -->
+              <TextView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:text="상품1"
+                android:textSize="24sp"/>
+
+              <TextView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:text="상품2"
+                android:textSize="24sp" />
+
+              <TextView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:text="상품3"
+                android:textSize="24sp" />
+
+              <TextView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:text="상품4"
+                android:textSize="24sp" />
+
+              <TextView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:text="상품5"
+                android:textSize="24sp" />
+
+            </LinearLayout>
+          </HorizontalScrollView>
 
         </LinearLayout>
 
         <!-- 추가 버튼 -->
         <Button
           android:id="@+id/add_button"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
+          android:layout_width="280dp"
+          android:layout_height="65dp"
           android:layout_marginTop="24dp"
+          android:layout_gravity="center"
           android:textSize="20sp"
           android:text="추가" />
 

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/supplement_review_nav"
+  app:startDestination="@id/reviewListFragment">
+
+  <fragment
+    android:id="@+id/reviewListFragment"
+    android:name="com.my.vitamateapp.mySupplement.ReviewListFragment"
+    android:label="ReviewListFragment"
+    tools:layout="@layout/fragment_review_list"/>
+</navigation>
