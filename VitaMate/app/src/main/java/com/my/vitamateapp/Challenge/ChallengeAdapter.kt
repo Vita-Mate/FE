@@ -21,10 +21,10 @@ class ChallengeAdapter(private val challengeList: List<Challenge>) :
 
     // ViewHolder 정의
     class ChallengeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val title: TextView = view.findViewById(R.id.title)
-        val frequency: TextView = view.findViewById(R.id.frequency)
-        val dDay: TextView = view.findViewById(R.id.dDay)
-        val joinButton: Button = view.findViewById(R.id.joinButton)
+        val title: TextView = view.findViewById(R.id.challenge_title)
+        val frequency: TextView = view.findViewById(R.id.challenge_frequency)
+        val dDay: TextView = view.findViewById(R.id.challenge_dDay)
+        val joinButton: Button = view.findViewById(R.id.challenge_joinButton)
     }
 
     // ViewHolder 생성

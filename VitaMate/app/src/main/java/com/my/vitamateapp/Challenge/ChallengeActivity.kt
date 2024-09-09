@@ -28,5 +28,6 @@ class ChallengeActivity : AppCompatActivity() {
         // 어댑터 설정
         val adapter = ChallengeAdapter(challengeList)
         binding.challengeRecyclerView.adapter = adapter
+
     }
 }

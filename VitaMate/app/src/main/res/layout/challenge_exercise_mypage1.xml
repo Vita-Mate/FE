@@ -51,5 +51,50 @@
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="64dp" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="D-day가 들어갈 예정"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="275dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="나의 기록"
+        android:textSize="20dp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="334dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/exercise_my_record"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="374dp" />
+
+        <ImageButton
+            android:id="@+id/add_my_record"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/bordering_gray"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="583dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="+"
+            android:textColor="@android:color/darker_gray"
+            android:textAlignment="center"
+            android:textSize="20dp"
+            tools:layout_editor_absoluteX="68dp"
+            tools:layout_editor_absoluteY="632dp" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,34 +17,37 @@
         android:theme="@style/Theme.VitaMateApp"
         tools:targetApi="31">
         <activity
-          android:name=".foodRecord.SearchFoodActivity"
-          android:exported="false" />
+            android:name=".Challenge.ChallengeMypageActivity"
+            android:exported="false" />
         <activity
-          android:name=".foodRecord.SnackRecordActivity"
-          android:exported="false" />
+            android:name=".foodRecord.SearchFoodActivity"
+            android:exported="false" />
         <activity
-          android:name=".foodRecord.DinnerRecordActivity"
-          android:exported="false" />
+            android:name=".foodRecord.SnackRecordActivity"
+            android:exported="false" />
         <activity
-          android:name=".foodRecord.LunchRecordActivity"
-          android:exported="false" />
+            android:name=".foodRecord.DinnerRecordActivity"
+            android:exported="false" />
         <activity
-          android:name=".foodRecord.BreakfastRecordActivity"
-          android:exported="false" />
+            android:name=".foodRecord.LunchRecordActivity"
+            android:exported="false" />
         <activity
-          android:name=".mySupplement.SupplementDetailActivity"
-          android:exported="false" />
+            android:name=".foodRecord.BreakfastRecordActivity"
+            android:exported="false" />
         <activity
-          android:name=".mySupplement.MySupplementActivity"
-          android:exported="false" />
+            android:name=".mySupplement.SupplementDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".mySupplement.MySupplementActivity"
+            android:exported="false" />
         <activity
             android:name=".Challenge.ChallengeActivity"
             android:exported="false" />
-
-        <!--<meta-data
+        <!--
+<meta-data
             android:name="com.google.android.actions"
-            android:resource="@xml/solid_button" />-->
-
+            android:resource="@xml/solid_button" />
+        -->
         <activity
             android:name=".registerPage.RegistrationCompleteActivity"
             android:exported="false" />

@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.storage.CacheResetOnProcessCanceled.enabled
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+//    id("org.jetbrains.kotlin.android")
 }
 
 android {
@@ -62,6 +63,7 @@ dependencies {
     implementation(libs.androidx.preference)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation("androidx.activity:activity:1.9.1")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -84,7 +86,12 @@ dependencies {
 
     implementation ("org.jetbrains.kotlin:kotlin-stdlib:1.9.10")
 
+    implementation ("com.google.android.material:material:1.9.0")
+
+
     coreLibraryDesugaring ("com.android.tools:desugar_jdk_libs:1.1.5") // 최신 버전으로 변경 가능
+
+
 
 
 //    implementation("com.kizitonwose.calendar:view:2.6.0-beta04")
