@@ -105,7 +105,7 @@
               android:orientation="horizontal">
 
                 <LinearLayout
-                  android:id="@+id/health"
+                  android:id="@+id/home_health_btn"
                   android:layout_width="100dp"
                   android:layout_height="150dp"
                   android:layout_marginTop="10dp"
@@ -119,11 +119,13 @@
                   android:orientation="vertical"
                   app:layout_constrainedHeight="true">
 
-                    <TextView
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:text="💪"
-                      android:textSize="50dp" />
+                    <ImageButton
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:background="@color/transparent"
+                        android:scaleType="fitCenter"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ex" />
 
                     <TextView
                       android:layout_width="wrap_content"
@@ -135,7 +137,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                  android:id="@+id/drunk"
+                  android:id="@+id/home_drunk_btn"
                   android:layout_width="100dp"
                   android:layout_height="150dp"
                   android:layout_marginTop="10dp"
@@ -148,11 +150,13 @@
                   android:clickable="true"
                   android:focusable="true">
 
-                    <TextView
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:text="🍺"
-                      android:textSize="50dp"/>
+                    <ImageButton
+                      android:layout_width="60dp"
+                      android:layout_height="60dp"
+                        android:background="@color/transparent"
+                        android:scaleType="fitCenter"
+                        android:layout_gravity="center"
+                      android:src="@drawable/no_alcohol" />
 
                     <TextView
                       android:layout_width="wrap_content"
@@ -164,7 +168,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                  android:id="@+id/smoke"
+                  android:id="@+id/home_smoke_btn"
                   android:layout_width="100dp"
                   android:layout_height="150dp"
                   android:layout_marginTop="10dp"
@@ -178,11 +182,13 @@
                   android:clickable="true"
                   android:focusable="true">
 
-                    <TextView
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:text="🚬"
-                      android:textSize="50dp"/>
+                    <ImageButton
+                      android:layout_width="60dp"
+                      android:layout_height="60dp"
+                      android:src="@drawable/no_smoking"
+                        android:background="@color/transparent"
+                        android:scaleType="fitCenter"
+                        android:layout_gravity="center"/>
 
                     <TextView
                       android:layout_width="wrap_content"

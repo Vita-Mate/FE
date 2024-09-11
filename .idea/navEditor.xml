@@ -3,6 +3,11 @@
   <component name="navEditor-manualLayoutAlgorithm2">
     <option name="myPositions">
       <map>
+        <entry key="challenge_exercise_nav.xml">
+          <value>
+            <LayoutPositions />
+          </value>
+        </entry>
         <entry key="intake_nav.xml">
           <value>
             <LayoutPositions>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ChallengeSelectModeActivity">
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:gravity="center_horizontal"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/border"
+        android:elevation="15dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+      <!-- Close Button -->
+      <TextView
+          android:id="@+id/mode_select_close_btn"
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:layout_gravity="right"
+          android:layout_marginTop="25dp"
+          android:layout_marginEnd="25dp"
+          android:clickable="true"
+          android:focusable="true"
+          android:text="☓"
+          android:textSize="25dp"
+          android:gravity="center_horizontal" />
+
+      <!-- Vita Mate Text -->
+      <LinearLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="90dp"
+          android:layout_marginStart="30dp"
+          android:layout_marginEnd="30dp"
+          android:gravity="center"
+          android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="Vita Mate"
+            android:textSize="40sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="좋은 습관 챌린지"
+            android:textSize="40sp" />
+      </LinearLayout>
+
+      <!-- Buttons -->
+      <LinearLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+          android:layout_margin="30dp">
+
+        <Button
+            android:id="@+id/mode_group"
+            android:layout_width="122dp"
+            android:layout_height="62dp"
+            android:text="단체"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/mode_ind"
+            android:layout_width="122dp"
+            android:layout_height="62dp"
+            android:layout_marginStart="30dp"
+            android:text="개인"
+            android:textSize="18sp" />
+
+      </LinearLayout>
+
+    </LinearLayout>
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

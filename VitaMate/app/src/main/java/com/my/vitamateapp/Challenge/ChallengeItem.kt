@@ -1,7 +1,8 @@
 package com.my.vitamateapp.Challenge
 
-data class ChallengeVO(
+data class ChallengeItem(
     val title: String,
     val frequency: String,
-    val dDay: Int
+    val period: String,
+    val commitment: String
 )

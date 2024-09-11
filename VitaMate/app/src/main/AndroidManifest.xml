@@ -17,6 +17,18 @@
         android:theme="@style/Theme.VitaMateApp"
         tools:targetApi="31">
         <activity
+            android:name=".Challenge.ChallengeCreateGroupPeopleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Challenge.ChallengeCreateGroupObjectiveActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Challenge.ChallengeCreateIndividualActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Challenge.ChallengeCreateGroupActivity"
+            android:exported="false" />
+        <activity
             android:name=".Challenge.ChallengeMypageActivity"
             android:exported="false" />
         <activity
@@ -43,6 +55,7 @@
         <activity
             android:name=".Challenge.ChallengeActivity"
             android:exported="false" />
+        <activity android:name=".Challenge.ChallengeSelectModeActivity" />
         <!--
 <meta-data
             android:name="com.google.android.actions"

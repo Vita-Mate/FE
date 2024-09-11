@@ -4,8 +4,16 @@ import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.DataBindingUtil
+import com.google.android.material.snackbar.Snackbar
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
@@ -22,6 +30,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
+
 
         // 로그인 전 토큰 정보 보기
         UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
@@ -40,7 +50,23 @@ class MainActivity : AppCompatActivity() {
         binding.kakaoLoginButton.setOnClickListener{
             loginWithKakao()
         }
+
+        // Check if there is an Intent with extra data
+        val message = intent.getStringExtra("message")
+        if (message != null) {
+            // Display the message in a custom Snackbar
+            showSnackbarAtTop(message)
+        }
     }
+
+    private fun showSnackbarAtTop(message: String) {
+            val toast = Toast.makeText(this, message, Toast.LENGTH_LONG)
+            toast.setGravity(Gravity.TOP or Gravity.CENTER_HORIZONTAL, 0, 100)
+            toast.show()
+
+        }
+
+
 
 
     //로그아웃 하고 다시 회원가입하지 않게 수정하기.
@@ -109,7 +135,3 @@ class MainActivity : AppCompatActivity() {
     }
 
 }
-
-
-
-
