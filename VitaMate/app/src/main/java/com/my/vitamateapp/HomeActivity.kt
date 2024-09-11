@@ -42,7 +42,7 @@ class HomeActivity : AppCompatActivity() {
             }
         }
     }
-    
+
     private fun deleteAccount() {
         // 계정삭제
         UserApiClient.instance.unlink { error ->
