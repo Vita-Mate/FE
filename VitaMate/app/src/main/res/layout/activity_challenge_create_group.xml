@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -20,6 +21,7 @@
                 android:layout_height="match_parent">
 
                 <ImageButton
+                    android:id="@+id/pre_button1"
                     android:layout_width="33dp"
                     android:layout_height="33dp"
                     android:background="@android:color/transparent"
@@ -73,7 +75,8 @@
                 android:gravity="top"
                 android:hint="그룹명을 설정해 주세요."
                 android:inputType="text"
-                android:padding="10dp" />
+                android:padding="10dp"
+                android:privateImeOptions="defaultInput mode=korean" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -103,7 +106,7 @@
             android:gravity="center">
 
             <Button
-                android:id="@+id/pre_button"
+                android:id="@+id/pre_button2"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:text="이전"

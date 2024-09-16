@@ -6,19 +6,25 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
+        <!-- Toolbar -->
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/gray">
+            android:background="@color/gray"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <ImageButton
+                    android:id="@+id/pre_button1"
                     android:layout_width="33dp"
                     android:layout_height="33dp"
                     android:background="@android:color/transparent"
@@ -26,11 +32,17 @@
                     android:focusable="true"
                     android:scaleType="centerCrop"
                     android:src="@drawable/pre_btn"
-                    tools:layout_editor_absoluteY="18dp" />
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/toolbar_text"
+                    app:layout_constraintHorizontal_bias="0.153"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.516" />
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
+                    android:id="@+id/toolbar_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="챌린지 목표 설정"
                     android:textAlignment="center"
                     android:gravity="center"
@@ -40,21 +52,20 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent" />
-
             </androidx.constraintlayout.widget.ConstraintLayout>
-
         </androidx.appcompat.widget.Toolbar>
 
         <!-- Centered LinearLayout inside ConstraintLayout -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="30dp"
             android:orientation="vertical"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="30dp">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.605">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -70,13 +81,14 @@
                 android:orientation="horizontal">
 
                 <EditText
+                    android:id="@+id/start_year"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
                     android:layout_marginLeft="20dp"
                     android:clickable="true"
                     android:focusable="true"
-                    android:id="@+id/start_year"/>
+                    android:inputType="number"
+                    android:textAlignment="center" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -85,12 +97,13 @@
                     android:textSize="20dp" />
 
                 <EditText
+                    android:id="@+id/start_month"
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
                     android:clickable="true"
                     android:focusable="true"
-                    android:id="@+id/start_month"/>
+                    android:inputType="number"
+                    android:textAlignment="center" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -99,12 +112,13 @@
                     android:textSize="20dp" />
 
                 <EditText
+                    android:id="@+id/start_date"
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
                     android:clickable="true"
                     android:focusable="true"
-                    android:id="@+id/start_date"/>
+                    android:inputType="number"
+                    android:textAlignment="center" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -135,10 +149,11 @@
                     android:textSize="20dp" />
 
                 <EditText
+                    android:id="@+id/goal_per_week"
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/goal_per_week"
-                    android:inputType="numberDecimal" />
+                    android:inputType="numberDecimal"
+                    android:textAlignment="center" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -148,12 +163,12 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/period"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:id="@+id/period">
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"

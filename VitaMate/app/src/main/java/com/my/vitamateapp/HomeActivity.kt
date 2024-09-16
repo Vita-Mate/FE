@@ -53,10 +53,10 @@ class HomeActivity : AppCompatActivity() {
     /* 함수 구현 */
     private fun challenge_exercise() {
         // 챌린지 생성 여부를 확인하는 변수 (예시로 사용, 실제로는 데이터베이스나 SharedPreferences로부터 값을 가져올 수 있습니다)
-        val isChallengeCreated = false // 챌린지가 생성된 경우 true로 설정
+        val isChallengeCreated = true // 챌린지가 생성된 경우 true로 설정
 
         // 챌린지 시작 날짜 (예시로 2024년 9월 1일로 설정)
-        val challengeStartDate = "2024-09-20"
+        val challengeStartDate = "2024-09-01"
         val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val currentDate = sdf.format(java.util.Date())
 
@@ -115,6 +115,7 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
+    // 금주 금연은 운동과 챌린지 마이페이지가 다름
     private fun challenge_no_smoke() {
         // 챌린지 생성 여부를 확인하는 변수 (예시로 사용, 실제로는 데이터베이스나 SharedPreferences로부터 값을 가져올 수 있습니다)
         val isChallengeCreated = false // 챌린지가 생성된 경우 true로 설정

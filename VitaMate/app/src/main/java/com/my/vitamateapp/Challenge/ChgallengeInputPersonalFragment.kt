@@ -14,7 +14,7 @@ class ChallengeInputPersonalFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_chgallenge_input_personal, container, false)
+        val view = inflater.inflate(R.layout.activity_challenge_create_individual, container, false)
 
         // 사용자 입력을 위한 EditText와 Button 참조
         val startDateEditText: EditText = view.findViewById(R.id.start_date)

@@ -6,7 +6,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <!-- Toolbar -->
         <androidx.appcompat.widget.Toolbar
@@ -23,6 +24,7 @@
                 android:layout_height="match_parent">
 
                 <ImageButton
+                    android:id="@+id/pre_button1"
                     android:layout_width="33dp"
                     android:layout_height="33dp"
                     android:background="@android:color/transparent"
@@ -79,6 +81,7 @@
                 android:orientation="horizontal">
 
                 <EditText
+                    android:textAlignment="center"
                     android:id="@+id/start_year"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
@@ -93,6 +96,7 @@
                     android:textSize="20dp" />
 
                 <EditText
+                    android:textAlignment="center"
                     android:id="@+id/start_month"
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
@@ -106,6 +110,7 @@
                     android:textSize="20dp" />
 
                 <EditText
+                    android:textAlignment="center"
                     android:id="@+id/start_date"
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
@@ -143,6 +148,7 @@
                     android:textSize="20dp" />
 
                 <EditText
+                    android:textAlignment="center"
                     android:id="@+id/period"
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"

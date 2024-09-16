@@ -3,6 +3,7 @@ package com.my.vitamateapp.Challenge
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.DataBindingUtil
 import com.my.vitamateapp.R
 import com.my.vitamateapp.databinding.ActivityChallengeCreateGroupBinding
@@ -19,15 +20,22 @@ class ChallengeCreateGroupObjectiveActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_challenge_create_group_objective)
 
         // Set up click listeners using binding
+        binding.preButton1.setOnClickListener {
+            goPre()
+        }
         binding.groupPreButton.setOnClickListener {
-            goGroupname()
+            goGroupName()
         }
         binding.groupNextButton.setOnClickListener {
             createGroupPeople()
         }
     }
 
-    private fun goGroupname() {
+    private fun goPre() {
+        finish()
+    }
+
+    private fun goGroupName() {
         val intent = Intent(this, ChallengeCreateGroupActivity::class.java)
         startActivity(intent)
     }

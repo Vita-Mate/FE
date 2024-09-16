@@ -1,12 +1,13 @@
 package com.my.vitamateapp.Challenge
 
+import android.net.Uri
 import android.os.Bundle
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.adapters.TextViewBindingAdapter.setText
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.my.vitamateapp.databinding.FragmentChallengeBottomSheetDialog2Binding
-import com.my.vitamateapp.databinding.FragmentChallengeBottomSheetDialogBinding
 
 class ChallengeBottomSheetDialog2Fragment : BottomSheetDialogFragment() {
 
@@ -24,6 +25,16 @@ class ChallengeBottomSheetDialog2Fragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // arguments로 전달된 데이터를 처리
+        // 전달된 imageUri를 받아와서 ImageView에 설정
+        arguments?.let {
+            val imageUri = it.getString("imageUri")
+            imageUri?.let { uriString ->
+                val uri = Uri.parse(uriString)
+                binding.challengeImage.setImageURI(uri)  // ImageView에 이미지 설정
+            }
+        }
+
         binding.pictureRecordCloseButton.setOnClickListener {
             dismiss() // 창 닫기
         }
@@ -38,6 +49,7 @@ class ChallengeBottomSheetDialog2Fragment : BottomSheetDialogFragment() {
     }
 
     private fun showChallengeBottomSheetDialog() {
+        dismiss()
         val dialogFragment = ChallengeBottomSheetDialogFragment()
         dialogFragment.show(parentFragmentManager, dialogFragment.tag)
     }

@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="180dp"
-    android:background="@drawable/border"
+    android:background="@drawable/home_border"
+    android:elevation="15dp"
     android:id="@+id/item_challenge">
 
     <ImageView

@@ -57,7 +57,7 @@
               android:layout_height="300dp"
               android:layout_margin="30dp"
               android:background="@drawable/home_border"
-              android:elevation="10dp"
+              android:elevation="15dp"
               android:padding="10dp"
               android:orientation="horizontal">
 
@@ -99,10 +99,10 @@
             </LinearLayout>
 
             <LinearLayout
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:gravity="center"
-              android:orientation="horizontal">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <LinearLayout
                   android:id="@+id/home_health_btn"
@@ -112,7 +112,7 @@
                   android:layout_marginLeft="20dp"
                   android:layout_marginBottom="20dp"
                   android:background="@drawable/home_border"
-                  android:elevation="5dp"
+                  android:elevation="15dp"
                   android:clickable="true"
                   android:focusable="true"
                   android:gravity="center"
@@ -144,7 +144,7 @@
                   android:layout_marginLeft="15dp"
                   android:layout_marginBottom="20dp"
                   android:background="@drawable/home_border"
-                  android:elevation="5dp"
+                  android:elevation="15dp"
                   android:orientation="vertical"
                   android:gravity="center"
                   android:clickable="true"
@@ -176,7 +176,7 @@
                   android:layout_marginRight="20dp"
                   android:layout_marginBottom="20dp"
                   android:background="@drawable/home_border"
-                  android:elevation="5dp"
+                  android:elevation="15dp"
                   android:orientation="vertical"
                   android:gravity="center"
                   android:clickable="true"
@@ -202,8 +202,9 @@
 
             <Button
               android:id="@+id/kakaoLogoutButton"
-              android:layout_width="match_parent"
+              android:layout_width="350dp"
               android:layout_height="wrap_content"
+                android:layout_gravity="center"
               tools:ignore="MissingConstraints"
               android:text="로그아웃"
               android:textColor="@color/black"
@@ -212,8 +213,9 @@
 
             <Button
               android:id="@+id/deleteAccountButton"
-              android:layout_width="match_parent"
+              android:layout_width="350dp"
               android:layout_height="wrap_content"
+                android:layout_gravity="center"
               tools:ignore="MissingConstraints"
               android:text="탈퇴"
               android:textColor="@color/black"

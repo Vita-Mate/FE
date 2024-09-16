@@ -21,9 +21,17 @@ class ChallengeCreateIndividualActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_challenge_create_individual)
 
         // Set up click listeners using binding
+        binding.preButton1.setOnClickListener {
+            goPre()
+        }
+
         binding.submitButton.setOnClickListener {
             createInd()
         }
+    }
+
+    private fun goPre() {
+        finish()
     }
 
     private fun createInd() {

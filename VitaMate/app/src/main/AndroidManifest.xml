@@ -3,7 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.my.vitamateapp">
     <!-- 인터넷 사용 권한 설정 -->
+<!--    <uses-feature-->
+<!--        android:name="android.hardware.camera"-->
+<!--        android:required="true" />-->
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 카메라 사용 권한 설정 -->
+<!--    <uses-permission android:name="android.permission.CAMERA"-->
+<!--        android:maxSdkVersion="28"/>-->
+<!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
+<!--    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />-->
 
     <application
         android:name=".GlobalApplication"
@@ -16,6 +24,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.VitaMateApp"
         tools:targetApi="31">
+
+        <!--카메라 앱과 파일 정보를 공유하기 위함-->
+        <provider
+            android:authorities="com.my.vitamateapp.fileprovider"
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths">
+            </meta-data>
+        </provider>
+
+        <activity android:name=".Challenge.ChallengeMypageActivity"
+            android:exported="false"/>
         <activity
             android:name=".Challenge.ChallengeCreateGroupPeopleActivity"
             android:exported="false" />
@@ -27,9 +50,6 @@
             android:exported="false" />
         <activity
             android:name=".Challenge.ChallengeCreateGroupActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Challenge.ChallengeMypageActivity"
             android:exported="false" />
         <activity
             android:name=".foodRecord.SearchFoodActivity"

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.my.vitamateapp.HomeActivity
 import com.my.vitamateapp.R
 import com.my.vitamateapp.databinding.ActivityChallengeSelectModeBinding
 import com.my.vitamateapp.registerPage.MainActivity
@@ -45,7 +46,7 @@ class ChallengeSelectModeActivity : AppCompatActivity() {
 
     // 닫기 버튼 클릭 시 현재 액티비티 종료하는 함수
     private fun mode_select_close() {
-        val intent = Intent(this, MainActivity::class.java) // 현재 액티비티를 종료하고 메인화면으로 돌아감
+        val intent = Intent(this, HomeActivity::class.java) // 현재 액티비티를 종료하고 홈화면으로 돌아감
         startActivity(intent)
     }
 }

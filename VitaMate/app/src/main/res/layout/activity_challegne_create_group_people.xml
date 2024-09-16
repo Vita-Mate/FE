@@ -5,7 +5,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <!-- Toolbar -->
         <androidx.appcompat.widget.Toolbar
@@ -22,6 +23,7 @@
                 android:layout_height="match_parent">
 
                 <ImageButton
+                    android:id="@+id/pre_button1"
                     android:layout_width="33dp"
                     android:layout_height="33dp"
                     android:background="@android:color/transparent"
@@ -85,6 +87,7 @@
                     android:layout_marginEnd="10dp" />
 
                 <EditText
+                    android:textAlignment="center"
                     android:id="@+id/min_chall_group_people"
                     android:layout_width="100dp"
                     android:layout_height="40dp"
@@ -113,6 +116,7 @@
                     android:layout_marginEnd="10dp" />
 
                 <EditText
+                    android:textAlignment="center"
                     android:id="@+id/max_chall_group_people"
                     android:layout_width="100dp"
                     android:layout_height="40dp"

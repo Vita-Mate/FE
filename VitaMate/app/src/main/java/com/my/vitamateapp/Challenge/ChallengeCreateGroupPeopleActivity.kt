@@ -4,15 +4,11 @@ import GroupInfo
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.DataBindingUtil
-import com.kakao.sdk.friend.m.v
 import com.my.vitamateapp.R
 import com.my.vitamateapp.databinding.ActivityChallegneCreateGroupPeopleBinding
 import com.my.vitamateapp.registerPage.MainActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.launch
 
 class ChallengeCreateGroupPeopleActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChallegneCreateGroupPeopleBinding
@@ -23,6 +19,9 @@ class ChallengeCreateGroupPeopleActivity : AppCompatActivity() {
 
 
         // Set up click listeners
+        binding.preButton1.setOnClickListener {
+            goPre()
+        }
         binding.groupPeoplePrebtn.setOnClickListener {
             goCreateGroup()
         }
@@ -30,6 +29,10 @@ class ChallengeCreateGroupPeopleActivity : AppCompatActivity() {
         binding.groupSubmitButton.setOnClickListener {
             saveDataToDatabase()
         }
+    }
+
+    private fun goPre() {
+        finish()
     }
 
     private fun goCreateGroup() {

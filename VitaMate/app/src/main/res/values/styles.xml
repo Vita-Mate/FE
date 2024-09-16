@@ -28,4 +28,9 @@
         <item name="backgroundTint">@color/transparent</item>
     </style>
 
+    <style name="Button" parent="Widget.AppCompat.Button">
+        <item name="android:background">@color/text_alpha_gray</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
 </resources>

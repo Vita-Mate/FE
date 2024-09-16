@@ -8,7 +8,8 @@
 
   <androidx.constraintlayout.widget.ConstraintLayout
       android:layout_width="match_parent"
-      android:layout_height="match_parent">
+      android:layout_height="match_parent"
+      android:background="@color/deep_gray">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,7 +17,7 @@
         android:gravity="center_horizontal"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
-        android:background="@drawable/border"
+        android:background="@drawable/home_border"
         android:elevation="15dp"
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent"
@@ -36,6 +37,7 @@
           android:focusable="true"
           android:text="☓"
           android:textSize="25dp"
+          android:textColor="@color/deep_gray"
           android:gravity="center_horizontal" />
 
       <!-- Vita Mate Text -->

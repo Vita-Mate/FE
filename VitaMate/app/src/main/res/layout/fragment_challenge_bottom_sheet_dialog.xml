@@ -11,18 +11,20 @@
         android:scrollbars="vertical">
 
         <LinearLayout
+            android:id="@+id/exercise_fragment_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/challenge_image"
+            <ImageButton
+                android:id="@+id/userImageView"
                 android:layout_width="300dp"
                 android:layout_height="250dp"
                 android:layout_marginTop="40dp"
                 android:layout_margin="50dp"
                 android:background="@drawable/bordering_gray"
-                android:layout_gravity="center_horizontal"/>
+                android:layout_gravity="center_horizontal"
+                android:contentDescription="User Image"/>
             <!--        android:src="@drawable/"-->
 
             <TextView
@@ -32,7 +34,7 @@
                 android:textSize="20dp"
                 android:layout_marginLeft="20dp"/>
 
-            <TextView
+            <EditText
                 android:id="@+id/exercise_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -41,7 +43,8 @@
                 android:textStyle="bold"
                 android:textSize="20dp"
                 android:layout_marginTop="10dp"
-                android:textColor="@android:color/darker_gray"/>
+                android:textColor="@android:color/darker_gray"
+                android:padding="10dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -50,7 +53,7 @@
                 android:textSize="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"/>
-            
+
             <HorizontalScrollView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -65,35 +68,41 @@
                         android:layout_height="wrap_content"
                         android:text="매우 가벼움"
                         android:layout_marginLeft="15dp"
-                        android:textSize="20dp"/>
+                        android:textSize="20dp"
+                        android:background="@drawable/button_default_background"/>
                     <Button
                         android:id="@+id/exercise_easy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="가벼움"
                         android:layout_marginLeft="15dp"
-                        android:textSize="20dp"/>
+                        android:textSize="20dp"
+                        android:background="@drawable/button_default_background"/>
                     <Button
                         android:id="@+id/exercise_little_strong"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="약간 힘듦"
                         android:layout_marginLeft="15dp"
-                        android:textSize="20dp"/>
+                        android:textSize="20dp"
+                        android:background="@drawable/button_default_background"/>
                     <Button
                         android:id="@+id/exercise_strong"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="힘듦"
                         android:layout_marginLeft="15dp"
-                        android:textSize="20dp"/>
+                        android:textSize="20dp"
+                        android:background="@drawable/button_default_background"/>
                     <Button
                         android:id="@+id/exercise_very_strong"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="매우 힘듦"
                         android:layout_marginLeft="15dp"
-                        android:textSize="20dp"/>
+                        android:textSize="20dp"
+                        android:background="@drawable/button_default_background"/>
+
                 </LinearLayout>
             </HorizontalScrollView>
 
@@ -141,7 +150,8 @@
                 android:layout_height="wrap_content"
                 android:text="저장하기"
                 android:textSize="20dp"
-                android:layout_margin="20dp"/>
+                android:layout_margin="20dp"
+                android:background="@color/text_alpha_gray"/>
         </LinearLayout>
     </ScrollView>
 </FrameLayout>
