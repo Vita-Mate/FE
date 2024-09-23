@@ -100,21 +100,25 @@ class NoInBodyRecordActivity : AppCompatActivity() {
 
     // 사용자 입력 데이터 저장 함수
     private fun saveUserData() {
-        val sharedPreferences = getSharedPreferences("user_info", Context.MODE_PRIVATE)
+        val sharedPreferences = getSharedPreferences("saved_user_info", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
 
-        val height = binding.heightEditText.text.toString()
-        val weight = binding.weightEditText.text.toString()
+        val height = binding.heightEditText.text.toString().toIntOrNull()
+        val weight = binding.weightEditText.text.toString().toIntOrNull()
 
-        editor.putString("height", height)
-        editor.putString("weight", weight)
-        editor.apply() // 변경 사항 저장
+        // 값이 null이 아니면 저장
+        if (height != null && weight != null) {
+            editor.putInt("height", height)
+            editor.putInt("weight", weight)
+            editor.apply() // 변경 사항 저장
+        }
 
-        // 저장된 데이터 확인 (문자열이 맞는지 확인)
-        val savedHeight = sharedPreferences.getString("height", "없음")
-        val savedWeight = sharedPreferences.getString("weight", "없음")
+        // 저장된 데이터 확인
+        val savedHeight = sharedPreferences.getInt("height", 0)
+        val savedWeight = sharedPreferences.getInt("weight", 0)
         Toast.makeText(this, "저장된 키: $savedHeight, 저장된 몸무게: $savedWeight", Toast.LENGTH_SHORT).show()
     }
+
 
     // 키패드 숨기기 함수
     private fun hideKeyboard() {

@@ -1,137 +1,132 @@
 package com.my.vitamateapp.registerPage
 
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.DataBindingUtil
-import com.google.android.material.snackbar.Snackbar
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
+import com.my.vitamateapp.Api.RetrofitInstance
+import com.my.vitamateapp.Api.SignInApi
 import com.my.vitamateapp.HomeActivity
 import com.my.vitamateapp.R
 import com.my.vitamateapp.databinding.ActivityMainBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
+    private val api = RetrofitInstance.getInstance().create(SignInApi::class.java)
     private lateinit var binding: ActivityMainBinding
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-
-
-        // 로그인 전 토큰 정보 보기
+        // 카카오 로그인 상태 확인
         UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
             if (error != null) {
-                Log.e(TAG, "토큰 정보 보기 실패", error)
-
-            }
-            else if (tokenInfo != null) {
-                Log.i(TAG, "토큰 정보 보기 성공" +
-                        "\n회원번호: ${tokenInfo.id}" +
-                        "\n만료시간: ${tokenInfo.expiresIn} 초")
-                gotoHome()
-            }
-        }
-
-        binding.kakaoLoginButton.setOnClickListener{
-            loginWithKakao()
-        }
-
-        // Check if there is an Intent with extra data
-        val message = intent.getStringExtra("message")
-        if (message != null) {
-            // Display the message in a custom Snackbar
-            showSnackbarAtTop(message)
-        }
-    }
-
-    private fun showSnackbarAtTop(message: String) {
-            val toast = Toast.makeText(this, message, Toast.LENGTH_LONG)
-            toast.setGravity(Gravity.TOP or Gravity.CENTER_HORIZONTAL, 0, 100)
-            toast.show()
-
-        }
-
-
-
-
-    //로그아웃 하고 다시 회원가입하지 않게 수정하기.
-
-
-
-    private fun loginWithKakao(){
-
-        // 카카오계정으로 로그인 공통 callback 구성
-        // 카카오톡으로 로그인 할 수 없어 카카오계정으로 로그인할 경우 사용됨
-        val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
-            if (error != null) {
-                Log.e(TAG, "카카오계정으로 로그인 실패", error)
-            } else if (token != null) {
-                Log.i(TAG, "카카오계정으로 로그인 성공 ${token.accessToken}")
-                // 로그인 성공 후 사용자 정보 요청
+                Log.e(TAG, "토큰 정보 확인 실패", error)
+                // 토큰이 유효하지 않으므로 로그인 절차 진행
+            } else if (tokenInfo != null) {
+                Log.i(TAG, "토큰 정보 확인 성공: ${tokenInfo.id}")
+                // 토큰이 유효하므로 사용자 등록 상태 확인
                 UserApiClient.instance.me { user, error ->
                     if (error != null) {
                         Log.e(TAG, "사용자 정보 요청 실패", error)
                     } else if (user != null) {
-                        Log.i(TAG, "사용자 정보 요청 성공" +
-                                "\n회원번호: ${user.id}" +
-                                "\n이메일: ${user.kakaoAccount?.email}")
+                        Log.i(TAG, "사용자 정보 요청 성공")
+                        user.kakaoAccount?.email?.let { email ->
+                            Log.i(TAG, "가져온 이메일: $email") // 이메일 확인 로그 추가
+                            sendEmailToBackend(email) // 백엔드에 이메일을 전송하여 등록 상태 확인
+                        }
                     }
                 }
-                gotoRegister()//회원정보입력화면으로 이동
-
             }
         }
 
-        // 카카오톡이 설치되어 있으면 카카오톡으로 로그인, 아니면 카카오계정으로 로그인
-        if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
-            UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
-                if (error != null) {
-                    Log.e(TAG, "카카오톡으로 로그인 실패", error)
+        // 카카오 로그인 버튼 클릭 리스너
+        binding.kakaoLoginButton.setOnClickListener {
+            loginWithKakao()
+        }
+    }
 
-                    // 사용자가 카카오톡 설치 후 디바이스 권한 요청 화면에서 로그인을 취소한 경우,
-                    // 의도적인 로그인 취소로 보고 카카오계정으로 로그인 시도 없이 로그인 취소로 처리 (예: 뒤로 가기)
-                    if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
-                        return@loginWithKakaoTalk
+    private fun loginWithKakao() {
+        val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
+            if (error != null) {
+                Log.e(TAG, "카카오 로그인 실패", error)
+            } else if (token != null) {
+                Log.i(TAG, "카카오 로그인 성공, 액세스 토큰: ${token.accessToken}") // 토큰 확인 로그 추가
+                UserApiClient.instance.me { user, error ->
+                    if (error != null) {
+                        Log.e(TAG, "사용자 정보 요청 실패", error)
+                    } else if (user != null) {
+                        Log.i(TAG, "사용자 정보 요청 성공")
+                        user.kakaoAccount?.email?.let { email ->
+                            Log.i(TAG, "가져온 이메일: $email") // 이메일 확인 로그 추가
+                            sendEmailToBackend(email) // 백엔드에 이메일을 전송하여 등록 상태 확인
+                        }
                     }
-
-                    // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인 시도
-                    UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
-                } else if (token != null) {
-                    Log.i(TAG, "카카오톡으로 로그인 성공 ${token.accessToken}")
-                    gotoRegister()//회원정보입력화면으로 이동
                 }
             }
+        }
+
+        if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
+            UserApiClient.instance.loginWithKakaoTalk(this, callback = callback)
         } else {
             UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
         }
     }
 
+    private fun sendEmailToBackend(email: String) {
+        Log.i(TAG, "백엔드로 이메일 전송: $email") // 백엔드 전송 전 로그 추가
+        val request = SignInRequest(email)
+        api.signIn(request).enqueue(object : Callback<SignInResponse> {
+            override fun onResponse(call: Call<SignInResponse>, response: Response<SignInResponse>) {
+                if (response.isSuccessful) {
+                    val result = response.body()?.result
+                    val accessToken = result?.accessToken
 
-    /* 함수 구현 */
+                    // Access Token 및 회원가입 여부 확인 로직
+                    if (!accessToken.isNullOrEmpty()) {
+                        Log.i(TAG, "백엔드 응답 성공, Access Token: $accessToken") // 응답 성공 및 토큰 확인 로그 추가
+                        gotoHome() // 이미 등록된 사용자, 홈 화면으로 이동
+                    } else {
+                        Log.w(TAG, "Access Token이 없거나 등록되지 않은 사용자") // 경고 로그 추가
+                        gotoRegister() // 등록되지 않은 사용자 또는 accessToken이 null인 경우, 회원가입 화면으로 이동
+                    }
+                } else {
+                    val errorResponse = response.errorBody()?.string()
+                    Log.e(TAG, "백엔드 응답 실패, 상태 코드: ${response.code()}, 오류 메시지: $errorResponse") // 오류 로그 추가
+                    gotoRegister() // 실패 시에도 회원가입 화면으로 이동
+                }
+            }
+
+            override fun onFailure(call: Call<SignInResponse>, t: Throwable) {
+                Log.e(TAG, "API 요청 실패", t)
+                gotoRegister() // API 요청 실패 시에도 회원가입 화면으로 이동
+            }
+        })
+    }
+
+
 
     private fun gotoRegister() {
+        Log.i(TAG, "회원가입 화면으로 이동") // 회원가입 화면 이동 로그 추가
         startActivity(Intent(this, RegisterActivity::class.java))
-        finish() // 현재 액티비티 종료.. 회원가입 정보 입력 화면으로
+        finish() // 현재 액티비티 종료 후 회원가입 화면으로 이동
     }
 
     private fun gotoHome() {
+        Log.i(TAG, "홈 화면으로 이동") // 홈 화면 이동 로그 추가
         startActivity(Intent(this, HomeActivity::class.java))
-        finish() // 현재 액티비티 종료.. HOME화면으로
+        finish() // 현재 액티비티 종료 후 홈 화면으로 이동
     }
-
 }

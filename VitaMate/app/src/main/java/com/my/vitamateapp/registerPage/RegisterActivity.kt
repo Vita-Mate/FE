@@ -24,6 +24,8 @@ class RegisterActivity : AppCompatActivity() {
     private var isDateValid = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_register)
 
@@ -199,24 +201,27 @@ class RegisterActivity : AppCompatActivity() {
 
     // 사용자 입력 데이터 저장 함수
     private fun saveUserData() {
-        val sharedPreferences = getSharedPreferences("user_info", Context.MODE_PRIVATE)
+        val sharedPreferences = getSharedPreferences("saved_user_info", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
+
 
         val nickname = binding.nicknameEditText.text.toString()
         val year = binding.yearEditText.text.toString()
         val month = binding.monthEditText.text.toString()
         val day = binding.dayEditText.text.toString()
-        val gender = if (isMaleSelected) "male" else "female"
+        val gender = if (isMaleSelected) 1 else 2 // 남자는 1, 여자는 2로 저장
 
         editor.putString("nickname", nickname)
-        editor.putString("birthdate", "$year-$month-$day")
-        editor.putString("gender", gender)
+        editor.putString("birthDay", "$year-$month-$day")
+        editor.putInt("gender", gender) // 성별을 정수로 저장
         editor.apply() // 변경 사항 저장
 
-        // 저장된 데이터 확인 (문자열이 맞는지 확인)
+        // 저장된 데이터 확인 (정수형으로 저장된 성별 확인)
         val savedNickname = sharedPreferences.getString("nickname", "없음")
-        val savedBirthdate = sharedPreferences.getString("birthdate", "없음")
-        val savedGender = sharedPreferences.getString("gender", "없음")
+        val savedBirthdate = sharedPreferences.getString("birthDay", "없음")
+        val savedGender = sharedPreferences.getInt("gender", 0) // 정수형으로 가져오기
         Toast.makeText(this, "닉네임: $savedNickname, 생년월일: $savedBirthdate, 성별: $savedGender", Toast.LENGTH_SHORT).show()
     }
+
+
 }

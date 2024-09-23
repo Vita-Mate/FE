@@ -102,6 +102,10 @@ dependencies {
     // Kotlin Annotation Processor
 
 
+    //백엔드 api사용을 위해 retrofit추가
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+
 //    implementation("com.kizitonwose.calendar:view:2.6.0-beta04")
 ////    implementation("com.kizitonwose.calendar:data:2.6.0-beta04")
 ////    implementation("com.kizitonwose.calendar:core:2.6.0-beta04")
