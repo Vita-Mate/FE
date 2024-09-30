@@ -88,8 +88,6 @@ dependencies {
 
     implementation ("androidx.recyclerview:recyclerview:1.3.1")//RecyclerView
 
-    implementation ("com.github.PhilJay:MpAndroidChart:v3.1.0") // 막대 그래프 구현 <MPAndroidChart>
-
     implementation ("org.jetbrains.kotlin:kotlin-stdlib:1.9.10")
 
     implementation ("com.google.android.material:material:1.9.0")
@@ -101,6 +99,8 @@ dependencies {
     annotationProcessor ("androidx.room:room-compiler:2.5.0")
     // Kotlin Annotation Processor
 
+    //영양제 막대바를 위한 라이브러리 추가
+    implementation("com.github.PhilJay:MPAndroidChart:3.1.0")
 
     //백엔드 api사용을 위해 retrofit추가
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")

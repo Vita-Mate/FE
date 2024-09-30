@@ -51,37 +51,14 @@
                   app:navGraph="@navigation/intake_nav" />
             </LinearLayout>
 
-            <LinearLayout
-              android:id="@+id/nutrient"
-              android:layout_width="353dp"
-              android:layout_height="300dp"
-              android:layout_margin="30dp"
-              android:background="@drawable/home_border"
-              android:elevation="15dp"
-              android:padding="10dp"
-              android:orientation="horizontal">
+            <!--총섭취영양제-->
+            <androidx.fragment.app.FragmentContainerView
+              android:id="@+id/supplement_bar_fragment_container"
+              android:name="com.my.vitamateapp.totalnutrients.SupplementBarFragment"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              tools:layout="@layout/fragment_supplement_bar" />
 
-                <TextView
-                  android:layout_width="match_parent"
-                  android:layout_height="60dp"
-                  android:gravity="center"
-                  android:text="총 섭취 영양소"
-                  android:textColor="@color/black"
-                  android:textSize="24dp"
-                  android:textStyle="bold"/>
-
-                <!--
-                <com.github.mikephil.charting.charts.HorizontalBarChart
-                  android:id="@+id/nutrient_bar"
-                  android:layout_width="0dp"
-                  android:layout_height="0dp"
-                  android:layout_marginHorizontal="112dp"
-                  android:layout_marginTop="24dp"
-                  app:layout_constraintDimensionRatio="1:1"
-                  app:layout_constraintEnd_toEndOf="parent"
-                  app:layout_constraintStart_toStartOf="parent" />
-                  -->
-            </LinearLayout>
 
             <LinearLayout
               android:layout_width="match_parent"
