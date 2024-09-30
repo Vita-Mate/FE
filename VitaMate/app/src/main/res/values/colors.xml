@@ -7,4 +7,6 @@
   <color name="transparent">#00FFFFFF</color>
   <color name="Jblue">#20DDF4</color>
   <color name="text_alpha_gray">#99EBEBF5</color>
+  <color name="red">#FF0000</color>
+  <color name="blue">#0000FF</color>
 </resources>

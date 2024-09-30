@@ -1,29 +1,33 @@
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
-import com.my.vitamateapp.Calendar.CalendarDay
-import com.my.vitamateapp.R
+package com.my.vitamateapp.Challenge
 
-class CalendarAdapter(private val daysList: List<CalendarDay>) :
-    RecyclerView.Adapter<CalendarAdapter.CalendarViewHolder>() {
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.my.vitamateapp.databinding.SearchChallGroupBinding
+import okhttp3.Challenge
 
-    class CalendarViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val dayTextView: TextView = itemView.findViewById(R.id.date)
-    }
+class ChallengeAdapter : AppCompatActivity() {
+    private lateinit var binding: SearchChallGroupBinding
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_calendar_list, parent, false)
-        return CalendarViewHolder(view)
-    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-    override fun onBindViewHolder(holder: CalendarViewHolder, position: Int) {
-        val day = daysList[position]
-        holder.dayTextView.text = day.day.toString()
-    }
+        // ViewBinding 설정
+        binding = SearchChallGroupBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-    override fun getItemCount(): Int {
-        return daysList.size
+        // RecyclerView 설정
+        binding.challengeRecyclerView.layoutManager = LinearLayoutManager(this)
+
+//        // 데이터 초기화
+//        val challengeList = listOf(
+//            Challenge("Challenge 1", "Daily", "3"),
+//            Challenge("Challenge 2", "Weekly", "5"),
+//            Challenge("Challenge 3", "Monthly", "10")
+//        )
+//
+//        // 어댑터 설정
+//        val adapter = ChallengeAdapter(challengeList)
+//        binding.challengeRecyclerView.adapter = adapter
     }
 }

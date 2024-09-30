@@ -37,8 +37,8 @@
             </meta-data>
         </provider>
 
-        <activity android:name=".Challenge.ChallengeMypageActivity"
-            android:exported="false"/>
+       <activity android:name=".Challenge.ChallengeMypageActivity"
+           android:exported="false" />
         <activity
             android:name=".Challenge.ChallengeCreateGroupPeopleActivity"
             android:exported="false" />
