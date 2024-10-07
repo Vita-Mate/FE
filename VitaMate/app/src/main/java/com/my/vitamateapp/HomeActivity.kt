@@ -1,9 +1,6 @@
 package com.my.vitamateapp
 
 
-
-
-
 import android.app.AlertDialog
 import android.content.ContentValues
 import android.content.Intent
@@ -17,7 +14,10 @@ import androidx.navigation.ActivityNavigator
 import com.kakao.sdk.user.UserApiClient
 import com.my.vitamateapp.Challenge.ChallengeActivity
 import com.my.vitamateapp.Challenge.ChallengeCreateGroupActivity
-import com.my.vitamateapp.Challenge.ChallengeMypageActivity
+import com.my.vitamateapp.Challenge.ChallengeMyExercisePageActivity
+import com.my.vitamateapp.Challenge.ChallengeMyNoDrinkPageActivity
+import com.my.vitamateapp.Challenge.ChallengeMyNoSmokePageActivity
+
 
 import com.my.vitamateapp.Challenge.ChallengeSelectModeActivity
 import com.my.vitamateapp.databinding.ActivityHomeBinding
@@ -80,7 +80,7 @@ class HomeActivity : AppCompatActivity() {
             }
             // 챌린지가 생성되었고, 시작일 이후면 챌린지 페이지로 이동
             else {
-                val intent = Intent(this, ChallengeMypageActivity::class.java)
+                val intent = Intent(this, ChallengeMyExercisePageActivity::class.java)
                 startActivity(intent)
             }
         } catch (e: Exception) {
@@ -90,7 +90,7 @@ class HomeActivity : AppCompatActivity() {
 
     private fun challenge_no_drunk() {
         // 챌린지 생성 여부를 확인하는 변수 (예시로 사용, 실제로는 데이터베이스나 SharedPreferences로부터 값을 가져올 수 있습니다)
-        val isChallengeCreated = false // 챌린지가 생성된 경우 true로 설정
+        val isChallengeCreated = true // 챌린지가 생성된 경우 true로 설정
 
         // 챌린지 시작 날짜 (예시로 2024년 9월 1일로 설정)
         val challengeStartDate = "2024-09-01"
@@ -112,7 +112,7 @@ class HomeActivity : AppCompatActivity() {
             }
             // 챌린지가 생성되었고, 시작일 이후면 챌린지 페이지로 이동
             else {
-                val intent = Intent(this, ChallengeMypageActivity::class.java)
+                val intent = Intent(this, ChallengeMyNoDrinkPageActivity::class.java)
                 startActivity(intent)
             }
         } catch (e: Exception) {
@@ -123,7 +123,7 @@ class HomeActivity : AppCompatActivity() {
     // 금주 금연은 운동과 챌린지 마이페이지가 다름
     private fun challenge_no_smoke() {
         // 챌린지 생성 여부를 확인하는 변수 (예시로 사용, 실제로는 데이터베이스나 SharedPreferences로부터 값을 가져올 수 있습니다)
-        val isChallengeCreated = false // 챌린지가 생성된 경우 true로 설정
+        val isChallengeCreated = true // 챌린지가 생성된 경우 true로 설정
 
         // 챌린지 시작 날짜 (예시로 2024년 9월 1일로 설정)
         val challengeStartDate = "2024-09-20"
@@ -145,7 +145,7 @@ class HomeActivity : AppCompatActivity() {
             }
             // 챌린지가 생성되었고, 시작일 이후면 챌린지 페이지로 이동
             else {
-                val intent = Intent(this, ChallengeMypageActivity::class.java)
+                val intent = Intent(this, ChallengeMyNoSmokePageActivity::class.java)
                 startActivity(intent)
             }
         } catch (e: Exception) {

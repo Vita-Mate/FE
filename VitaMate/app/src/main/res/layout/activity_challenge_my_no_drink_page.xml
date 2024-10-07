@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -32,11 +33,9 @@
                         android:scaleType="centerCrop"
                         android:src="@drawable/pre_btn"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/toolbar_text"
-                        app:layout_constraintHorizontal_bias="0.153"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.516" />
+                        app:layout_constraintVertical_bias="0.5" />
 
                     <TextView
                         android:id="@+id/toolbar_text"
@@ -65,11 +64,8 @@
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="24dp"
                 android:theme="@style/CalendarViewCustom"
-                app:mcv_headerTextAppearance="@color/black"
-            app:mcv_showOtherDates="all"
-            app:mcv_firstDayOfWeek="sunday"
-            app:mcv_dateTextAppearance="@style/CalendarViewDateCustomText"
-            app:mcv_weekDayTextAppearance="@style/CalendarViewWeekCustomText"
+                app:mcv_showOtherDates="all"
+                app:mcv_firstDayOfWeek="sunday"
                 app:layout_constraintTop_toBottomOf="@id/toolbar"/>
 
             <!-- ToggleButton to switch between week and month view -->
@@ -89,43 +85,57 @@
                 android:id="@+id/day_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="D-day가 들어갈 예정"
+                android:text="D+day가 들어갈 예정"
                 android:textSize="25dp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/record_title"
-                app:layout_constraintTop_toBottomOf="@id/toggleViewButton" />
+                android:layout_margin="20dp"
+                app:layout_constraintTop_toBottomOf="@id/toggleViewButton"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <!-- Record title -->
             <TextView
                 android:id="@+id/record_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="나의 기록"
+                android:text="오늘의 금주 기록"
                 android:layout_margin="20dp"
                 app:layout_constraintTop_toBottomOf="@id/day_text"
-                app:layout_constraintBottom_toTopOf="@id/exercise_my_record" />
+                app:layout_constraintStart_toStartOf="parent" />
 
-            <!-- RecyclerView for exercise records -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/exercise_my_record"
-                android:layout_width="match_parent"
+            <!-- O/X 버튼 레이아웃 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:visibility="gone"
-                android:nestedScrollingEnabled="false"
-                app:layout_constraintBottom_toTopOf="@id/add_my_record"
-                app:layout_constraintTop_toBottomOf="@id/record_title" />
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/record_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
 
-            <!-- Add record button -->
-            <ImageButton
-                android:id="@+id/add_my_record"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_margin="20dp"
-                android:background="@drawable/bordering_gray"
-                app:layout_constraintTop_toBottomOf="@id/exercise_my_record" />
+                <Button
+                    android:id="@+id/button_o"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:text="O"
+                    android:textColor="@android:color/holo_blue_light"
+                    android:textSize="36sp"
+                    android:background="@drawable/bordering_gray"
+                    android:layout_marginEnd="16dp"
+                    android:backgroundTint="@android:color/white"/>
+
+                <Button
+                    android:id="@+id/button_x"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:text="X"
+                    android:textColor="@android:color/holo_red_light"
+                    android:textSize="36sp"
+                    android:background="@drawable/bordering_gray"
+                    android:backgroundTint="@android:color/white"/>
+
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
 </layout>
