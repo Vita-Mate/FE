@@ -106,15 +106,17 @@
 
             </GridLayout>
 
-            <Button
+            <android.widget.Button
                 android:id="@+id/picture_record_close_button"
+                android:background="@drawable/button_background"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="닫기"
                 android:textSize="20dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"/>
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="20dp"/>
 
 
         </LinearLayout>

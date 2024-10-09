@@ -116,7 +116,7 @@ class CalendarMainActivity : AppCompatActivity() {
 
     /* 오늘 날짜의 background를 설정하는 클래스 */
     private class TodayDecorator(context: Context) : DayViewDecorator {
-        private val drawable = ContextCompat.getDrawable(context, R.drawable.calendar_circle_gray)
+        private val drawable = ContextCompat.getDrawable(context, R.drawable.calendar_circle_white)
         private val today = CalendarDay.today()
 
         override fun shouldDecorate(day: CalendarDay?): Boolean {

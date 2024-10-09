@@ -2,33 +2,33 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
   <item android:state_pressed="true">
     <shape android:shape="rectangle">
-      <solid android:color="#D9D9D9D9" /> <!-- Pressed color -->
+      <solid android:color="#FFFFFFFF" /> <!-- Pressed color -->
       <padding
         android:top="5dp"
         android:right="5dp"
         android:left="5dp"
         android:bottom="5dp"/>
       <corners
-        android:bottomLeftRadius="25dp"
-        android:bottomRightRadius="25dp"
-        android:topLeftRadius="25dp"
-        android:topRightRadius="25dp"/>
+        android:bottomLeftRadius="50dp"
+        android:bottomRightRadius="50dp"
+        android:topLeftRadius="50dp"
+        android:topRightRadius="50dp"/>
     </shape>
   </item>
 
   <item>
     <shape android:shape="rectangle">
-      <solid android:color="#FFFFFFFF" /> <!-- Default color -->
+      <solid android:color="#FFD3D3D3" /> <!-- Default color -->
       <padding
         android:top="5dp"
         android:right="5dp"
         android:left="5dp"
         android:bottom="5dp"/>
       <corners
-        android:bottomLeftRadius="25dp"
-        android:bottomRightRadius="25dp"
-        android:topLeftRadius="25dp"
-        android:topRightRadius="25dp"/>
+        android:bottomLeftRadius="50dp"
+        android:bottomRightRadius="50dp"
+        android:topLeftRadius="50dp"
+        android:topRightRadius="50dp"/>
     </shape>
   </item>
 </selector>

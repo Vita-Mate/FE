@@ -177,8 +177,9 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <Button
+            <android.widget.Button
               android:id="@+id/kakaoLogoutButton"
+                android:background="@drawable/button_background"
               android:layout_width="350dp"
               android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -188,8 +189,9 @@
               android:layout_marginBottom="10dp"
               app:layout_constraintBottom_toBottomOf="parent" />
 
-            <Button
+            <android.widget.Button
               android:id="@+id/deleteAccountButton"
+                android:background="@drawable/button_background"
               android:layout_width="350dp"
               android:layout_height="wrap_content"
                 android:layout_gravity="center"

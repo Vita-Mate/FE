@@ -7,6 +7,8 @@ import android.widget.ToggleButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import com.my.vitamateapp.Challenge.ChallengeMyExercisePageActivity.SaturdayDecorator
+import com.my.vitamateapp.Challenge.ChallengeMyExercisePageActivity.SundayDecorator
 import com.my.vitamateapp.R
 import com.my.vitamateapp.databinding.ChallengeExerciseMypage1Binding
 import com.prolificinteractive.materialcalendarview.CalendarDay
@@ -17,6 +19,7 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import java.util.Calendar
 
 class ChallengeMyExercisePageActivity : AppCompatActivity() {
+    private var selectedDate: CalendarDay? = null
 
     private lateinit var binding: ChallengeExerciseMypage1Binding
 
@@ -49,8 +52,20 @@ class ChallengeMyExercisePageActivity : AppCompatActivity() {
             .setCalendarDisplayMode(CalendarMode.WEEKS)
             .commit()
 
-        calendarView.setOnDateChangedListener { _, date, _ ->
-            // 선택된 날짜에 대한 처리
+        calendarView.setOnDateChangedListener { widget, date, selected ->
+            if (selected) {
+                // 기존 선택된 날짜의 데코레이터 제거
+                selectedDate?.let {
+                    calendarView.removeDecorators()
+                    calendarView.addDecorators(TodayDecorator(), SundayDecorator(), SaturdayDecorator()
+                    )
+                }
+
+                // 새로 선택된 날짜로 데코레이터 추가
+                selectedDate = date
+                calendarView.addDecorator(SelectedDayDecorator(date))
+                calendarView.invalidateDecorators() // 데코레이터 새로 고침
+            }
         }
 
         calendarView.addDecorators(
@@ -84,10 +99,23 @@ class ChallengeMyExercisePageActivity : AppCompatActivity() {
         finish()
     }
 
+    private inner class SelectedDayDecorator(private val selectedDate: CalendarDay) : DayViewDecorator {
+        private val drawable =
+            ContextCompat.getDrawable(this@ChallengeMyExercisePageActivity, R.drawable.transparent_calendar_element) // 여기에 원하는 drawable을 설정
+
+        override fun shouldDecorate(day: CalendarDay): Boolean {
+            return day == selectedDate
+        }
+
+        override fun decorate(view: DayViewFacade) {
+            view.addSpan(ForegroundColorSpan(Color.BLACK))
+            drawable?.let { view.setBackgroundDrawable(it) }
+        }
+    }
     // 데코레이터 클래스들 그대로 사용
     private inner class TodayDecorator : DayViewDecorator {
         private val drawable =
-            ContextCompat.getDrawable(this@ChallengeMyExercisePageActivity, R.drawable.calendar_circle_gray)
+            ContextCompat.getDrawable(this@ChallengeMyExercisePageActivity, R.drawable.calendar_circle_white)
 
         override fun shouldDecorate(day: CalendarDay): Boolean {
             return day == CalendarDay.today()

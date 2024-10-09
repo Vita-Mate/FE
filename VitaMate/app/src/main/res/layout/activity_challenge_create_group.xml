@@ -103,17 +103,20 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:orientation="horizontal"
-            android:gravity="center">
+            android:gravity="center"
+            android:layout_marginBottom="20dp">
 
-            <Button
+            <android.widget.Button
                 android:id="@+id/pre_button2"
+                android:background="@drawable/button_background"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:text="이전"
                 android:textSize="19dp" />
 
-            <Button
+            <android.widget.Button
                 android:id="@+id/next_button"
+                android:background="@drawable/button_background"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="40dp"

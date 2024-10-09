@@ -72,15 +72,17 @@
           android:orientation="horizontal"
           android:layout_margin="30dp">
 
-        <Button
+        <android.widget.Button
             android:id="@+id/mode_group"
+            android:background="@drawable/button_background"
             android:layout_width="122dp"
             android:layout_height="62dp"
             android:text="단체"
             android:textSize="18sp" />
 
-        <Button
+        <android.widget.Button
             android:id="@+id/mode_ind"
+            android:background="@drawable/button_background"
             android:layout_width="122dp"
             android:layout_height="62dp"
             android:layout_marginStart="30dp"

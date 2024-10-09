@@ -62,46 +62,46 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
-                    <Button
+                    <android.widget.Button
                         android:id="@+id/exercise_very_easy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="매우 가벼움"
                         android:layout_marginLeft="15dp"
                         android:textSize="20dp"
-                        android:background="@drawable/button_default_background"/>
-                    <Button
+                        android:background="@drawable/button_background"/>
+                    <android.widget.Button
                         android:id="@+id/exercise_easy"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="가벼움"
                         android:layout_marginLeft="15dp"
                         android:textSize="20dp"
-                        android:background="@drawable/button_default_background"/>
-                    <Button
+                        android:background="@drawable/button_background"/>
+                    <android.widget.Button
                         android:id="@+id/exercise_little_strong"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="약간 힘듦"
                         android:layout_marginLeft="15dp"
                         android:textSize="20dp"
-                        android:background="@drawable/button_default_background"/>
-                    <Button
+                        android:background="@drawable/button_background"/>
+                    <android.widget.Button
                         android:id="@+id/exercise_strong"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="힘듦"
                         android:layout_marginLeft="15dp"
                         android:textSize="20dp"
-                        android:background="@drawable/button_default_background"/>
-                    <Button
+                        android:background="@drawable/button_background"/>
+                    <android.widget.Button
                         android:id="@+id/exercise_very_strong"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="매우 힘듦"
                         android:layout_marginLeft="15dp"
                         android:textSize="20dp"
-                        android:background="@drawable/button_default_background"/>
+                        android:background="@drawable/button_background"/>
 
                 </LinearLayout>
             </HorizontalScrollView>
@@ -144,14 +144,14 @@
                 android:orientation="horizontal"
                 android:padding="10dp" />
 
-            <Button
+            <android.widget.Button
                 android:id="@+id/enroll_exercise_save_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="저장하기"
                 android:textSize="20dp"
                 android:layout_margin="20dp"
-                android:background="@color/text_alpha_gray"/>
+                android:background="@drawable/button_background"/>
         </LinearLayout>
     </ScrollView>
 </FrameLayout>
