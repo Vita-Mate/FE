@@ -1,48 +1,43 @@
 package com.my.vitamateapp
 
-
-
 import android.app.AlertDialog
-import android.content.ContentValues
 import android.content.Intent
-import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.ActivityNavigator
 import com.kakao.sdk.user.UserApiClient
-import com.my.vitamateapp.Challenge.ChallengeActivity
-import com.my.vitamateapp.Challenge.ChallengeCreateGroupActivity
-import com.my.vitamateapp.Challenge.ChallengeMyExercisePageActivity
-import com.my.vitamateapp.Challenge.ChallengeMyNoDrinkPageActivity
-import com.my.vitamateapp.Challenge.ChallengeMyNoSmokePageActivity
-
-
+import com.my.vitamateapp.Challenge.Category
 import com.my.vitamateapp.Challenge.ChallengeSelectModeActivity
+import com.my.vitamateapp.Challenge.CreateChallengeIndividual
 import com.my.vitamateapp.databinding.ActivityHomeBinding
 import com.my.vitamateapp.registerPage.MainActivity
-import java.sql.Date
-import java.util.Locale
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
+    private var selectedCategory: Category? = null  // 선택된 카테고리 저장
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
 
-        binding.homeHealthBtn.setOnClickListener {
-            challenge_exercise()
-        }
+        // Intent로부터 데이터 수신
+        val category = intent.getStringExtra("category")
+        val startDate = intent.getStringExtra("startDate")
+        val weeklyFrequency = intent.getIntExtra("weeklyFrequency", 0)
+        val duration = intent.getStringExtra("duration")
+        val description = intent.getStringExtra("description")
 
-        binding.homeDrunkBtn.setOnClickListener {
-            challenge_no_drunk()
-        }
+        // 수신한 데이터 로그 출력 (테스트 용)
+        Log.d("HomeActivity", "Category: $category")
+        Log.d("HomeActivity", "Start Date: $startDate")
+        Log.d("HomeActivity", "Weekly Frequency: $weeklyFrequency")
+        Log.d("HomeActivity", "Duration: $duration")
+        Log.d("HomeActivity", "Description: $description")
 
-        binding.homeSmokeBtn.setOnClickListener {
-            challenge_no_smoke()
+        val challenge = intent.getSerializableExtra("challenge") as? CreateChallengeIndividual
+        challenge?.let {
+            Log.d("HomeActivity", "챌린지 생성됨: ${it.category}, ${it.startDate}, ${it.weeklyFrequency}, ${it.duration}, ${it.description}")
         }
 
         // 로그아웃 버튼 클릭 시 로그아웃
@@ -54,122 +49,54 @@ class HomeActivity : AppCompatActivity() {
         binding.deleteAccountButton.setOnClickListener {
             deleteAccount()
         }
+
+        // 카테고리 버튼 설정
+        setupCategoryButtons()
     }
 
-    /* 함수 구현 */
-    private fun challenge_exercise() {
-        // 챌린지 생성 여부를 확인하는 변수 (예시로 사용, 실제로는 데이터베이스나 SharedPreferences로부터 값을 가져올 수 있습니다)
-        val isChallengeCreated = true // 챌린지가 생성된 경우 true로 설정
+    private fun setupCategoryButtons() {
+        binding.homeHealthBtn.setOnClickListener {
+            selectedCategory = Category.EXERCISE  // 운동 선택
+            startChallenge()
+        }
 
-        // 챌린지 시작 날짜 (예시로 2024년 9월 1일로 설정)
-        val challengeStartDate = "2024-09-01"
-        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val currentDate = sdf.format(java.util.Date())
+        binding.homeDrunkBtn.setOnClickListener {
+            selectedCategory = Category.QUIT_ALCOHOL  // 금주 선택
+            startChallenge()
+        }
 
-        try {
-            val challengeDate = sdf.parse(challengeStartDate)
-            val currentDateObj = sdf.parse(currentDate)
-
-            // 챌린지가 생성되지 않았을 경우 ChallengeSelectModeActivity로 이동
-            if (!isChallengeCreated) {
-                val intent = Intent(this, ChallengeSelectModeActivity::class.java)
-                startActivity(intent)
-            }
-            // 챌린지가 생성되었고, 시작일 이전이면 알림창 표시
-            else if (currentDateObj.before(challengeDate)) {
-                showAlertDialog("챌린지 시작 전입니다.")
-            }
-            // 챌린지가 생성되었고, 시작일 이후면 챌린지 페이지로 이동
-            else {
-                val intent = Intent(this, ChallengeMyExercisePageActivity::class.java)
-                startActivity(intent)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
+        binding.homeSmokeBtn.setOnClickListener {
+            selectedCategory = Category.QUIT_SMOKE  // 금연 선택
+            startChallenge()
         }
     }
 
-    private fun challenge_no_drunk() {
-        // 챌린지 생성 여부를 확인하는 변수 (예시로 사용, 실제로는 데이터베이스나 SharedPreferences로부터 값을 가져올 수 있습니다)
-        val isChallengeCreated = true // 챌린지가 생성된 경우 true로 설정
-
-        // 챌린지 시작 날짜 (예시로 2024년 9월 1일로 설정)
-        val challengeStartDate = "2024-09-01"
-        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val currentDate = sdf.format(java.util.Date())
-
-        try {
-            val challengeDate = sdf.parse(challengeStartDate)
-            val currentDateObj = sdf.parse(currentDate)
-
-            // 챌린지가 생성되지 않았을 경우 ChallengeSelectModeActivity로 이동
-            if (!isChallengeCreated) {
-                val intent = Intent(this, ChallengeSelectModeActivity::class.java)
-                startActivity(intent)
-            }
-            // 챌린지가 생성되었고, 시작일 이전이면 알림창 표시
-            else if (currentDateObj.before(challengeDate)) {
-                showAlertDialog("챌린지 시작 전입니다.")
-            }
-            // 챌린지가 생성되었고, 시작일 이후면 챌린지 페이지로 이동
-            else {
-                val intent = Intent(this, ChallengeMyNoDrinkPageActivity::class.java)
-                startActivity(intent)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
+    private fun startChallenge() {
+        if (selectedCategory == null) {
+            showAlertDialog("카테고리를 선택하세요.")
+            return
         }
+
+        val intent = Intent(this, ChallengeSelectModeActivity::class.java).apply {
+            putExtra("category", selectedCategory?.name) // 선택된 카테고리 전달
+        }
+        startActivity(intent)
     }
 
-    // 금주 금연은 운동과 챌린지 마이페이지가 다름
-    private fun challenge_no_smoke() {
-        // 챌린지 생성 여부를 확인하는 변수 (예시로 사용, 실제로는 데이터베이스나 SharedPreferences로부터 값을 가져올 수 있습니다)
-        val isChallengeCreated = true // 챌린지가 생성된 경우 true로 설정
-
-        // 챌린지 시작 날짜 (예시로 2024년 9월 1일로 설정)
-        val challengeStartDate = "2024-09-20"
-        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val currentDate = sdf.format(java.util.Date())
-
-        try {
-            val challengeDate = sdf.parse(challengeStartDate)
-            val currentDateObj = sdf.parse(currentDate)
-
-            // 챌린지가 생성되지 않았을 경우 ChallengeSelectModeActivity로 이동
-            if (!isChallengeCreated) {
-                val intent = Intent(this, ChallengeSelectModeActivity::class.java)
-                startActivity(intent)
-            }
-            // 챌린지가 생성되었고, 시작일 이전이면 알림창 표시
-            else if (currentDateObj.before(challengeDate)) {
-                showAlertDialog("챌린지 시작 전입니다.")
-            }
-            // 챌린지가 생성되었고, 시작일 이후면 챌린지 페이지로 이동
-            else {
-                val intent = Intent(this, ChallengeMyNoSmokePageActivity::class.java)
-                startActivity(intent)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-
-    // 알림창을 띄우는 함수
     private fun showAlertDialog(message: String) {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("챌린지 시작 전")
+        builder.setTitle("알림")
         builder.setMessage(message)
         builder.setPositiveButton("확인") { dialog, _ -> dialog.dismiss() }
         builder.show()
     }
 
     private fun vitamate_logout() {
-        // 로그아웃
         UserApiClient.instance.logout { error ->
             if (error != null) {
-                Log.e(ContentValues.TAG, "로그아웃 실패. SDK에서 토큰 삭제됨", error)
+                Log.e("HomeActivity", "로그아웃 실패", error)
             } else {
-                Log.i(ContentValues.TAG, "로그아웃 성공. SDK에서 토큰 삭제됨")
+                Log.i("HomeActivity", "로그아웃 성공")
                 startActivity(Intent(this, MainActivity::class.java))
                 finish() // 로그아웃 성공하면 다시 앱 초기 화면으로 이동.
             }
@@ -177,16 +104,14 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun deleteAccount() {
-        // 계정삭제
         UserApiClient.instance.unlink { error ->
             if (error != null) {
-                Log.e(ContentValues.TAG, "연결 끊기 실패", error)
+                Log.e("HomeActivity", "연결 끊기 실패", error)
             } else {
-                Log.i(ContentValues.TAG, "연결 끊기 성공. SDK에서 토큰 삭제 됨")
+                Log.i("HomeActivity", "연결 끊기 성공")
                 startActivity(Intent(this, MainActivity::class.java))
                 finish() // 계정 삭제 성공하면 다시 앱 초기 화면으로 이동.
             }
         }
     }
-
 }

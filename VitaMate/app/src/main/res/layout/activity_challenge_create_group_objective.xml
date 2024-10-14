@@ -71,7 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="40dp"
                 android:text="챌린지 시작일"
                 android:textSize="30dp" />
 
@@ -130,7 +130,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="40dp"
                 android:text="목표 설정하기"
                 android:textSize="30dp" />
 
@@ -149,7 +149,7 @@
 
                 <EditText
                     android:textAlignment="center"
-                    android:id="@+id/period"
+                    android:id="@+id/weekFreqency"
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal" />
@@ -166,90 +166,75 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="40dp"
                 android:text="챌린지 기간"
                 android:textSize="30dp" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <HorizontalScrollView
+                android:layout_width="350dp"
                 android:layout_height="wrap_content"
+                android:scrollbars="horizontal"
                 android:layout_marginTop="10dp"
-                android:orientation="horizontal">
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="83dp">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:text="1주일 "
-                    android:textSize="18dp"
-                    android:textStyle="bold" />
+                    android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="/ "
-                    android:textSize="22dp"
-                    android:textStyle="bold" />
+                    <android.widget.Button
+                        android:id="@+id/duration_one_week"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:text="1주"
+                        tools:layout_editor_absoluteX="16dp"
+                        tools:layout_editor_absoluteY="72dp"
+                        android:background="@drawable/button_background"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:text="1개월 "
-                    android:textSize="18dp"
-                    android:textStyle="bold" />
+                    <android.widget.Button
+                        android:id="@+id/duration_one_month"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:text="1개월"
+                        tools:layout_editor_absoluteX="132dp"
+                        tools:layout_editor_absoluteY="72dp"
+                        android:background="@drawable/button_background"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="/ "
-                    android:textSize="22dp"
-                    android:textStyle="bold" />
+                    <android.widget.Button
+                        android:id="@+id/duration_three_months"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:text="3개월"
+                        tools:layout_editor_absoluteX="237dp"
+                        tools:layout_editor_absoluteY="72dp"
+                        android:background="@drawable/button_background"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:text="3개월 "
-                    android:textSize="18dp"
-                    android:textStyle="bold" />
+                    <android.widget.Button
+                        android:id="@+id/duration_six_months"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:text="6개월"
+                        tools:layout_editor_absoluteX="252dp"
+                        tools:layout_editor_absoluteY="71dp"
+                        android:background="@drawable/button_background"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="/ "
-                    android:textSize="22dp"
-                    android:textStyle="bold" />
+                    <android.widget.Button
+                        android:id="@+id/duration_one_year"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:text="1년"
+                        tools:layout_editor_absoluteX="252dp"
+                        tools:layout_editor_absoluteY="71dp"
+                        android:background="@drawable/button_background"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:text="6개월 "
-                    android:textSize="18dp"
-                    android:textStyle="bold" />
+                </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="/ "
-                    android:textSize="22dp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:text="1년 "
-                    android:textSize="18dp"
-                    android:textStyle="bold" />
-            </LinearLayout>
+            </HorizontalScrollView>
 
         </LinearLayout>
 

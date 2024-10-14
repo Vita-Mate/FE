@@ -4,8 +4,7 @@ import org.jetbrains.kotlin.storage.CacheResetOnProcessCanceled.enabled
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
-//    id("org.jetbrains.kotlin.android")
-//    id("org.jetbrains.kotlin.android")
+    id("kotlin-parcelize") //Parcelize사용을 위한 추가
 
 }
 
