@@ -30,19 +30,18 @@ class SearchedSupplementsAdapter(private val items: MutableList<SearchedSuppleme
 
         fun bindItems(item: SearchedSupplementModel) {
             nameTextView.text = item.name
-            infoTextView.text = item.supplementInfo
+            infoTextView.text = item.brand
             itemView.setOnClickListener {
                 // 아이템 클릭 시 디테일 액티비티로 이동
                 val intent = Intent(context, SupplementDetailActivity::class.java).apply {
                     putExtra("supplement_name", item.name)
-                    putExtra("supplement_info", item.supplementInfo)
+                    putExtra("supplement_brand", item.brand)
                 }
                 context.startActivity(intent)
             }
         }
     }
 }
-
 
 
 

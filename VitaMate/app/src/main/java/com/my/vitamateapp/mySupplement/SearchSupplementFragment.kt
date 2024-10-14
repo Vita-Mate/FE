@@ -8,15 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.my.vitamateapp.R
+import com.my.vitamateapp.mySupplement.SearchedSupplementModel
+
 
 class SearchSupplementFragment : Fragment() {
 
     private lateinit var rvAdapter: SearchedSupplementsAdapter
-    private val supplements = mutableListOf(
-        SearchedSupplementModel("Vitamin C", "Aids in immune function."),
-        SearchedSupplementModel("Omega-3", "Supports heart health."),
-        SearchedSupplementModel("Zinc", "Important for enzyme function.")
-    )
+    private var searchedSupplements = ArrayList<SearchedSupplementModel>() // 이름 변경
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,14 +24,20 @@ class SearchSupplementFragment : Fragment() {
 
         val rv: RecyclerView = view.findViewById(R.id.serachedSupplements_rv)
 
-        rvAdapter = SearchedSupplementsAdapter(supplements, requireContext())
+        // SearchSupplementFragment에서 데이터를 받는 부분
+        arguments?.let {
+            searchedSupplements = it.getParcelableArrayList<SearchedSupplementModel>("supplements") ?: ArrayList()
+        }
+
+
+
+        rvAdapter = SearchedSupplementsAdapter(searchedSupplements, requireContext())
         rv.adapter = rvAdapter
         rv.layoutManager = LinearLayoutManager(context)
 
         return view
     }
 }
-
 
 
 

@@ -37,7 +37,7 @@
             android:id="@+id/supplement_name_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="30sp"
+            android:textSize="24sp"
             android:textStyle="bold"
             android:text="영양제 이름" />
 
@@ -75,7 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="연관상품 추천"
-            android:textSize="26sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
           <!-- 수평 스크롤뷰 -->

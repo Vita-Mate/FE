@@ -97,6 +97,14 @@ class MainActivity : AppCompatActivity() {
                     // Access Token 및 회원가입 여부 확인 로직
                     if (!accessToken.isNullOrEmpty()) {
                         Log.i(TAG, "백엔드 응답 성공, Access Token: $accessToken") // 응답 성공 및 토큰 확인 로그 추가
+
+                        // Access Token을 SharedPreferences에 저장
+                        val sharedPref = getSharedPreferences("saved_user_info", Context.MODE_PRIVATE)
+                        with(sharedPref.edit()) {
+                            putString("accessToken", accessToken)
+                            apply() // 변경 사항 저장
+                        }
+
                         gotoHome() // 이미 등록된 사용자, 홈 화면으로 이동
                     } else {
                         Log.w(TAG, "Access Token이 없거나 등록되지 않은 사용자") // 경고 로그 추가

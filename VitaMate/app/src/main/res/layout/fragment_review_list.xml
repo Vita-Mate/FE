@@ -4,25 +4,38 @@
   android:layout_height="wrap_content"
   android:orientation="vertical">
 
-  <TextView
-    android:layout_width="wrap_content"
+  <LinearLayout
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="상품리뷰"
-    android:textSize="26sp"
-    android:textStyle="bold" />
+    android:orientation="horizontal">
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="상품리뷰"
+      android:layout_marginEnd="127dp"
+      android:textSize="20sp"
+      android:textStyle="bold" />
+
+    <Button
+      android:layout_width="160dp"
+      android:layout_height="wrap_content"
+      android:text="리뷰작성"
+      android:textSize="16sp" />
+  </LinearLayout>
 
   <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/review_item_rv"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"/>
+    android:layout_marginTop="10dp" />
 
   <Button
     android:id="@+id/show_review_button"
-    android:layout_width="match_parent"
+    android:layout_width="350dp"
     android:layout_height="wrap_content"
+    android:layout_gravity="center"
     android:layout_marginTop="15dp"
-    android:textSize="18sp"
+    android:textSize="16sp"
     android:text="리뷰 전체보기" />
-
 </LinearLayout>
