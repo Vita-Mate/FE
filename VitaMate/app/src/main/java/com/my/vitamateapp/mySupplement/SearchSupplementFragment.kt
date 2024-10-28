@@ -1,6 +1,8 @@
 package com.my.vitamateapp.mySupplement
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,16 +31,30 @@ class SearchSupplementFragment : Fragment() {
             searchedSupplements = it.getParcelableArrayList<SearchedSupplementModel>("supplements") ?: ArrayList()
         }
 
+        // 어댑터에 saveSupplementId 함수를 전달
+        rvAdapter = SearchedSupplementsAdapter(searchedSupplements, requireContext()) { supplementId ->
+            saveSupplementId(supplementId) // 아이템 클릭 시 영양제 ID 저장
+            Log.d("MySupplementActivity", "SupplementId : $supplementId")
+        }
 
-
-        rvAdapter = SearchedSupplementsAdapter(searchedSupplements, requireContext())
         rv.adapter = rvAdapter
         rv.layoutManager = LinearLayoutManager(context)
 
         return view
     }
-}
 
+    // 클릭한 영양제 ID 저장 함수
+    private fun saveSupplementId(supplementId: Int) {
+        val sharedPref = requireActivity().getSharedPreferences("saved_supplement_info", Context.MODE_PRIVATE)
+
+        // 새로운 영양제ID를 바로 저장
+        with(sharedPref.edit()) {
+            putInt("supplementId", supplementId)
+            apply()
+        }
+        Log.d("MySupplementActivity", "New SupplementId saved: $supplementId")
+    }
+}
 
 
 

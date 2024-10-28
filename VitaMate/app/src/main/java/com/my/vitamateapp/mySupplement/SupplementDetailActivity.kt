@@ -1,8 +1,10 @@
 package com.my.vitamateapp.mySupplement
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.my.vitamateapp.databinding.ActivitySupplementDetailBinding
+
 
 class SupplementDetailActivity : AppCompatActivity() {
 
@@ -22,6 +24,12 @@ class SupplementDetailActivity : AppCompatActivity() {
         // UI에 데이터 설정
         binding.supplementNameDetail.text = supplementName
         binding.supplementInfoDetail.text = supplementInfo
+
+        //추가버튼 클릭 시 복용시작액티비티로 이동
+        binding.addButton.setOnClickListener(){
+            val intent = Intent(this, SupplementStartActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
 

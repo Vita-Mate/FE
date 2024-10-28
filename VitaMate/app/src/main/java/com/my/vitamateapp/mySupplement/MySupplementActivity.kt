@@ -8,7 +8,6 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import com.android.identity.BuildConfig
 import com.my.vitamateapp.Api.RetrofitInstance
@@ -41,7 +40,6 @@ class MySupplementActivity : AppCompatActivity() {
 
         searchIcon.setOnClickListener {
             val keyword = searchEditText.text.toString()
-//비타민
             if (keyword.isNotEmpty()) {
                 searchSupplements(keyword)
             } else {

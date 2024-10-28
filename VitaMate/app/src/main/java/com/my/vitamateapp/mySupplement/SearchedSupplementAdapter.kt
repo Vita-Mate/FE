@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.my.vitamateapp.R
 
-class SearchedSupplementsAdapter(private val items: MutableList<SearchedSupplementModel>, private val context: Context) : RecyclerView.Adapter<SearchedSupplementsAdapter.ViewHolder>() {
+class SearchedSupplementsAdapter(private val items: MutableList<SearchedSupplementModel>, private val context: Context, private val saveSupplementId: (Int) -> Unit) : RecyclerView.Adapter<SearchedSupplementsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.searched_supplements_items, parent, false)
@@ -32,6 +32,10 @@ class SearchedSupplementsAdapter(private val items: MutableList<SearchedSuppleme
             nameTextView.text = item.name
             infoTextView.text = item.brand
             itemView.setOnClickListener {
+                // 영양제 ID 저장
+                saveSupplementId(item.supplementId)
+
+
                 // 아이템 클릭 시 디테일 액티비티로 이동
                 val intent = Intent(context, SupplementDetailActivity::class.java).apply {
                     putExtra("supplement_name", item.name)
@@ -42,6 +46,5 @@ class SearchedSupplementsAdapter(private val items: MutableList<SearchedSuppleme
         }
     }
 }
-
 
 
