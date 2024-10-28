@@ -70,6 +70,9 @@
             android:name=".mySupplement.SupplementDetailActivity"
             android:exported="false" />
         <activity
+          android:name=".mySupplement.SupplementStartActivity"
+          android:exported="false"/>
+        <activity
             android:name=".mySupplement.MySupplementActivity"
             android:exported="false" />
         <activity
