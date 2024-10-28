@@ -118,6 +118,7 @@ class ChallengeCreateGroupObjectiveActivity : AppCompatActivity() {
             return
         }
 
+
         // Ensure duration is selected
         val duration = selectedDuration
         if (duration == null) {

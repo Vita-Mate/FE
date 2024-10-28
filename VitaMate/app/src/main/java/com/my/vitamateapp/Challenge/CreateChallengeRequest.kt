@@ -6,12 +6,12 @@ data class CreateChallengeRequest(
     val description : String,
     val startDate : String,
     val duration : Duration,
-    val maxParticipant : Int,
-    val minParticipant : Int,
+    val maxParticipants : Int,
+    val minParticipants : Int,
     val weeklyFrequency : Int
 ){
     fun isValid(): Boolean {
-        return minParticipant in 1..10 && maxParticipant in 2..10 && minParticipant <= maxParticipant
+        return minParticipants in 1..10 && maxParticipants in 2..10 && minParticipants <= maxParticipants
     }
 }
 

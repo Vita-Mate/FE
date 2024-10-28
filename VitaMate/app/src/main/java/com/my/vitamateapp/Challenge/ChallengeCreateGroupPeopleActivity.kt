@@ -69,27 +69,27 @@ class ChallengeCreateGroupPeopleActivity : AppCompatActivity() {
     }
 
     private fun saveDataToDatabase() {
-        val maxParticipant = binding.maxChallGroupPeople.text.toString().toIntOrNull()
-        val minParticipant = binding.minChallGroupPeople.text.toString().toIntOrNull()
+        val maxParticipants = binding.maxChallGroupPeople.text.toString().toIntOrNull()
+        val minParticipants = binding.minChallGroupPeople.text.toString().toIntOrNull()
 
         // Validate inputs
-        if (maxParticipant == null || minParticipant == null  || title.isEmpty() || description.isEmpty()) {
+        if (maxParticipants == null || minParticipants == null  || title.isEmpty() || description.isEmpty()) {
             showToast("모든 필드를 올바르게 입력하세요.")
             return
         }
 
         // Validate participant counts
-        if (minParticipant < 1 || minParticipant > 10) {
+        if (minParticipants < 1 || minParticipants > 10) {
             showToast("최소 참가자는 1명 이상, 10명 이하이어야 합니다.")
             return
         }
 
-        if (maxParticipant < 2 || maxParticipant > 10) {
+        if (maxParticipants < 2 || maxParticipants > 10) {
             showToast("최대 참가자는 2명 이상, 10명 이하이어야 합니다.")
             return
         }
 
-        if (minParticipant > maxParticipant) {
+        if (minParticipants > maxParticipants) {
             showToast("최소 참가자는 최대 참가자 수보다 작거나 같아야 합니다.")
             return
         }
@@ -103,8 +103,8 @@ class ChallengeCreateGroupPeopleActivity : AppCompatActivity() {
             description = description,
             startDate = startDate,
             duration = duration,
-            maxParticipant = maxParticipant,
-            minParticipant = minParticipant,
+            maxParticipants = maxParticipants,
+            minParticipants = minParticipants,
             weeklyFrequency = weekFrequency
         )
 
@@ -114,8 +114,8 @@ class ChallengeCreateGroupPeopleActivity : AppCompatActivity() {
         Log.d("CreateChallengeRequest", "Description: ${createChallengeRequest.description}")
         Log.d("CreateChallengeRequest", "Start Date: ${createChallengeRequest.startDate}")
         Log.d("CreateChallengeRequest", "Duration: ${createChallengeRequest.duration}")
-        Log.d("CreateChallengeRequest", "Max Participant: ${createChallengeRequest.maxParticipant}")
-        Log.d("CreateChallengeRequest", "Min Participant: ${createChallengeRequest.minParticipant}")
+        Log.d("CreateChallengeRequest", "Max Participant: ${createChallengeRequest.maxParticipants}")
+        Log.d("CreateChallengeRequest", "Min Participant: ${createChallengeRequest.minParticipants}")
         Log.d("CreateChallengeRequest", "Weekly Frequency: ${createChallengeRequest.weeklyFrequency}")
 
         // API 호출
@@ -136,15 +136,20 @@ class ChallengeCreateGroupPeopleActivity : AppCompatActivity() {
         // API 호출
         api.createChallenge("Bearer $accessToken", createChallengeRequest).enqueue(object : Callback<CreateChallengeResponse> {
             override fun onResponse(call: Call<CreateChallengeResponse>, response: Response<CreateChallengeResponse>) {
-                if (response.isSuccessful && response.body()?.isSuccess == true) {
+                if (response.isSuccessful && response.body()?.isSuccess == false) {
+                    Log.d("Response Code", "Response code: ${response.code()}")
+                    Log.d("Response Body", "Response body: ${response.body()?.toString()}")
                     val intent = Intent(this@ChallengeCreateGroupPeopleActivity, MainActivity::class.java).apply {
                         putExtra("message", "챌린지가 등록되었습니다.")
-                    }
+                        }
                     startActivity(intent)
                     finish()
                 } else {
                     val errorMessage = response.errorBody()?.string() ?: "챌린지 등록에 실패했습니다."
                     Log.d("Error:","errorMessage ${response.code()}: $errorMessage") // 응답 코드도 함께 출력
+                    Log.d("Response Code", "Response code: ${response.code()}")
+                    Log.d("Response Body", "Response body: ${response.body()?.toString()}")
+
                 }
             }
 
@@ -156,9 +161,9 @@ class ChallengeCreateGroupPeopleActivity : AppCompatActivity() {
 
 
     private fun getAccessToken(context: Context): String? {
-    val sharedPref = context.getSharedPreferences("saved_user_info", Context.MODE_PRIVATE)
-    return sharedPref.getString("accessToken", null)
-}
+        val sharedPref = context.getSharedPreferences("saved_user_info", Context.MODE_PRIVATE)
+        return sharedPref.getString("accessToken", null)
+    }
 
 
     private fun showToast(message: String) {
