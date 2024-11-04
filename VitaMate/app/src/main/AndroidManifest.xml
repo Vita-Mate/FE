@@ -85,6 +85,9 @@
           android:name=".mySupplement.SupplementStartActivity"
           android:exported="false"/>
         <activity
+          android:name=".mySupplement.WriteReviewActivity"
+          android:exported="false" />
+        <activity
             android:name=".mySupplement.MySupplementActivity"
             android:exported="false" />
         <activity

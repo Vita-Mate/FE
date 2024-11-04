@@ -77,9 +77,10 @@
     <TextView
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:text="물 그림 들어갈 예정입니다."/>
-
-
+      android:layout_marginTop="10dp"
+      android:gravity="center"
+      android:text="오늘의 물 섭취량"
+      android:textSize="16dp"
+      android:textStyle="bold"/>
   </LinearLayout>
-
 </LinearLayout>

@@ -104,8 +104,11 @@
         android:gravity="center"/>
     </LinearLayout>
 
-
-
+    <!--복용 중인 영양제 리스트-->
+    <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/taking_supplements_list_rv"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_margin="14dp"/>
   </LinearLayout>
-
 </LinearLayout>

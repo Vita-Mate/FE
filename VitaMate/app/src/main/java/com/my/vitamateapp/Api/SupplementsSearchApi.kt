@@ -6,6 +6,7 @@ import retrofit2.http.Header
 import retrofit2.http.Query
 
 interface SupplementsSearchApi {
+    // 영양제 검색 API
     @GET("supplements/search")
     suspend fun searchSupplements(
         @Header("Authorization") accessToken: String,  // Authorization 헤더 추가

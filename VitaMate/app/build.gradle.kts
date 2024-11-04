@@ -113,7 +113,9 @@ dependencies {
 
     implementation ("com.github.prolificinteractive:material-calendarview:1.4.3")
 
-
+    //이미지 가져오기 위한 glide 추가
+    implementation ("com.github.bumptech.glide:glide:4.12.0")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
 
 
 

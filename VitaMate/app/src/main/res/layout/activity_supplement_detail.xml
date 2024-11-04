@@ -42,8 +42,8 @@
             android:text="영양제 이름" />
 
           <!-- 영양제 정보를 표시하는 TextView -->
-          <TextView
-            android:id="@+id/supplement_info_detail"
+          <ImageView
+            android:id="@+id/supplement_detail"
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:textSize="18sp"
@@ -56,7 +56,7 @@
 
         <!-- 상품 리뷰 Fragment -->
         <androidx.fragment.app.FragmentContainerView
-          android:id="@+id/fragmentContainerView2"
+          android:id="@+id/supplements_review_container"
           android:name="androidx.navigation.fragment.NavHostFragment"
           android:layout_width="match_parent"
           android:layout_height="match_parent"
@@ -78,72 +78,25 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-          <!-- 수평 스크롤뷰 -->
-          <!-- 수평 스크롤뷰 -->
-          <HorizontalScrollView
+          <!-- 연관 상품 추천 리스트 -->
+          <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/relatedProductsRv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="none">
-
-            <LinearLayout
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:orientation="horizontal">
-
-              <!-- 상품 1~5 텍스트뷰 -->
-              <TextView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_margin="10dp"
-                android:gravity="center"
-                android:text="상품1"
-                android:textSize="24sp"/>
-
-              <TextView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_margin="10dp"
-                android:gravity="center"
-                android:text="상품2"
-                android:textSize="24sp" />
-
-              <TextView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_margin="10dp"
-                android:gravity="center"
-                android:text="상품3"
-                android:textSize="24sp" />
-
-              <TextView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_margin="10dp"
-                android:gravity="center"
-                android:text="상품4"
-                android:textSize="24sp" />
-
-              <TextView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_margin="10dp"
-                android:gravity="center"
-                android:text="상품5"
-                android:textSize="24sp" />
-
-            </LinearLayout>
-          </HorizontalScrollView>
+            android:layout_marginTop="30dp"
+            android:orientation="horizontal"/>
 
         </LinearLayout>
 
         <!-- 추가 버튼 -->
-        <Button
+        <android.widget.Button
           android:id="@+id/add_button"
           android:layout_width="280dp"
           android:layout_height="65dp"
           android:layout_marginTop="24dp"
           android:layout_gravity="center"
           android:textSize="20sp"
+          android:background="@drawable/button_background"
           android:text="추가" />
 
       </LinearLayout>
