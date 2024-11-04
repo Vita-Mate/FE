@@ -7,8 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="170dp"
-        android:background="@drawable/home_border_gray"
-        android:backgroundTint="@color/gray"
+        android:background="@drawable/home_border_babypink"
         android:layout_margin="20dp"
         android:orientation="vertical"
         android:elevation="15dp"
