@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.my.vitamateapp.HomeActivity
 import com.my.vitamateapp.R
+import com.my.vitamateapp.databinding.ActivityChallengeCreateorsearchBinding
 import com.my.vitamateapp.databinding.ActivityChallengeSelectModeBinding
 import com.my.vitamateapp.registerPage.MainActivity
 
@@ -20,6 +21,7 @@ class ChallengeSelectModeActivity : AppCompatActivity() {
         // 전달받은 카테고리를 selectedCategory에 할당
         val categoryString = intent.getStringExtra("category")
         selectedCategory = categoryString?.let { Category.valueOf(it) }
+
 
 
         // 단체 버튼 클릭 시 단체 그룹 생성 페이지로 이동
@@ -42,7 +44,7 @@ class ChallengeSelectModeActivity : AppCompatActivity() {
     private fun mode_group() {
 
         // Intent 생성 및 카테고리 전달
-        val intent = Intent(this, ChallengeCreateGroupActivity::class.java).apply {
+        val intent = Intent(this, ChallengeCreateOrSearchActivity::class.java).apply {
             putExtra("category", selectedCategory?.name)
         }
         startActivity(intent)

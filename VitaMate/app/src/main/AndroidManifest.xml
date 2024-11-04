@@ -19,6 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.VitaMateApp"
         tools:targetApi="31">
+
+
         <activity
             android:name=".Challenge.ChallengeMyNoSmokePageActivity"
             android:exported="false" />
@@ -35,6 +37,16 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <activity
+            android:name=".Challenge.ChallengeCreateOrSearchActivity"
+            android:exported="false"/>
+
+        <activity android:name=".Challenge.ChallengeSearchGroup"
+            android:exported="false"/>
+
+        <activity android:name=".Challenge.ChallengeGroupFilter"
+            android:exported="false"/>
 
         <activity
             android:name=".Challenge.ChallengeMyExercisePageActivity"
