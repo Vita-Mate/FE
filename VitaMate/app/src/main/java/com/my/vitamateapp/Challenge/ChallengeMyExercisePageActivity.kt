@@ -1,14 +1,14 @@
 package com.my.vitamateapp.Challenge
-
 import android.graphics.Color
 import android.os.Bundle
 import android.text.style.ForegroundColorSpan
+import android.util.Log
+import android.widget.Toast
 import android.widget.ToggleButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import com.my.vitamateapp.Challenge.ChallengeMyExercisePageActivity.SaturdayDecorator
-import com.my.vitamateapp.Challenge.ChallengeMyExercisePageActivity.SundayDecorator
+import com.my.vitamateapp.Challenge.ChallengeBottomSheetDialogFragment
 import com.my.vitamateapp.R
 import com.my.vitamateapp.databinding.ChallengeExerciseMypage1Binding
 import com.prolificinteractive.materialcalendarview.CalendarDay
@@ -20,6 +20,7 @@ import java.util.Calendar
 
 class ChallengeMyExercisePageActivity : AppCompatActivity() {
     private var selectedDate: CalendarDay? = null
+    private var challengeId: Long? = null
 
     private lateinit var binding: ChallengeExerciseMypage1Binding
 
@@ -28,6 +29,15 @@ class ChallengeMyExercisePageActivity : AppCompatActivity() {
 
         // 바인딩 초기화
         binding = DataBindingUtil.setContentView(this, R.layout.challenge_exercise_mypage1)
+
+        challengeId = intent.getLongExtra("challengeId", -1L)  // 변경된 부분
+        if (challengeId == -1L) {
+            Log.e("ChallengeMyExercisePageActivity", "Invalid Challenge ID received")
+            showToast("챌린지 ID가 유효하지 않습니다.")
+            finish()
+        }
+
+
 
         // 기존에 findViewById로 참조하던 부분을 binding 객체로 변경
         val calendarView = binding.CalendarRecyclerView
@@ -42,7 +52,7 @@ class ChallengeMyExercisePageActivity : AppCompatActivity() {
         }
 
         binding.addMyRecord.setOnClickListener {
-            showChallengeBottomSheetDialog()
+            showChallengeBottomSheetDialog() // 수정된 부분
         }
     }
 
@@ -54,17 +64,14 @@ class ChallengeMyExercisePageActivity : AppCompatActivity() {
 
         calendarView.setOnDateChangedListener { widget, date, selected ->
             if (selected) {
-                // 기존 선택된 날짜의 데코레이터 제거
                 selectedDate?.let {
                     calendarView.removeDecorators()
-                    calendarView.addDecorators(TodayDecorator(), SundayDecorator(), SaturdayDecorator()
-                    )
+                    calendarView.addDecorators(TodayDecorator(), SundayDecorator(), SaturdayDecorator())
                 }
 
-                // 새로 선택된 날짜로 데코레이터 추가
                 selectedDate = date
                 calendarView.addDecorator(SelectedDayDecorator(date))
-                calendarView.invalidateDecorators() // 데코레이터 새로 고침
+                calendarView.invalidateDecorators()
             }
         }
 
@@ -76,32 +83,34 @@ class ChallengeMyExercisePageActivity : AppCompatActivity() {
 
         toggleCalendarView.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                // 주간 보기
                 calendarView.state().edit()
                     .setCalendarDisplayMode(CalendarMode.WEEKS)
                     .commit()
             } else {
-                // 월간 보기
                 calendarView.state().edit()
                     .setCalendarDisplayMode(CalendarMode.MONTHS)
                     .commit()
             }
-            calendarView.invalidateDecorators() // 데코레이터 새로 고침
+            calendarView.invalidateDecorators()
         }
     }
 
     private fun showChallengeBottomSheetDialog() {
-        val bottomSheetFragment = ChallengeBottomSheetDialogFragment()
-        bottomSheetFragment.show(supportFragmentManager, bottomSheetFragment.tag)
+        challengeId?.let {
+            val bottomSheetFragment = ChallengeBottomSheetDialogFragment.new(it.toString())
+            bottomSheetFragment.show(supportFragmentManager, bottomSheetFragment.tag)
+        } ?: run {
+            Toast.makeText(this, "챌린지 ID가 없습니다.", Toast.LENGTH_SHORT).show()
+        }
     }
+
 
     private fun goPre() {
         finish()
     }
 
     private inner class SelectedDayDecorator(private val selectedDate: CalendarDay) : DayViewDecorator {
-        private val drawable =
-            ContextCompat.getDrawable(this@ChallengeMyExercisePageActivity, R.drawable.transparent_calendar_element) // 여기에 원하는 drawable을 설정
+        private val drawable = ContextCompat.getDrawable(this@ChallengeMyExercisePageActivity, R.drawable.transparent_calendar_element)
 
         override fun shouldDecorate(day: CalendarDay): Boolean {
             return day == selectedDate
@@ -112,10 +121,9 @@ class ChallengeMyExercisePageActivity : AppCompatActivity() {
             drawable?.let { view.setBackgroundDrawable(it) }
         }
     }
-    // 데코레이터 클래스들 그대로 사용
+
     private inner class TodayDecorator : DayViewDecorator {
-        private val drawable =
-            ContextCompat.getDrawable(this@ChallengeMyExercisePageActivity, R.drawable.calendar_circle_white)
+        private val drawable = ContextCompat.getDrawable(this@ChallengeMyExercisePageActivity, R.drawable.calendar_circle_white)
 
         override fun shouldDecorate(day: CalendarDay): Boolean {
             return day == CalendarDay.today()
@@ -150,5 +158,9 @@ class ChallengeMyExercisePageActivity : AppCompatActivity() {
         override fun decorate(view: DayViewFacade) {
             view.addSpan(ForegroundColorSpan(Color.BLUE))
         }
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }

@@ -27,7 +27,7 @@
 
             <!-- Close Button -->
             <TextView
-                android:id="@+id/mode_select_close_btn"
+                android:id="@+id/close_btn"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="right"

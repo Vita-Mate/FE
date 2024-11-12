@@ -1,5 +1,8 @@
 package com.my.vitamateapp.registerPage
 
+import com.my.vitamateapp.HomeActivity
+
+
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
@@ -13,7 +16,7 @@ import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.my.vitamateapp.Api.RetrofitInstance
 import com.my.vitamateapp.Api.SignInApi
-import com.my.vitamateapp.HomeActivity
+
 import com.my.vitamateapp.R
 import com.my.vitamateapp.databinding.ActivityMainBinding
 import retrofit2.Call

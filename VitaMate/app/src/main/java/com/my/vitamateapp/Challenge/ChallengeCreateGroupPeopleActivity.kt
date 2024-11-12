@@ -1,5 +1,6 @@
 package com.my.vitamateapp.Challenge
 
+
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.my.vitamateapp.Api.CreateChallengeApi
 import com.my.vitamateapp.Api.RetrofitInstance
+import com.my.vitamateapp.HomeActivity
 import com.my.vitamateapp.R
 import com.my.vitamateapp.databinding.ActivityChallegneCreateGroupPeopleBinding
 import com.my.vitamateapp.registerPage.MainActivity
@@ -69,6 +71,7 @@ class ChallengeCreateGroupPeopleActivity : AppCompatActivity() {
     }
 
     private fun saveDataToDatabase() {
+
         val maxParticipants = binding.maxChallGroupPeople.text.toString().toIntOrNull()
         val minParticipants = binding.minChallGroupPeople.text.toString().toIntOrNull()
 
@@ -139,7 +142,18 @@ class ChallengeCreateGroupPeopleActivity : AppCompatActivity() {
                 if (response.isSuccessful && response.body()?.isSuccess == false) {
                     Log.d("Response Code", "Response code: ${response.code()}")
                     Log.d("Response Body", "Response body: ${response.body()?.toString()}")
-                    val intent = Intent(this@ChallengeCreateGroupPeopleActivity, MainActivity::class.java).apply {
+
+                    // 응답에서 challengeId를 받아옴
+                    val challengeId = response.body()?.result?.challengeId // result 객체를 통해 challengeId에 접근
+
+                    // challengeId가 null이 아니면 SharedPreferences에 저장
+                    if (challengeId != null) {
+                        saveChallengeIdToPreferences(challengeId)
+                    }else {
+                        showToast("챌린지 ID를 받아올 수 없습니다.")
+                    }
+
+                    val intent = Intent(this@ChallengeCreateGroupPeopleActivity, HomeActivity::class.java).apply {
                         putExtra("message", "챌린지가 등록되었습니다.")
                         }
                     startActivity(intent)
@@ -151,6 +165,16 @@ class ChallengeCreateGroupPeopleActivity : AppCompatActivity() {
                     Log.d("Response Body", "Response body: ${response.body()?.toString()}")
 
                 }
+
+                // 성공적으로 챌린지가 생성된 경우 참여 상태 저장
+                saveChallengeParticipation(this@ChallengeCreateGroupPeopleActivity, category, true)
+
+            }
+
+            // challengeId를 SharedPreferences에 저장하는 함수
+            private fun saveChallengeIdToPreferences(challengeId: Long) {
+                val sharedPref = getSharedPreferences("ChallengePreferences", Context.MODE_PRIVATE)
+                sharedPref.edit().putLong("challengeId", challengeId).apply()
             }
 
             override fun onFailure(call: Call<CreateChallengeResponse>, t: Throwable) {
@@ -158,6 +182,16 @@ class ChallengeCreateGroupPeopleActivity : AppCompatActivity() {
             }
         })
     }
+
+
+
+    private fun saveChallengeParticipation(context: Context, category: String, isParticipating: Boolean) {
+        val sharedPref = context.getSharedPreferences("ChallengePreferences", Context.MODE_PRIVATE)
+        val challengeId = sharedPref.getLong("challengeId", -1L)  // 저장된 challengeId를 가져옴, 없으면 -1L 반환
+        Log.d("HomeActivity", "저장된 challengeId: $challengeId")  // 로그로 값 확인
+        sharedPref.edit().putBoolean("isParticipatingIn${category}", isParticipating).apply()
+    }
+
 
 
     private fun getAccessToken(context: Context): String? {

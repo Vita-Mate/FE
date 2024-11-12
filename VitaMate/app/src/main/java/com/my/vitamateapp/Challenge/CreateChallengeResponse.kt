@@ -8,7 +8,7 @@ data class CreateChallengeResponse(
     val success : Boolean
 )
 data class Result (
-    val challengeId : Int,
+    val challengeId : Long?,
     val title : String,
     val status : Status,
     val createdAt : String

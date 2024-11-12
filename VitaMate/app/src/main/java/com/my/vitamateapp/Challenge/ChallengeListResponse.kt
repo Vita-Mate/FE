@@ -21,6 +21,8 @@ data class ChallengeList (
 
 data class  Challenge (
     val title : String,
+    val startDate : String,
+    val endDate : String,
     val maxParticipants : Int,
     val currentParticipants : Int,
     val weeklyFrequency : Int,

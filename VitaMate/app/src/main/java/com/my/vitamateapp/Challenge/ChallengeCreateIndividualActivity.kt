@@ -1,5 +1,6 @@
 package com.my.vitamateapp.Challenge
 
+
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.my.vitamateapp.HomeActivity
+
 import com.my.vitamateapp.R
 import com.my.vitamateapp.databinding.ActivityChallengeCreateIndividualBinding
 

@@ -1,19 +1,47 @@
 package com.my.vitamateapp.Challenge
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.my.vitamateapp.Api.AddExerciseRecordApi
+import com.my.vitamateapp.Api.RetrofitInstance
 import com.my.vitamateapp.R
 import com.my.vitamateapp.databinding.FragmentChallengeBottomSheetDialogBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class ChallengeBottomSheetDialogFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentChallengeBottomSheetDialogBinding? = null
     private val binding get() = _binding!!
+
+    // Retrofit 인터페이스 선언
+    private val apiService: AddExerciseRecordApi by lazy {
+        RetrofitInstance.getInstance().create(AddExerciseRecordApi::class.java)
+    }
+
+    // Challenge ID를 전달받을 인스턴스 메서드
+    companion object {
+        private const val ARG_CHALLENGE_ID = "challenge_id"
+
+        fun new(challengeId: String): ChallengeBottomSheetDialogFragment {
+            val fragment = ChallengeBottomSheetDialogFragment()
+            val args = Bundle().apply {
+                putString(ARG_CHALLENGE_ID, challengeId)
+            }
+            fragment.arguments = args
+            return fragment
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,13 +53,19 @@ class ChallengeBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val challengeId = arguments?.getString(ARG_CHALLENGE_ID) ?: run {
+            Log.e("TAG", "Challenge ID가 없습니다.")
+            showToast("챌린지 정보가 없습니다.")
+            dismiss()
+            return
+        }
 
         binding.userImageView.setOnClickListener {
-            goSelectImage() // 눌렀을때 ChallengeImageViewFragment로 가게 하기
+            goSelectImage()
         }
-        // 버튼 클릭 리스너 설정
+
         binding.enrollExerciseSaveButton.setOnClickListener {
-            saveInformation() // ChallengeBottomSheetDialog2Fragment로 이동
+            saveInformation(challengeId)
         }
 
         setupButtonListeners()
@@ -45,29 +79,17 @@ class ChallengeBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
         val alertDialog = dialogBuilder.create()
 
-        // Set up button actions
         val buttonCamera = dialogView.findViewById<ImageButton>(R.id.buttonCamera)
-        val buttonGallery = dialogView.findViewById<ImageButton>(R.id.buttonGallery)
-
         buttonCamera.setOnClickListener {
-            // Handle camera button click
-            alertDialog.dismiss()
-        }
-
-        buttonGallery.setOnClickListener {
-            // Handle gallery button click
+            // 카메라 버튼 클릭 시 카메라 호출 로직 추가 예정
             alertDialog.dismiss()
         }
 
         alertDialog.show()
     }
 
-    // ChallengeBottomSheetDialog2Fragment로 데이터를 전달하는 함수
-    private fun saveInformation() {
-        // 운동 이름
+    private fun saveInformation(challengeId: String) {
         val exerciseName = binding.exerciseName.text.toString()
-
-        // 운동 강도 선택
         val exerciseIntensity = when {
             binding.exerciseVeryEasy.isSelected -> "매우 가벼움"
             binding.exerciseEasy.isSelected -> "가벼움"
@@ -76,32 +98,38 @@ class ChallengeBottomSheetDialogFragment : BottomSheetDialogFragment() {
             binding.exerciseVeryStrong.isSelected -> "매우 힘듦"
             else -> "미정"
         }
-
-        // 운동 시간
         val exerciseTime = binding.exerciseTime.text.toString()
-
-        // 메모 (선택적)
         val memo = binding.recordExerciseMemo.text.toString()
 
-        // 데이터를 번들에 저장
-        val bundle = Bundle().apply {
-            putString("exerciseName", exerciseName)
-            putString("exerciseIntensity", exerciseIntensity)
-            putString("exerciseTime", exerciseTime)
-            putString("memo", memo)
+        val accessToken = getAccessToken(requireContext()) ?: run {
+            Log.w("TAG", "Access Token이 null입니다.")
+            showToast("로그인 후 다시 시도하세요.")
+            return
         }
 
-        // ChallengeBottomSheetDialog2Fragment로 데이터 전달
-        val fragment = ChallengeBottomSheetDialog2Fragment().apply {
-            arguments = bundle
-        }
+        // Challenge ID와 Access Token 확인 로그 추가
+        Log.d("TAG", "Challenge ID: $challengeId")
+        Log.d("TAG", "Access Token: $accessToken")
 
-        // 두 번째 BottomSheetDialogFragment 띄우기
-        fragment.show(parentFragmentManager, fragment.tag)
+        apiService.addExerciseRecord(challengeId, accessToken).enqueue(object : Callback<AddExerciseRecordResponse> {
+            override fun onResponse(
+                call: Call<AddExerciseRecordResponse>,
+                response: Response<AddExerciseRecordResponse>
+            ) {
+                if (response.isSuccessful && response.body()?.isSuccess == true) {
+                    showToast("운동 기록이 저장되었습니다.")
+                } else {
+                    val errorMessage = response.errorBody()?.string() ?: "알 수 없는 오류"
+                    showToast("저장 실패: $errorMessage")
+                }
+            }
+
+            override fun onFailure(call: Call<AddExerciseRecordResponse>, t: Throwable) {
+                showToast("네트워크 오류: ${t.message}")
+            }
+        })
     }
 
-
-    // Initialize button click listeners
     private fun setupButtonListeners() {
         binding.exerciseVeryEasy.setOnClickListener { selectIntensityButton(binding.exerciseVeryEasy) }
         binding.exerciseEasy.setOnClickListener { selectIntensityButton(binding.exerciseEasy) }
@@ -110,9 +138,7 @@ class ChallengeBottomSheetDialogFragment : BottomSheetDialogFragment() {
         binding.exerciseVeryStrong.setOnClickListener { selectIntensityButton(binding.exerciseVeryStrong) }
     }
 
-    // Handle button selection and update UI
     private fun selectIntensityButton(selectedButton: View) {
-        // Deselect all buttons
         listOf(
             binding.exerciseVeryEasy,
             binding.exerciseEasy,
@@ -121,14 +147,21 @@ class ChallengeBottomSheetDialogFragment : BottomSheetDialogFragment() {
             binding.exerciseVeryStrong
         ).forEach {
             it.isSelected = it == selectedButton
-            // Optionally update button background color or drawable here
             it.setBackgroundResource(if (it.isSelected) R.drawable.button_selected_background else R.drawable.button_default_background)
         }
     }
 
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun getAccessToken(context: Context): String? {
+        val sharedPref = context.getSharedPreferences("saved_user_info", Context.MODE_PRIVATE)
+        return sharedPref.getString("accessToken", null)
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 }
