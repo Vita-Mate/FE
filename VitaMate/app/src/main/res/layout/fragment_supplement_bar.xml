@@ -11,7 +11,7 @@
   <LinearLayout
     android:id="@+id/supplement_bar_fragment"
     android:layout_width="353dp"
-    android:layout_height="300dp"
+    android:layout_height="wrap_content"
     android:layout_margin="30dp"
     android:background="@drawable/home_border"
     android:elevation="12dp"
@@ -30,9 +30,16 @@
     <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/supplement_bar_rv"
       android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:layout_margin="10dp"/>
+      android:layout_height="wrap_content"
+      android:layout_margin="10dp"
+      android:layout_marginBottom="10dp"/>
 
+    <!-- 위/아래 버튼 -->
+    <ImageView
+      android:id="@+id/extended_bar"
+      android:layout_width="20dp"
+      android:layout_height="20dp"
+      android:layout_gravity="center"
+      android:src="@drawable/arrow_down" />
   </LinearLayout>
-
 </FrameLayout>

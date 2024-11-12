@@ -12,17 +12,4 @@
     android:textSize="16sp"
     android:textStyle="bold"
     android:text="Supplement Name" />
-
-  <TextView
-    android:id="@+id/intake_duration"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginEnd="2dp"
-    android:textSize="12sp"
-    android:text="intake_duration" />
-  <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:textSize="12sp"
-    android:text="일째 복용중" />
 </LinearLayout>

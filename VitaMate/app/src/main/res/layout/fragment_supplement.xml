@@ -82,24 +82,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="My 영양제"
-        android:textSize="28dp"
+        android:textSize="26dp"
         android:textStyle="bold"
-        android:layout_marginEnd="10dp"/>
+        android:layout_marginEnd="12dp"/>
 
       <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="28dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="5dp"
+        android:id="@+id/scrap_supplements"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_gravity="center"
+        android:layout_marginEnd="12dp"
         android:src="@drawable/bookmark_white"
         />
 
-      <TextView
+      <ImageView
         android:id="@+id/add_supplement"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="+"
-        android:textSize="30dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_gravity="center"
+        android:src="@drawable/add_supplement_button"
         android:textStyle="bold"
         android:gravity="center"/>
     </LinearLayout>

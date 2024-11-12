@@ -12,7 +12,7 @@ import com.my.vitamateapp.R
 class SearchedSupplementsAdapter(private val items: MutableList<SearchedSupplementModel>, private val context: Context, private val saveSupplementId: (Int) -> Unit) : RecyclerView.Adapter<SearchedSupplementsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.searched_supplements_items, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.supplement_searched_items, parent, false)
         return ViewHolder(view)
     }
 

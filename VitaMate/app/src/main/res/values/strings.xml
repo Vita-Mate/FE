@@ -53,4 +53,7 @@
         <item>토</item>
         <item>일</item>
     </string-array>
+
+    <!-- 영양제 섭취량과 목표량을 출력할 때 사용할 텍스트 포맷 -->
+    <string name="nutrient_amount_format">%1$d / %2$d %3$s</string>
 </resources>

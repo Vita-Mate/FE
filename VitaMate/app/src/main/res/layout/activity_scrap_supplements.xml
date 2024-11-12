@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto">
+  <LinearLayout
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".intakeFragment.ScrapSupplementsActivity">
+
+    <!-- 툴바: 상단에 고정 -->
+    <androidx.appcompat.widget.Toolbar
+      android:id="@+id/toolbar"
+      android:layout_width="match_parent"
+      android:layout_height="?attr/actionBarSize"
+      android:background="@color/gray">
+
+      <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- 왼쪽의 이전 페이지 버튼 -->
+        <ImageButton
+          android:id="@+id/pre_button"
+          android:layout_width="33dp"
+          android:layout_height="33dp"
+          android:background="@android:color/transparent"
+          android:contentDescription="이전 페이지 버튼"
+          android:clickable="true"
+          android:focusable="true"
+          android:scaleType="centerCrop"
+          android:src="@drawable/pre_btn"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintBottom_toBottomOf="parent"
+          android:layout_marginStart="8dp" />
+
+        <!-- 중앙의 텍스트뷰 -->
+        <TextView
+          android:id="@+id/supplement_name_detail"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:gravity="center"
+          android:text="스크랩"
+          android:textAlignment="center"
+          android:textColor="@color/black"
+          android:textSize="24sp"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+      </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <!-- 스크롤 가능 영역 -->
+    <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!--총섭취영양제-->
+        <LinearLayout
+          android:id="@+id/supplement_bar_fragment"
+          android:layout_width="353dp"
+          android:layout_height="wrap_content"
+          android:layout_margin="15dp"
+          android:background="@drawable/home_border"
+          android:layout_gravity="center"
+          android:elevation="12dp"
+          android:padding="10dp"
+          android:orientation="vertical">
+
+          <TextView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:gravity="center"
+            android:text="총 섭취 영양소"
+            android:textColor="@color/black"
+            android:textSize="24dp"
+            android:textStyle="bold"/>
+
+          <!-- 위/아래 버튼 -->
+          <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/supplement_bar_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:layout_marginBottom="10dp" />
+
+          <ImageView
+            android:id="@+id/extended_bar"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:src="@drawable/arrow_down" />
+
+        </LinearLayout>
+
+        <!--복용중인 영양제-->
+        <LinearLayout
+          android:layout_width="353dp"
+          android:layout_height="240dp"
+          android:layout_margin="15dp"
+          android:background="@drawable/home_border"
+          android:layout_gravity="center"
+          android:elevation="15dp"
+          android:orientation="vertical">
+
+          <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="30dp"
+            android:text="복용중인 영양제"
+            android:textSize="22dp"
+            android:textStyle="bold"/>
+
+          <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/taking_supplement_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="15dp"/>
+        </LinearLayout>
+
+        <!-- 스크랩한 영양제 -->
+        <LinearLayout
+          android:layout_width="353dp"
+          android:layout_height="240dp"
+          android:layout_margin="15dp"
+          android:background="@drawable/home_border"
+          android:layout_gravity="center"
+          android:elevation="15dp"
+          android:orientation="vertical">
+
+          <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
+
+          <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:text="스크랩"
+            android:textSize="22dp"
+            android:textStyle="bold"/>
+
+            <ImageView
+              android:id="@+id/add_supplement"
+              android:layout_width="33dp"
+              android:layout_height="33dp"
+              android:src="@drawable/add_supplement_button"
+              android:layout_marginLeft="190dp"
+              android:textStyle="bold" />
+          </LinearLayout>
+
+          <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/scrap_supplement_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="15dp"/>
+        </LinearLayout>
+
+      </LinearLayout>
+    </ScrollView>
+  </LinearLayout>
+</layout>

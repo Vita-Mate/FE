@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.my.vitamateapp.R
 import com.my.vitamateapp.databinding.ActivitySupplementDetailBinding
 import com.my.vitamateapp.repository.SupplementsRepository
 import kotlinx.coroutines.launch
@@ -17,6 +18,7 @@ class SupplementDetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySupplementDetailBinding
     private lateinit var supplementsRepository: SupplementsRepository
+    private var isScraped = false  // 스크랩 상태를 추적
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,8 +34,94 @@ class SupplementDetailActivity : AppCompatActivity() {
             val intent = Intent(this, SupplementStartActivity::class.java)
             startActivity(intent)
         }
+
+        // 연관상품 이미지 추가
+        val imageResources = listOf(
+            R.drawable.supplement1,
+            R.drawable.supplement2,
+            R.drawable.supplement3,
+            R.drawable.supplement4,
+            R.drawable.supplement5
+        )
+
+        // RecyclerView에 어댑터 연결
+        val adapter = RelatedProductAdapter(imageResources)
+        binding.relatedProductsRv.adapter = adapter
+        binding.relatedProductsRv.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+
+        // < 버튼 클릭시 이전 페이지로 이동
+        binding.preButton.setOnClickListener {
+            goPre()
+        }
+
+        // 스크랩 버튼 클릭 리스너
+        binding.scrapButton.setOnClickListener {
+            if (isScraped) {
+                // 스크랩 삭제
+                removeSupplementFromScrap(supplementId)
+            } else {
+                // 스크랩 추가
+                addSupplementToScrap(supplementId)
+            }
+        }
     }
 
+    // 영양제 스크랩 추가 API 호출
+    private fun addSupplementToScrap(supplementId: Int) {
+        val sharedPreferences = getSharedPreferences("saved_user_info", Context.MODE_PRIVATE)
+        val accessToken = sharedPreferences.getString("accessToken", null)
+
+        if (accessToken.isNullOrEmpty()) {
+            Log.e("SupplementDetailActivity", "액세스 토큰이 유효하지 않습니다.")
+            return
+        }
+
+        lifecycleScope.launch {
+            Log.d("SupplementDetailActivity", "영양제 스크랩 추가 요청: supplementId = $supplementId")
+
+            // 스크랩 추가 API 호출
+            val success = supplementsRepository.addSupplementScrap(accessToken, supplementId)
+
+            if (success) {  // 반환된 Boolean 값이 true일 경우
+                isScraped = true
+                binding.scrapButton.setImageResource(R.drawable.bookmark_color) // 스크랩 버튼 이미지 변경
+                Toast.makeText(this@SupplementDetailActivity, "스크랩이 추가되었습니다.", Toast.LENGTH_SHORT).show()
+                Log.d("SupplementDetailActivity", "스크랩 추가 성공")
+            } else {
+                Log.e("SupplementDetailActivity", "스크랩 추가 실패")
+                Toast.makeText(this@SupplementDetailActivity, "스크랩 추가 실패", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    // 영양제 스크랩 삭제 API 호출
+    private fun removeSupplementFromScrap(supplementId: Int) {
+        val sharedPreferences = getSharedPreferences("saved_user_info", Context.MODE_PRIVATE)
+        val accessToken = sharedPreferences.getString("accessToken", null)
+
+        if (accessToken.isNullOrEmpty()) {
+            Log.e("SupplementDetailActivity", "액세스 토큰이 유효하지 않습니다.")
+            return
+        }
+
+        lifecycleScope.launch {
+            Log.d("SupplementDetailActivity", "영양제 스크랩 삭제 요청: supplementId = $supplementId")
+
+            // 스크랩 삭제 API 호출
+            val success = supplementsRepository.deleteSupplementScrap(accessToken, supplementId)
+
+            if (success) {
+                isScraped = false
+                binding.scrapButton.setImageResource(R.drawable.bookmark_white)  // 스크랩 버튼 이미지 변경
+                Toast.makeText(this@SupplementDetailActivity, "스크랩이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
+            } else {
+                Log.e("SupplementDetailActivity", "스크랩 삭제 실패")
+                Toast.makeText(this@SupplementDetailActivity, "스크랩 삭제 실패", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    // 영양제 상세정보 조회 API
     private fun getSupplementDetail(supplementId: Int) {
         val sharedPreferences = getSharedPreferences("saved_user_info", Context.MODE_PRIVATE)
         val accessToken = sharedPreferences.getString("accessToken", null)
@@ -52,16 +140,14 @@ class SupplementDetailActivity : AppCompatActivity() {
                 val result = detail.result
                 binding.supplementNameDetail.text = result.name
 
+                // 영양제 이름을 SharedPreferences에 바로 저장
+                getSharedPreferences("saved_supplement_info", Context.MODE_PRIVATE).edit()
+                    .putString("supplementName", result.name)
+                    .apply()
+
                 Glide.with(this@SupplementDetailActivity)
                     .load(result.nutrientInfoImageUrl)
                     .into(binding.supplementDetail)
-
-                // recommendList가 null이 아닐 때만 take()를 호출
-                val relatedProducts = detail.result.recommendList?.take(5) ?: emptyList()
-                val adapter = RelatedProductAdapter(relatedProducts)
-                binding.relatedProductsRv.adapter = adapter
-                binding.relatedProductsRv.layoutManager = LinearLayoutManager(this@SupplementDetailActivity)
-
                 Log.d("SupplementDetailActivity", "영양제 상세 정보 조회 성공: $detail")
             } ?: run {
                 Log.e("SupplementDetailActivity", "영양제 상세 정보 조회 실패: null 반환")
@@ -82,7 +168,13 @@ class SupplementDetailActivity : AppCompatActivity() {
 
         return supplementId
     }
+
+    // 이전 페이지로 이동 함수 비타
+    private fun goPre() {
+        finish()
+    }
 }
+
 
 
 

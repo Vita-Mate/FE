@@ -8,9 +8,13 @@ import com.my.vitamateapp.Api.GetTakingSupplementsApi
 import com.my.vitamateapp.Api.RetrofitInstance
 import com.my.vitamateapp.Api.SupplementsTakingApi
 import com.my.vitamateapp.Api.SupplementReviewApi
+import com.my.vitamateapp.Api.SupplementsScrapApi
+import com.my.vitamateapp.Api.SupplementsSimulationApi
 import com.my.vitamateapp.mySupplement.AddedSupplementModel
 import com.my.vitamateapp.mySupplement.GetDetailResponse
+import com.my.vitamateapp.mySupplement.NutrientInfo
 import com.my.vitamateapp.mySupplement.ReviewItem
+import com.my.vitamateapp.mySupplement.ScrapResult
 import com.my.vitamateapp.mySupplement.WriteReviewRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -127,7 +131,6 @@ class SupplementsRepository(private val context: Context) {
     }
 
     // 영양제 상세 정보 조회API
-// 영양제 상세 정보 조회API
     suspend fun getSupplementsDetail(accessToken: String, supplementId: Int): GetDetailResponse? {
         val apiService = RetrofitInstance.getInstance().create(GetSupplementsDetailApi::class.java)
 
@@ -148,5 +151,132 @@ class SupplementsRepository(private val context: Context) {
         }
     }
 
+    // 스크랩 추가 API
+    suspend fun addSupplementScrap(accessToken: String, supplementId: Int): Boolean {
+        val apiService = RetrofitInstance.getInstance().create(SupplementsScrapApi::class.java)
 
+        return try {
+            val response = apiService.scrapSupplements("Bearer $accessToken", supplementId)
+
+            // 응답 상태 코드 및 본문 확인
+            if (response.isSuccessful) {
+                val body = response.body()
+                Log.d("SupplementScrap", "응답 본문: $body")
+                if (body?.isSuccss == true) {
+                    Log.d("SupplementScrap", "스크랩 추가 성공: ${body.result}")
+                    true
+                } else {
+                    Log.e("SupplementScrap", "스크랩 추가 실패: ${body?.message}")
+                    false
+                }
+            } else {
+                Log.e("SupplementScrap", "응답 실패: ${response.errorBody()?.string()}")
+                false
+            }
+        } catch (e: Exception) {
+            Log.e("SupplementScrap", "스크랩 추가 네트워크 오류: ${e.message}")
+            false
+        }
+    }
+
+    // 스크랩삭제 API
+    suspend fun deleteSupplementScrap(accessToken: String, supplementId: Int): Boolean {
+        val apiService = RetrofitInstance.getInstance().create(SupplementsScrapApi::class.java)
+
+        return try {
+            val response = apiService.deleteScrapSupplements("Bearer $accessToken", supplementId)
+
+            // 응답 상태 코드 및 본문 확인
+            if (response.isSuccessful) {
+                val body = response.body()
+                Log.d("SupplementScrap", "응답 본문: $body")
+                if (body?.isSuccss == true) {
+                    Log.d("SupplementScrap", "스크랩 삭제 성공: ${body.result}")
+                    true
+                } else {
+                    Log.e("SupplementScrap", "스크랩 삭제 실패: ${body?.message}")
+                    false
+                }
+            } else {
+                Log.e("SupplementScrap", "응답 실패: ${response.errorBody()?.string()}")
+                false
+            }
+        } catch (e: Exception) {
+            Log.e("SupplementScrap", "스크랩 삭제 네트워크 오류: ${e.message}")
+            false
+        }
+    }
+
+    // 스크랩목록 조회 API
+    suspend fun getScrapSupplements(accessToken: String): List<ScrapResult> {
+        val apiService = RetrofitInstance.getInstance().create(SupplementsScrapApi::class.java)
+
+        return try {
+            val response = apiService.getScrapSupplements("Bearer $accessToken")
+            if (response.isSuccss) {
+                response.result
+            } else {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, response.message, Toast.LENGTH_SHORT).show()
+                }
+                emptyList()
+            }
+        } catch (e: Exception) {
+            withContext(Dispatchers.Main) {
+                Toast.makeText(context, "네트워크 오류: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+            Log.e("SupplementScrap", "스크랩 목록 조회 네트워크 오류: ${e.message}")
+            emptyList()
+        }
+    }
+
+
+    // 영양소 조회 API
+    suspend fun getTakingNutrients(accessToken: String, page: Int = 0, pageSize: Int = 10): List<NutrientInfo> {
+        val apiService = RetrofitInstance.getInstance().create(SupplementsTakingApi::class.java)
+
+        return try {
+            val response = apiService.getSupplementNutrients("Bearer $accessToken", page, pageSize)
+            if (response.isSuccss) {
+                response.result.intakeNutrientList
+            } else {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, response.message, Toast.LENGTH_SHORT).show()
+                }
+                emptyList()
+            }
+        } catch (e: Exception) {
+            withContext(Dispatchers.Main) {
+                Toast.makeText(context, "네트워크 오류: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+            Log.e("SupplementsRepository", "영양소 조회 네트워크 오류: ${e.message}")
+            emptyList()
+        }
+    }
+
+    // 섭취중인 영양제 + 스크랩한 영양제 영양소 합산 API 호출 함수
+    suspend fun getSimulatedSupplementsNutrients(accessToken: String): List<NutrientInfo>? {
+        val apiService = RetrofitInstance.getInstance().create(SupplementsSimulationApi::class.java)
+
+        return try {
+            val response = apiService.simulatioSupplements("Bearer $accessToken")
+
+            // 응답 처리: 성공 시 영양소 리스트 반환
+            if (response.isSuccss) {
+                response.result // NutrientInfo 리스트 반환
+            } else {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, "오류: ${response.message}", Toast.LENGTH_SHORT).show()
+                }
+                Log.e("SupplementsRepository", "API 호출 실패: ${response.message}")
+                null
+            }
+        } catch (e: Exception) {
+            withContext(Dispatchers.Main) {
+                Toast.makeText(context, "네트워크 오류: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+            Log.e("SupplementsRepository", "영양소 합산 네트워크 오류: ${e.message}")
+            null // 예외 발생 시 null 반환
+        }
+    }
 }

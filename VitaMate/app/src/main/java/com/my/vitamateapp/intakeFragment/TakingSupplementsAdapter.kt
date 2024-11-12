@@ -22,10 +22,6 @@ class TakingSupplementsAdapter(
         val item = items[position]
         holder.bindItems(item)
 
-        //체크박스 클릭 시 특정 영양제 복용 확인
-        holder.checkButton.setOnClickListener{
-            //영양제 합산조회 api연결 예정
-        }
     }
 
     override fun getItemCount(): Int {
@@ -36,7 +32,6 @@ class TakingSupplementsAdapter(
         private val nameTextView: TextView = itemView.findViewById(R.id.supplement_name)
         private val durationTextView: TextView = itemView.findViewById(R.id.intake_duration)
 
-        val checkButton : ImageView = itemView.findViewById(R.id.unchecked_button)
 
         fun bindItems(item: AddedSupplementModel) {
             nameTextView.text = item.name

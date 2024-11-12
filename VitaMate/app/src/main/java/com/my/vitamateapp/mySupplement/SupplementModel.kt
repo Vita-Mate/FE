@@ -2,7 +2,6 @@ package com.my.vitamateapp.mySupplement
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
-import java.time.LocalDateTime
 
 //SupplementsSearchApi
 // 요청을 위한 모델
@@ -153,3 +152,64 @@ data class RecommendedSupplement(
     val imageURL: String?,
     val isScrapped: Boolean
 ) : Parcelable
+
+// 영양제 스크랩 추가 & 삭제 API 모델
+data class SupplementsScrapResponse(
+    val isSuccss: Boolean,
+    val code: String,
+    val message: String,
+    val result: ScrapResult,
+    val success: Boolean
+)
+
+// 스크랩된 영양제 항목 데이터 클래스
+data class ScrapResult(
+    val supplementId: Int,
+    val supplementBrand: String,
+    val supplementName: String,
+    val scrappedDate: String?
+)
+
+// 스크랩 목록 조회 응답 데이터 클래스
+data class ScrapResponse(
+    val isSuccss: Boolean,
+    val code: String,
+    val message: String,
+    val result: List<ScrapResult>,
+    val success: Boolean
+)
+
+// 영양소 정보 데이터 클래스
+data class NutrientInfo(
+    val nutrientName: String,
+    val recommendedAmount: Double,
+    val nutrientAmount: Double,
+    val unit: String
+)
+
+// 영양소 조회 응답 데이터 클래스
+data class NutrientResponse(
+    val isSuccss: Boolean,
+    val code: String,
+    val message: String,
+    val result: NutrientResult,
+    val success: Boolean
+)
+
+// 영양소 결과 데이터 클래스
+data class NutrientResult(
+    val intakeNutrientList: List<NutrientInfo>,
+    val listSize: Int,
+    val totalPage: Int,
+    val totalElements: Int,
+    val isFirst: Boolean,
+    val isLast: Boolean
+)
+
+data class SimulationResponse(
+    val isSuccss: Boolean,
+    val code: String,
+    val message: String,
+    val result: List<NutrientInfo>?,
+    val success: Boolean
+)

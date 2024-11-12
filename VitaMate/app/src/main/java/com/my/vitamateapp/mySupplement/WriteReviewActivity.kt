@@ -10,6 +10,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.my.vitamateapp.R
+import com.my.vitamateapp.databinding.ActivitySupplementDetailBinding
+import com.my.vitamateapp.databinding.ActivityWriteReviewBinding
 import com.my.vitamateapp.repository.SupplementsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,10 +24,25 @@ class WriteReviewActivity : AppCompatActivity() {
     private lateinit var submitButton: Button
     private lateinit var starViews: List<TextView>
     private lateinit var supplementsRepository: SupplementsRepository
+    private lateinit var binding: ActivityWriteReviewBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_write_review)
+
+        // binding 초기화 및 레이아웃 설정
+        binding = ActivityWriteReviewBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        // SharedPreferences에서 저장된 영양제 이름 가져오기
+        val sharedPref = getSharedPreferences("saved_supplement_info", Context.MODE_PRIVATE)
+        val supplementName = sharedPref.getString("supplementName", "영양제 이름") // 기본값은 "영양제 이름"
+
+        // 로그 추가하여 값 확인
+        Log.d("WriteReviewActivity", "불러온 영양제 이름: $supplementName")
+
+        // 가져온 영양제 이름을 TextView에 설정 비타
+        binding.supplementNameDetail.text = supplementName
+
 
         reviewInput = findViewById(R.id.review_input)
         submitButton = findViewById(R.id.submit_button)
@@ -52,11 +69,16 @@ class WriteReviewActivity : AppCompatActivity() {
 
         // 작성완료 버튼 클릭
         submitButton.setOnClickListener {
-            writeSupplementsReview() // 리뷰 제출 함수 호출
+            writeSupplementsReview() // 리뷰 제출 함수 호출 비타
 
             //영양제 상세정보 페이지로 다시 이동
             val intent = Intent(this, SupplementDetailActivity::class.java)
             startActivity(intent)
+        }
+
+        // < 버튼 클릭시 이전 페이지로 이동
+        binding.preButton.setOnClickListener {
+            goPre()
         }
     }
 
@@ -141,5 +163,10 @@ class WriteReviewActivity : AppCompatActivity() {
         }
 
         return supplementId
+    }
+
+    //이전 페이지로 이동 함수
+    private fun goPre() {
+        finish()
     }
 }

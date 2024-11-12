@@ -11,8 +11,63 @@
       android:id="@+id/toolbar"
       android:layout_width="match_parent"
       android:layout_height="?attr/actionBarSize"
-      android:background="@color/black"
-      android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+      android:background="@color/gray">
+
+      <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- 왼쪽의 이전 페이지 버튼 -->
+        <ImageButton
+          android:id="@+id/pre_button"
+          android:layout_width="33dp"
+          android:layout_height="33dp"
+          android:background="@android:color/transparent"
+          android:contentDescription="이전 페이지 버튼"
+          android:clickable="true"
+          android:focusable="true"
+          android:scaleType="centerCrop"
+          android:src="@drawable/pre_btn"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintBottom_toBottomOf="parent"
+          android:layout_marginStart="8dp" />
+
+        <!-- 중앙의 텍스트뷰 -->
+        <TextView
+          android:id="@+id/supplement_name_detail"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:gravity="center"
+          android:text="영양제 이름"
+          android:textAlignment="center"
+          android:textColor="@color/black"
+          android:textSize="24sp"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- 왼쪽의 이전 페이지 버튼 -->
+        <ImageView
+          android:id="@+id/scrap_button"
+          android:layout_width="26dp"
+          android:layout_height="30dp"
+          android:background="@android:color/transparent"
+          android:clickable="true"
+          android:contentDescription="스크랩"
+          android:focusable="true"
+          android:scaleType="centerCrop"
+          android:src="@drawable/bookmark_white"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintHorizontal_bias="0.909"
+          app:layout_constraintStart_toStartOf="@+id/pre_button"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintVertical_bias="0.516" />
+
+      </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.appcompat.widget.Toolbar>
 
     <!-- 스크롤 가능 영역 -->
     <ScrollView
@@ -34,23 +89,22 @@
 
           <!-- 영양제 이름을 표시하는 TextView -->
           <TextView
-            android:id="@+id/supplement_name_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:text="영양제 이름" />
+            android:text="영양성분표" />
 
           <!-- 영양제 정보를 표시하는 TextView -->
           <ImageView
             android:id="@+id/supplement_detail"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:textSize="18sp"
+            android:layout_height="500dp"
             android:layout_marginTop="8dp"
             android:padding="10dp"
-            android:background="@drawable/supplement_info_border"
-            android:text="영양성분 표 내용"/>
+            android:scaleType="fitXY"
+            android:text="영양성분 표 내용"
+            android:textSize="18sp" />
 
         </LinearLayout>
 
@@ -95,10 +149,9 @@
           android:layout_height="65dp"
           android:layout_marginTop="24dp"
           android:layout_gravity="center"
-          android:textSize="20sp"
           android:background="@drawable/button_background"
+          android:textSize="20sp"
           android:text="추가" />
-
       </LinearLayout>
     </ScrollView>
   </LinearLayout>

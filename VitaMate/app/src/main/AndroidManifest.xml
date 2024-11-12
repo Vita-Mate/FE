@@ -91,6 +91,9 @@
             android:name=".mySupplement.MySupplementActivity"
             android:exported="false" />
         <activity
+          android:name=".intakeFragment.ScrapSupplementsActivity"
+          android:exported="false"/>
+        <activity
             android:name=".Challenge.ChallengeActivity"
             android:exported="false" />
         <activity android:name=".Challenge.ChallengeSelectModeActivity" />

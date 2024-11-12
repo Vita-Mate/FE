@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -34,7 +35,7 @@ class SupplementFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_supplement, container, false)
 
-        // supplementsRepository 초기화 루테인
+        // supplementsRepository 초기화
         supplementsRepository = SupplementsRepository(requireContext())
 
         // 식단 클릭시 식단 프래그먼트로 이동
@@ -48,8 +49,14 @@ class SupplementFragment : Fragment() {
         }
 
         //+ 누르면 영양제 검색 & 추가할 수 있는 페이지로 이동
-        view.findViewById<TextView>(R.id.add_supplement).setOnClickListener {
+        view.findViewById<ImageView>(R.id.add_supplement).setOnClickListener {
             val intent = Intent(activity, MySupplementActivity::class.java)
+            startActivity(intent)
+        }
+
+        // 스크랩버튼 누르면 스크랩시뮬레이션 페이지로 이동
+        view.findViewById<ImageView>(R.id.scrap_supplements).setOnClickListener {
+            val intent = Intent(activity, ScrapSupplementsActivity::class.java)
             startActivity(intent)
         }
 

@@ -4,31 +4,34 @@
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
   android:orientation="horizontal"
-  android:padding="10dp">
+  android:layout_marginTop="15dp">
 
-  <!-- 영양제 이름 -->
+  <!-- 영양소 이름 -->
   <TextView
     android:id="@+id/supplementName"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
-    android:layout_weight="1.2"
+    android:layout_gravity="center"
+    android:layout_weight="0.9"
     android:textStyle="bold"
-    android:text="영양제"
+    android:text="영양소"
     android:textSize="14sp" />
 
   <!-- 막대그래프 -->
   <com.github.mikephil.charting.charts.HorizontalBarChart
     android:id="@+id/barChart"
     android:layout_width="0dp"
-    android:layout_height="25dp"
-    android:layout_weight="4" />
+    android:layout_height="50dp"
+    android:layout_weight="2.9"
+    android:layout_gravity="center_vertical"/>
 
   <!-- 섭취량/목표량 텍스트 -->
   <TextView
     android:id="@+id/supplementAmount"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
-    android:layout_weight="0.6"
+    android:layout_gravity="center"
+    android:layout_weight="1"
     android:text="6 / 12"
-    android:textSize="12sp"/>
+    android:textSize="9sp"/>
 </LinearLayout>

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -12,6 +13,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.my.vitamateapp.R
 import com.my.vitamateapp.databinding.ActivityRegisterBinding
+import com.my.vitamateapp.repository.MembersRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Calendar
 
 class RegisterActivity : AppCompatActivity() {
@@ -22,12 +28,13 @@ class RegisterActivity : AppCompatActivity() {
     private var isNicknameValid = false
     private var isDuplicateChecked = false
     private var isDateValid = false
+    private lateinit var membersRepository: MembersRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_register)
+        membersRepository = MembersRepository(this)
+
 
         // 초기 버튼 상태 설정
         binding.checkDuplicateBtn.isEnabled = false
@@ -49,10 +56,7 @@ class RegisterActivity : AppCompatActivity() {
 
         // 중복 확인 버튼 클릭 리스너
         binding.checkDuplicateBtn.setOnClickListener {
-            // 중복 확인 로직이 들어가야 합니다. 여기서는 가정으로 활성화 상태로 설정합니다.
-            isDuplicateChecked = true
-            updateNextButtonState()
-            hideKeyboard()
+            checkNickname()
         }
 
         // 성별 버튼 클릭 리스너 설정
@@ -110,13 +114,39 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun validateNickname(nickname: String): Boolean {
-        // 정규 표현식을 사용하여 한글만 허용 (영어, 숫자, 특수문자 제외)
         val regex = "^[가-힣]+$".toRegex()
         if (!regex.matches(nickname)) {
             Toast.makeText(this, "닉네임은 한글만 입력할 수 있습니다.", Toast.LENGTH_SHORT).show()
             return false
         }
         return true
+    }
+
+    //닉네임 중복 api 연동
+    private fun checkNickname() {
+        val nickname = binding.nicknameEditText.text.toString()
+        Log.d("RegisterActivity", "중복 확인 시작: 닉네임 = $nickname")
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val repository = MembersRepository(this@RegisterActivity)
+            val isDuplicate = repository.checkNicknameDuplicate(nickname)
+
+            withContext(Dispatchers.Main) {
+                // 중복 확인 결과에 따른 UI 업데이트
+                if (isDuplicate) {
+                    // 중복되지 않는 경우 처리
+                    Log.d("RegisterActivity", "닉네임이 사용 가능합니다.")
+                    isDuplicateChecked = true  // 중복 확인이 성공했을 경우
+                    Toast.makeText(this@RegisterActivity, "닉네임이 사용 가능합니다.", Toast.LENGTH_SHORT).show()
+                } else {
+                    // 중복된 경우 처리
+                    Log.d("RegisterActivity", "닉네임이 이미 사용 중입니다.")
+                    isDuplicateChecked = false  // 중복 확인이 실패했을 경우
+                    Toast.makeText(this@RegisterActivity, "닉네임이 이미 사용 중입니다.", Toast.LENGTH_SHORT).show()
+                }
+                updateNextButtonState() // 다음 버튼 상태 업데이트
+            }
+        }
     }
 
     private fun createDateTextWatcher(): TextWatcher {
@@ -128,7 +158,6 @@ class RegisterActivity : AppCompatActivity() {
                 val month = binding.monthEditText.text.toString()
                 val day = binding.dayEditText.text.toString()
 
-                // 날짜 유효성 검사 및 버튼 상태 업데이트
                 isDateValid = validateDate(year, month, day)
                 updateNextButtonState()
             }
@@ -139,13 +168,10 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun validateDate(year: String, month: String, day: String): Boolean {
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
-
-        // 입력값을 정수로 변환
         val yearInt = year.toIntOrNull()
         val monthInt = month.toIntOrNull()
         val dayInt = day.toIntOrNull()
 
-        // 연도, 월, 일 입력값 검증
         val isYearValid = yearInt?.let { it in 1900..currentYear } ?: false
         val isMonthValid = monthInt?.let { it in 1..12 } ?: false
         val isDayValid = dayInt?.let { it in 1..daysInMonth(monthInt ?: 0, yearInt ?: 0) } ?: false
@@ -153,7 +179,6 @@ class RegisterActivity : AppCompatActivity() {
         return isYearValid && isMonthValid && isDayValid
     }
 
-    // 주어진 월과 연도에 따른 일 수를 반환
     private fun daysInMonth(month: Int, year: Int): Int {
         return when (month) {
             2 -> if (isLeapYear(year)) 29 else 28
@@ -162,7 +187,6 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    // 윤년 여부 확인
     private fun isLeapYear(year: Int): Boolean {
         return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)
     }
@@ -172,25 +196,18 @@ class RegisterActivity : AppCompatActivity() {
         val month = binding.monthEditText.text.toString()
         val day = binding.dayEditText.text.toString()
 
-        // 생년월일 유효성 검사
         isDateValid = validateDate(year, month, day)
-
-        // 모든 입력값 유효성 검사 후 다음 버튼 활성화
         if (!isDateValid) {
             Toast.makeText(this, "정확한 생년월일을 입력하세요.", Toast.LENGTH_SHORT).show()
         }
         updateNextButtonState()
-
-        // 유효성 검증 후 키패드 내려주기
         hideKeyboard()
     }
 
     private fun updateNextButtonState() {
-        // 닉네임 유효성, 중복 확인 상태, 성별 선택 여부, 생년월일 입력 유효성 확인
         binding.nextBtn.isEnabled = isNicknameValid && isDuplicateChecked && (isMaleSelected || isFemaleSelected) && isDateValid
     }
 
-    // 키패드 내리기 함수
     private fun hideKeyboard() {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         val view = currentFocus
@@ -199,29 +216,21 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    // 사용자 입력 데이터 저장 함수
     private fun saveUserData() {
         val sharedPreferences = getSharedPreferences("saved_user_info", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
-
 
         val nickname = binding.nicknameEditText.text.toString()
         val year = binding.yearEditText.text.toString()
         val month = binding.monthEditText.text.toString()
         val day = binding.dayEditText.text.toString()
-        val gender = if (isMaleSelected) 1 else 2 // 남자는 1, 여자는 2로 저장
+        val gender = if (isMaleSelected) 0 else 1
 
         editor.putString("nickname", nickname)
         editor.putString("birthDay", "$year-$month-$day")
-        editor.putInt("gender", gender) // 성별을 정수로 저장
-        editor.apply() // 변경 사항 저장
+        editor.putInt("gender", gender)
+        editor.apply()
 
-        // 저장된 데이터 확인 (정수형으로 저장된 성별 확인)
-        val savedNickname = sharedPreferences.getString("nickname", "없음")
-        val savedBirthdate = sharedPreferences.getString("birthDay", "없음")
-        val savedGender = sharedPreferences.getInt("gender", 0) // 정수형으로 가져오기
-        Toast.makeText(this, "닉네임: $savedNickname, 생년월일: $savedBirthdate, 성별: $savedGender", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "회원 정보가 저장되었습니다.", Toast.LENGTH_SHORT).show()
     }
-
-
 }

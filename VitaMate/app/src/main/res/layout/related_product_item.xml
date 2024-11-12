@@ -10,12 +10,4 @@
     android:layout_height="130dp"
     android:layout_margin="10dp"
     android:gravity="center" />
-
-  <TextView
-    android:id="@+id/related_product_name"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="상품명"
-    android:textSize="14dp"
-    android:gravity="center"/>
 </LinearLayout>

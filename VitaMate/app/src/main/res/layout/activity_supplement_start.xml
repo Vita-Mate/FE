@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
   <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -13,8 +13,46 @@
       android:id="@+id/toolbar"
       android:layout_width="match_parent"
       android:layout_height="?attr/actionBarSize"
-      android:background="@color/black"
-      android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+      android:background="@color/gray">
+
+      <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- 왼쪽의 이전 페이지 버튼 -->
+        <ImageButton
+          android:id="@+id/pre_button"
+          android:layout_width="33dp"
+          android:layout_height="33dp"
+          android:background="@android:color/transparent"
+          android:contentDescription="이전 페이지 버튼"
+          android:clickable="true"
+          android:focusable="true"
+          android:scaleType="centerCrop"
+          android:src="@drawable/pre_btn"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintBottom_toBottomOf="parent"
+          android:layout_marginStart="8dp" />
+
+        <!-- 중앙의 텍스트뷰 -->
+        <TextView
+          android:id="@+id/supplement_name"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="영양제 이름"
+          android:textAlignment="center"
+          android:gravity="center"
+          android:textColor="@color/black"
+          android:textSize="24sp"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintEnd_toEndOf="parent" />
+
+      </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.appcompat.widget.Toolbar>
+
 
     <TextView
       android:layout_width="wrap_content"
@@ -94,12 +132,13 @@
 
 
     <!-- 완료 버튼 -->
-    <Button
+    <android.widget.Button
       android:id="@+id/submit_button"
       android:layout_width="200dp"
       android:layout_height="wrap_content"
       android:layout_gravity="center"
       android:layout_marginTop="330dp"
+      android:background="@drawable/button_background"
       android:enabled="false"
       android:text="완료"
       android:textSize="18sp" />

@@ -6,10 +6,12 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.my.vitamateapp.Api.RetrofitInstance
 import com.my.vitamateapp.Api.SupplementsTakingApi
+import com.my.vitamateapp.R
 import com.my.vitamateapp.databinding.ActivitySupplementStartBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -32,11 +34,22 @@ class SupplementStartActivity : AppCompatActivity() {
         // 날짜 입력 변경 시마다 확인
         setupDateInputListeners()
 
+        // SharedPreferences에서 영양제 이름 가져와서 툴바 텍스트뷰에 설정
+        val supplementName = getSharedPreferences("saved_supplement_info", Context.MODE_PRIVATE)
+            .getString("supplementName", null) // 기본값을 null로 설정
+        binding.toolbar.findViewById<TextView>(R.id.supplement_name).text = supplementName // null일 경우 빈 문자열로 설정됨
+
+
         // 완료 버튼 클릭 시 섭취 영양제로 추가
         binding.submitButton.setOnClickListener {
             submitSupplement()
             val intent = Intent(this, MySupplementActivity::class.java)
             startActivity(intent)
+        }
+
+        // < 버튼 클릭시 이전 페이지로 이동
+        binding.preButton.setOnClickListener {
+            goPre()
         }
     }
 
@@ -151,5 +164,10 @@ class SupplementStartActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    //이전 페이지로 이동 함수
+    private fun goPre() {
+        finish()
     }
 }
