@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
@@ -100,11 +100,11 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/challengeRecyclerView"
-                android:visibility="visible"
                 android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />  <!-- ScrollView 내에서 가변적인 높이 설정 -->
+            android:layout_weight="1"
+                android:visibility="gone"/>  <!-- ScrollView 내에서 가변적인 높이 설정 -->
 
         </LinearLayout>
-    </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

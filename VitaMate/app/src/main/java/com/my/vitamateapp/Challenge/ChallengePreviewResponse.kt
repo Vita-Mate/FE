@@ -10,6 +10,8 @@ data class ChallengePreviewResponse(
 
 data class Participating(
     val title : String,
+    val startDate : String,
+    val endDate : String,
     val maxParticipants : Int,
     val currentParticipants : Int,
     val weeklyFrequency : Int,

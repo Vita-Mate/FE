@@ -7,35 +7,74 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="170dp"
-        android:background="@drawable/home_border_babypink"
+        android:background="@drawable/home_border"
+        android:backgroundTint="@color/baby_pink"
         android:layout_margin="20dp"
         android:orientation="vertical"
         android:elevation="15dp"
         android:id="@+id/item_challenge">
 
-        <TextView
-            android:id="@+id/challenge_title"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
-            android:text="Title Text"
-            android:textSize="30dp"
-            android:textStyle="bold" />
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/challenge_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:text="Title Text"
+                android:textSize="30dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:text="참여 현황"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/challenge_ennum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="3"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="/"
+                android:textSize="15dp"
+                android:layout_marginTop="20dp"/>
+            <TextView
+                android:id="@+id/challenge_maxnum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="5"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"/>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="주"
-            android:textSize="15dp"
-            android:layout_marginTop="5dp"
-            app:layout_constraintBottom_toBottomOf="@id/challenge_title"
-            app:layout_constraintTop_toTopOf="@id/challenge_title" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="주"
+                android:textSize="15dp"
+                android:layout_marginTop="5dp"
+                app:layout_constraintBottom_toBottomOf="@id/challenge_title"
+                app:layout_constraintTop_toTopOf="@id/challenge_title" />
 
             <TextView
                 android:id="@+id/challenge_frequency"
@@ -60,46 +99,22 @@
                 app:layout_constraintTop_toTopOf="@id/challenge_title" />
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="참여 현황"
-                android:textSize="15dp"
-                android:layout_marginLeft="150dp"
                 android:layout_marginTop="5dp"
-                app:layout_constraintBottom_toBottomOf="@id/challenge_title"
-                app:layout_constraintTop_toTopOf="@id/challenge_title" />
+                android:layout_marginLeft="125dp"
+                android:text="시작일: "/>
 
             <TextView
-                android:id="@+id/challenge_ennum"
+                android:id="@+id/start_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="3"
-                android:textSize="15dp"
-                android:textStyle="bold"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
-                app:layout_constraintBottom_toBottomOf="@id/challenge_title"
-                app:layout_constraintTop_toTopOf="@id/challenge_title" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="/"
+                android:text="YYYY-MM-DD"
                 android:textSize="15dp"
-                android:layout_marginTop="5dp"
-                app:layout_constraintBottom_toBottomOf="@id/challenge_title"
-                app:layout_constraintTop_toTopOf="@id/challenge_title" />
+                android:textStyle="bold"/>
 
-            <TextView
-                android:id="@+id/challenge_maxnum"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="5"
-                android:textSize="15dp"
-                android:textStyle="bold"
-                android:layout_marginTop="5dp"
-                app:layout_constraintBottom_toBottomOf="@id/challenge_title"
-                app:layout_constraintTop_toTopOf="@id/challenge_title" />
 
         </LinearLayout>
 
@@ -121,15 +136,32 @@
                 android:text="4"
                 android:textStyle="bold"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="120dp"
+                android:text="종료일: "/>
+
+            <TextView
+                android:id="@+id/end_Date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="YYYY-MM-DD"
+                android:textSize="15dp"
+                android:textStyle="bold"/>
+
+
         </LinearLayout>
 
 
         <android.widget.Button
-            android:id="@+id/challenge_DeleteButton"
+            android:id="@+id/challenge_deleteButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_gravity="end|bottom"
             android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/button_background"
             android:backgroundTint="@color/white"
             android:text="취소하기"
