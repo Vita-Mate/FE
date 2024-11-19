@@ -1,6 +1,5 @@
-package com.my.vitamateapp.Challenge
+package com.my.vitamateapp.ChallengeDTO
 
-import com.my.vitamateapp.Challenge.Challenge
 
 data class ChallengeListResponse (
     val isSuccess : Boolean,

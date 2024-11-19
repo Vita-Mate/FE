@@ -1,4 +1,4 @@
-package com.my.vitamateapp.Challenge
+package com.my.vitamateapp.ChallengeDTO
 
 data class ChallengePreviewResponse(
     val isSuccess : Boolean,

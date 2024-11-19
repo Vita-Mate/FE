@@ -11,6 +11,7 @@ import android.widget.ToggleButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import com.my.vitamateapp.ChallengeDTO.ChallengePreviewResponse
 
 import com.my.vitamateapp.R
 import com.my.vitamateapp.databinding.ActivityChallengeMyNoSmokePageBinding
@@ -25,11 +26,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Date
-import java.util.Locale
-import java.util.concurrent.TimeUnit
 
 class ChallengeMyNoSmokePageActivity : AppCompatActivity() {
     private var selectedDate: CalendarDay? = null
@@ -62,8 +59,6 @@ class ChallengeMyNoSmokePageActivity : AppCompatActivity() {
         toggleCalendarView.isChecked = true // 주간 보기 초기 상태
         setupCalendar(calendarView, toggleCalendarView)
 
-        // 버튼 상태 복원
-        restoreButtonState()
 
         // Intent로부터 challengeId 가져오기
         challengeId = intent.getLongExtra("challengeId", 0L)
@@ -79,37 +74,23 @@ class ChallengeMyNoSmokePageActivity : AppCompatActivity() {
             goPre()
         }
 
-        // 버튼 클릭 리스너 설정
-        binding.buttonO.setOnClickListener {
-            binding.buttonO.isSelected = true
-            binding.buttonX.isSelected = false
-            binding.buttonO.background =
-                ContextCompat.getDrawable(this, R.drawable.button_default_background) // O 버튼 배경 설정
-            binding.buttonX.background = null // X 버튼 배경 초기화
-            saveButtonState(true)
+
+        // 각 버튼 클릭 시 해당 Fragment로 이동
+        binding.myRecord.setOnClickListener {
+            showFragment(FragmentOXMyRecord()) // 나의 기록 Fragment
         }
 
-        binding.buttonX.setOnClickListener {
-            binding.buttonX.isSelected = true
-            binding.buttonO.isSelected = false
-            binding.buttonX.background =
-                ContextCompat.getDrawable(this, R.drawable.button_default_background) // X 버튼 배경 설정
-            binding.buttonO.background = null // O 버튼 배경 초기화
-            saveButtonState(false)
+        binding.teamRecord.setOnClickListener {
+            showFragment(FragmentOXTeamRecord()) // 팀원 기록 Fragment
         }
-    }
 
-    private fun saveButtonState(isOSelected: Boolean) {
-        val editor = sharedPreferences.edit()
-        editor.putBoolean("buttonOState", isOSelected)
-        editor.apply()
-    }
+        binding.teamRank.setOnClickListener {
+            showFragment(OXTeamRank()) // 팀원 순위 Fragment
+        }
 
-    private fun restoreButtonState() {
-        val isOSelected = sharedPreferences.getBoolean("buttonOState", false)
-        binding.buttonO.isSelected = isOSelected
-    }
 
+    }
+//    calendar 셋팅
     private fun setupCalendar(
         calendarView: MaterialCalendarView,
         toggleCalendarView: ToggleButton
@@ -158,9 +139,18 @@ class ChallengeMyNoSmokePageActivity : AppCompatActivity() {
         }
     }
 
-
+// 이전 버튼
     private fun goPre() {
         finish()
+    }
+
+    private fun showFragment(fragment: androidx.fragment.app.Fragment) {
+        // 챌린지 ID가 null이 아니어야 전달이 가능
+
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.ox_record_page_nav, fragment)
+        fragmentTransaction.addToBackStack(null) // 백스택에 추가
+        fragmentTransaction.commit()
     }
 
     private inner class SelectedDayDecorator(private val selectedDate: CalendarDay) :
@@ -229,7 +219,7 @@ class ChallengeMyNoSmokePageActivity : AppCompatActivity() {
             return
         }
 
-        apiService.getChallengeDetails(challengeId.toString(), "Bearer $accessToken")
+        apiService.getChallengeDetails("Bearer $accessToken", challengeId)
             .enqueue(object : Callback<ChallengePreviewResponse> {
                 override fun onResponse(
                     call: Call<ChallengePreviewResponse>,

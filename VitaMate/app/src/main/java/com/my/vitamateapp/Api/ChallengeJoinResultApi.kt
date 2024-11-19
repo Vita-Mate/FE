@@ -1,8 +1,7 @@
 package com.my.vitamateapp.network
 
-import com.my.vitamateapp.Api.ParticipatingChallengeApi
-import com.my.vitamateapp.Challenge.ChallengePreviewResponse
-import com.my.vitamateapp.Challenge.JoinChallengeResultResponse
+import com.my.vitamateapp.ChallengeDTO.ChallengePreviewResponse
+import com.my.vitamateapp.ChallengeDTO.JoinChallengeResultResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -15,14 +14,14 @@ interface ChallengeJoinResultApi {
     // 챌린지 참여 메서드 정의
     @POST("challenges/{challengeId}")
     fun joinChallenge(
-        @Path("challengeId") challengeId: String,
-        @Header("Authorization") Token: String
+        @Header("Authorization") Token: String,
+        @Path("challengeId") challengeId: Long
     ): Call<JoinChallengeResultResponse>
 
     // 챌린지 정보 조회 메서드 정의 (GET)
     @GET("challenges/{challengeId}")
     fun getChallengeDetails(
-        @Path("challengeId") challengeId: String,
-        @Header("Authorization") Token: String
+        @Header("Authorization") Token: String,
+        @Path("challengeId") challengeId: Long
     ): Call<ChallengePreviewResponse>
 }

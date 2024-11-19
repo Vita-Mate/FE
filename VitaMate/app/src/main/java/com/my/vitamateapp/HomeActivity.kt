@@ -4,11 +4,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.kakao.sdk.user.UserApiClient
 import com.my.vitamateapp.Challenge.ChallengeSelectModeActivity
-import com.my.vitamateapp.R
 import com.my.vitamateapp.databinding.ActivityHomeBinding
 import com.my.vitamateapp.registerPage.MainActivity
 
@@ -19,24 +19,37 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Intent에서 데이터 수신
+        val challengeCreated = intent.getBooleanExtra("challengeCreated", false)
+        val message = intent.getStringExtra("message")
+
+
+        if (challengeCreated) {
+            // 성공적으로 챌린지가 생성된 경우 사용자에게 알림
+            Toast.makeText(this, message ?: "챌린지가 생성되었습니다.", Toast.LENGTH_SHORT).show()
+        }
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
 
-        // SharedPreferences에서 challengeId 읽기
-        challengeId = getChallengeIdFromPreferences()
+
 
         // 버튼 클릭 리스너 설정
         binding.homeHealthBtn.setOnClickListener {
             selectedCategory = "EXERCISE"  // 운동 선택
+            challengeId = getChallengeIdByCategory(selectedCategory)
             goSelectmode()
         }
 
         binding.homeDrunkBtn.setOnClickListener {
             selectedCategory = "QUIT_ALCOHOL"  // 금주 선택
+            challengeId = getChallengeIdByCategory(selectedCategory)
             goSelectmode()
         }
 
         binding.homeSmokeBtn.setOnClickListener {
             selectedCategory = "QUIT_SMOKE"  // 금연 선택
+            challengeId = getChallengeIdByCategory(selectedCategory)
             goSelectmode()
         }
 
@@ -53,23 +66,31 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    // SharedPreferences에서 challengeId 읽어오는 함수
-    private fun getChallengeIdFromPreferences(): Long {
+
+
+    private fun getChallengeIdByCategory(category: String?): Long {
         val sharedPref = getSharedPreferences("ChallengePreferences", Context.MODE_PRIVATE)
-        val challengeId = sharedPref.getLong("challengeId", -1L)  // 저장된 challengeId를 가져옴, 없으면 -1L 반환
-        Log.d("HomeActivity", "저장된 challengeId: $challengeId")  // 로그로 값 확인
-        return challengeId
+        return if (category != null) {
+            sharedPref.getLong("challengeId_$category", -1L) // 기본값 -1L
+        } else {
+            -1L
+        }
     }
 
-    // challengeId와 category를 전달하는 함수
     private fun goSelectmode() {
-        val intent = Intent(this, ChallengeSelectModeActivity::class.java).apply {
-            selectedCategory?.let { putExtra("category", it) }  // Category 이름 전달
-            challengeId?.let { putExtra("challengeId", it) }  // challengeId가 있으면 전달
-            Log.d("HomeActivity", "challengeId: $challengeId, Category: $selectedCategory")
+        if (selectedCategory == null) {
+            showToast("카테고리가 선택되지 않았습니다.")
+            return
         }
+
+        // Intent 생성 및 데이터 전달
+        val intent = Intent(this, ChallengeSelectModeActivity::class.java).apply {
+            putExtra("category", selectedCategory)  // 선택된 카테고리
+        }
+
         startActivity(intent)
     }
+
 
     // 로그아웃 기능
     private fun vitamate_logout() {
@@ -105,5 +126,14 @@ class HomeActivity : AppCompatActivity() {
         challengeEditor.clear()
         challengeEditor.apply()
         Log.d("SharedPreferences", "모든 SharedPreferences 초기화 완료")
+    }
+
+    private fun getAccessToken(context: Context): String? {
+        return context.getSharedPreferences("saved_user_info", Context.MODE_PRIVATE)
+            .getString("accessToken", null)
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }

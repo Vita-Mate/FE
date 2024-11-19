@@ -1,7 +1,7 @@
 package com.my.vitamateapp.Api
 
-import com.my.vitamateapp.Challenge.CreateChallengeRequest
-import com.my.vitamateapp.Challenge.CreateChallengeResponse
+import com.my.vitamateapp.ChallengeDTO.CreateChallengeRequest
+import com.my.vitamateapp.ChallengeDTO.CreateChallengeResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Header

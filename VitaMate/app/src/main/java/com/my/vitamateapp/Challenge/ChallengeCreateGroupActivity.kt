@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.my.vitamateapp.ChallengeDTO.Category
 import com.my.vitamateapp.R
 import com.my.vitamateapp.databinding.ActivityChallengeCreateGroupBinding
 

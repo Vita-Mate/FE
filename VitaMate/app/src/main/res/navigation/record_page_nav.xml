@@ -1,0 +1,45 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/record_page_nav"
+    app:startDestination="@id/exercise_my_record">
+
+    <fragment
+        android:id="@+id/exercise_my_record"
+        android:name="com.my.vitamateapp.Challenge.FragmentMyExerciseRecord"
+        android:label="my_exercise_record"
+        tools:layout="@layout/fragment_my_exercise_record">
+        <action
+            android:id="@+id/action_exercise_my_record_to_team_record"
+            app:destination="@id/team_record" />
+        <action
+            android:id="@+id/action_exercise_my_record_to_team_rank"
+            app:destination="@id/team_rank" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/team_record"
+        android:name="com.my.vitamateapp.Challenge.FragmentTeamExerciseRecord"
+        android:label="team_exercise_record"
+        tools:layout="@layout/fragment_team_exercise_record">
+        <action
+            android:id="@+id/action_team_record_to_team_rank"
+            app:destination="@id/team_rank" />
+        <action
+            android:id="@+id/action_team_record_to_exercise_my_record"
+            app:destination="@id/exercise_my_record" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/team_rank"
+        android:name="com.my.vitamateapp.Challenge.TeamRank"
+        android:label="team_rank"
+        tools:layout="@layout/fragment_team_rank">
+        <action
+            android:id="@+id/action_team_rank_to_exercise_my_record"
+            app:destination="@id/exercise_my_record" />
+        <action
+            android:id="@+id/action_team_rank_to_team_record"
+            app:destination="@id/team_record" />
+    </fragment>
+</navigation>

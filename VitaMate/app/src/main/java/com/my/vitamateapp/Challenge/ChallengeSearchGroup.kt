@@ -7,7 +7,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -15,6 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.my.vitamateapp.Api.ChallengeListApi
 import com.my.vitamateapp.Api.ParticipatingChallengeApi
 import com.my.vitamateapp.Api.RetrofitInstance
+import com.my.vitamateapp.ChallengeDTO.Category
+import com.my.vitamateapp.ChallengeDTO.ChallengeListResponse
+import com.my.vitamateapp.ChallengeDTO.ChallengePreviewResponse
+import com.my.vitamateapp.ChallengeDTO.Participating
 import com.my.vitamateapp.R
 import com.my.vitamateapp.databinding.SearchChallGroupBinding
 import com.my.vitamateapp.network.ChallengeJoinResultApi

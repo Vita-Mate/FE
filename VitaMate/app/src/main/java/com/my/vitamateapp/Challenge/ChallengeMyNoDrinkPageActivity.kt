@@ -1,27 +1,39 @@
 package com.my.vitamateapp.Challenge
+
+import AddQuitChallengeRecordApi
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.text.style.ForegroundColorSpan
-import android.widget.Button
+import android.util.Log
+import android.widget.Toast
 import android.widget.ToggleButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import com.my.vitamateapp.Api.RetrofitInstance
+import com.my.vitamateapp.ChallengeDTO.ChallengePreviewResponse
 import com.my.vitamateapp.R
 import com.my.vitamateapp.databinding.ActivityChallengeMyNoDrinkPageBinding
+import com.my.vitamateapp.network.ChallengeJoinResultApi
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.CalendarMode
 import com.prolificinteractive.materialcalendarview.DayViewDecorator
 import com.prolificinteractive.materialcalendarview.DayViewFacade
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
-import java.util.Calendar
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.util.*
 
 class ChallengeMyNoDrinkPageActivity : AppCompatActivity() {
     private var selectedDate: CalendarDay? = null
     private lateinit var binding: ActivityChallengeMyNoDrinkPageBinding
     private lateinit var sharedPreferences: SharedPreferences
+    private var challengeId: Long? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,84 +42,69 @@ class ChallengeMyNoDrinkPageActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_challenge_my_no_drink_page)
         sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
 
-        // 기존에 findViewById로 참조하던 부분을 binding 객체로 변경
+        // 전달된 challengeId 가져오기
+        challengeId = intent.getLongExtra("challengeId", -1L)
+        if (challengeId == -1L) {
+            showToast("유효하지 않은 챌린지 ID입니다.")
+            finish()
+            return
+        }
+
         val calendarView = binding.CalendarRecyclerView
         val toggleCalendarView = binding.toggleViewButton
 
         toggleCalendarView.isChecked = true // 주간 보기 초기 상태
         setupCalendar(calendarView, toggleCalendarView)
 
-        // 버튼 상태 복원
-        restoreButtonState()
+        // 챌린지 정보 가져오기
+        fetchChallengeData()
 
-        // 클릭 리스너 설정
+        // 버튼 클릭 리스너 설정
         binding.preButton1.setOnClickListener {
             goPre()
         }
-        // 버튼 클릭 리스너 설정
-        binding.buttonO.setOnClickListener {
-            // O 버튼이 선택되면 X 버튼은 선택 해제
-            binding.buttonO.isSelected = true
-            binding.buttonX.isSelected = false
-            binding.buttonO.background = ContextCompat.getDrawable(this, R.drawable.button_default_background) // O 버튼 배경 설정
-            binding.buttonX.background = null // X 버튼 배경 초기화
-            saveButtonState(true)
+
+        // 각 버튼 클릭 시 해당 Fragment로 이동
+        binding.myRecord.setOnClickListener {
+            showFragment(FragmentOXMyRecord()) // 나의 기록 Fragment
         }
 
-        binding.buttonX.setOnClickListener {
-            // X 버튼이 선택되면 O 버튼은 선택 해제
-            binding.buttonX.isSelected = true
-            binding.buttonO.isSelected = false
-            binding.buttonX.background = ContextCompat.getDrawable(this, R.drawable.button_default_background) // X 버튼 배경 설정
-            binding.buttonO.background = null // O 버튼 배경 초기화
-            saveButtonState(false)
+        binding.teamRecord.setOnClickListener {
+            showFragment(FragmentOXTeamRecord()) // 팀원 기록 Fragment
         }
 
-// 기존의 saveButtonState와 restoreButtonState 함수는 그대로 사용
-
-
+        binding.teamRank.setOnClickListener {
+            showFragment(OXTeamRank()) // 팀원 순위 Fragment
+        }
     }
 
     private fun setupCalendar(calendarView: MaterialCalendarView, toggleCalendarView: ToggleButton) {
+        val selectedDayDecorator = SelectedDayDecorator()
+
         calendarView.state().edit()
             .setFirstDayOfWeek(Calendar.SUNDAY)
             .setCalendarDisplayMode(CalendarMode.WEEKS)
             .commit()
 
-        calendarView.setOnDateChangedListener { widget, date, selected ->
+        calendarView.setOnDateChangedListener { _, date, selected ->
             if (selected) {
-                // 기존 선택된 날짜의 데코레이터 제거
-                selectedDate?.let {
-                    calendarView.removeDecorators()
-                    calendarView.addDecorators(TodayDecorator(), SundayDecorator(), SaturdayDecorator())
-                }
-
-                // 새로 선택된 날짜로 데코레이터 추가
-                selectedDate = date
-                calendarView.addDecorator(SelectedDayDecorator(date))
+                selectedDayDecorator.updateDate(date)
                 calendarView.invalidateDecorators() // 데코레이터 새로 고침
             }
         }
 
         calendarView.addDecorators(
+            selectedDayDecorator,
             TodayDecorator(),
             SundayDecorator(),
             SaturdayDecorator()
         )
 
         toggleCalendarView.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                // 주간 보기
-                calendarView.state().edit()
-                    .setCalendarDisplayMode(CalendarMode.WEEKS)
-                    .commit()
-            } else {
-                // 월간 보기
-                calendarView.state().edit()
-                    .setCalendarDisplayMode(CalendarMode.MONTHS)
-                    .commit()
-            }
-            calendarView.invalidateDecorators() // 데코레이터 새로 고침
+            calendarView.state().edit()
+                .setCalendarDisplayMode(if (isChecked) CalendarMode.WEEKS else CalendarMode.MONTHS)
+                .commit()
+            calendarView.invalidateDecorators()
         }
     }
 
@@ -115,36 +112,78 @@ class ChallengeMyNoDrinkPageActivity : AppCompatActivity() {
         finish()
     }
 
+    private fun showFragment(fragment: Fragment) {
+        if (challengeId == null) {
+            showToast("유효하지 않은 챌린지 ID입니다.")
+            return
+        }
 
+        // 프래그먼트에 challengeId 전달
+        fragment.arguments = Bundle().apply {
+            putLong("challengeId", challengeId!!)
+        }
 
-    private fun saveButtonState(isOSelected: Boolean) {
-        val editor = sharedPreferences.edit()
-        editor.putBoolean("buttonOState", isOSelected)
-        editor.apply()
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.ox_record_page_nav, fragment)
+        fragmentTransaction.addToBackStack(null) // 백스택에 추가
+        fragmentTransaction.commit()
     }
 
-    private fun restoreButtonState() {
-        val isOSelected = sharedPreferences.getBoolean("buttonOState", false)
-        binding.buttonO.isSelected = isOSelected
+    private fun fetchChallengeData() {
+        val accessToken = getAccessToken(this) ?: run {
+            Log.w(TAG, "Access Token이 null입니다.")
+            showToast("Access Token이 없습니다. 로그인을 다시 시도하세요.")
+            return
+        }
+
+        val apiService = RetrofitInstance.getInstance().create(ChallengeJoinResultApi::class.java)
+        apiService.getChallengeDetails("Bearer $accessToken", challengeId!!)
+            .enqueue(object : Callback<ChallengePreviewResponse> {
+                override fun onResponse(call: Call<ChallengePreviewResponse>, response: Response<ChallengePreviewResponse>) {
+                    if (response.isSuccessful) {
+                        response.body()?.let {
+                            binding.challengeDDay.text = "D-${it.result.dday}"
+                        }
+                    } else {
+                        showToast("챌린지 정보를 불러올 수 없습니다.")
+                    }
+                }
+
+                override fun onFailure(call: Call<ChallengePreviewResponse>, t: Throwable) {
+                    showToast("네트워크 에러: ${t.localizedMessage}")
+                }
+            })
     }
 
-    private inner class SelectedDayDecorator(private val selectedDate: CalendarDay) : DayViewDecorator {
-        private val drawable =
-            ContextCompat.getDrawable(this@ChallengeMyNoDrinkPageActivity, R.drawable.transparent_calendar_element) // 여기에 원하는 drawable을 설정
+    private fun getAccessToken(context: Context): String? {
+        val sharedPref = context.getSharedPreferences("saved_user_info", Context.MODE_PRIVATE)
+        return sharedPref.getString("accessToken", null)
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private inner class SelectedDayDecorator : DayViewDecorator {
+        private var selectedDate: CalendarDay? = null
+        private val drawable = ContextCompat.getDrawable(this@ChallengeMyNoDrinkPageActivity, R.drawable.transparent_calendar_element)
+
+        fun updateDate(date: CalendarDay) {
+            selectedDate = date
+        }
 
         override fun shouldDecorate(day: CalendarDay): Boolean {
             return day == selectedDate
         }
 
         override fun decorate(view: DayViewFacade) {
-            view.addSpan(ForegroundColorSpan(Color.BLACK))
             drawable?.let { view.setBackgroundDrawable(it) }
+            view.addSpan(ForegroundColorSpan(Color.BLACK))
         }
     }
 
     private inner class TodayDecorator : DayViewDecorator {
-        private val drawable =
-            ContextCompat.getDrawable(this@ChallengeMyNoDrinkPageActivity, R.drawable.calendar_circle_white)
+        private val drawable = ContextCompat.getDrawable(this@ChallengeMyNoDrinkPageActivity, R.drawable.calendar_circle_white)
 
         override fun shouldDecorate(day: CalendarDay): Boolean {
             return day == CalendarDay.today()
@@ -157,10 +196,7 @@ class ChallengeMyNoDrinkPageActivity : AppCompatActivity() {
 
     private class SundayDecorator : DayViewDecorator {
         override fun shouldDecorate(day: CalendarDay): Boolean {
-            val currentCalendar = Calendar.getInstance()
-            return day.calendar.get(Calendar.MONTH) == currentCalendar.get(Calendar.MONTH) &&
-                    day.calendar.get(Calendar.YEAR) == currentCalendar.get(Calendar.YEAR) &&
-                    day.calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY
+            return day.calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY
         }
 
         override fun decorate(view: DayViewFacade) {
@@ -170,10 +206,7 @@ class ChallengeMyNoDrinkPageActivity : AppCompatActivity() {
 
     private class SaturdayDecorator : DayViewDecorator {
         override fun shouldDecorate(day: CalendarDay): Boolean {
-            val currentCalendar = Calendar.getInstance()
-            return day.calendar.get(Calendar.MONTH) == currentCalendar.get(Calendar.MONTH) &&
-                    day.calendar.get(Calendar.YEAR) == currentCalendar.get(Calendar.YEAR) &&
-                    day.calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY
+            return day.calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY
         }
 
         override fun decorate(view: DayViewFacade) {

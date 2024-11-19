@@ -1,4 +1,4 @@
-package com.my.vitamateapp.Challenge
+package com.my.vitamateapp.ChallengeDTO
 
 data class AddExerciseRecordResponse(
     val isSuccess : Boolean,
@@ -9,6 +9,6 @@ data class AddExerciseRecordResponse(
 )
 
 data class RecordResult(
-    val recordId : Long,
-    val imageURL : String
+    val recordId : Long
 )
+

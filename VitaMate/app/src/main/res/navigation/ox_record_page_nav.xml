@@ -1,0 +1,45 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ox_record_page_nav"
+    app:startDestination="@id/ox_record">
+
+    <fragment
+        android:id="@+id/ox_record"
+        android:name="com.my.vitamateapp.Challenge.FragmentOXMyRecord"
+        android:label="ox_record"
+        tools:layout="@layout/fragment_ox_record">
+        <action
+            android:id="@+id/action_ox_record_to_ox_team_record"
+            app:destination="@id/ox_team_record" />
+        <action
+            android:id="@+id/action_ox_record_to_ox_team_rank"
+            app:destination="@id/ox_team_rank" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/ox_team_record"
+        android:name="com.my.vitamateapp.Challenge.FragmentOXTeamRecord"
+        android:label="ox_team_record"
+        tools:layout="@layout/fragment_ox_team_record">
+        <action
+            android:id="@+id/action_ox_team_record_to_ox_record"
+            app:destination="@id/ox_record" />
+        <action
+            android:id="@+id/action_ox_team_record_to_ox_team_rank"
+            app:destination="@id/ox_team_rank" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/ox_team_rank"
+        android:name="com.my.vitamateapp.Challenge.OXTeamRank"
+        android:label="ox_team_rank"
+        tools:layout="@layout/fragment_ox_team_rank">
+        <action
+            android:id="@+id/action_ox_team_rank_to_ox_record"
+            app:destination="@id/ox_record" />
+        <action
+            android:id="@+id/action_ox_team_rank_to_ox_team_record"
+            app:destination="@id/ox_team_record" />
+    </fragment>
+</navigation>

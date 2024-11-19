@@ -1,0 +1,52 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="90dp">
+
+    <!-- team_rank_container에 실제 Fragment가 삽입될 예정 -->
+    <FrameLayout
+        android:id="@+id/team_ox_rank_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- 팀 순위 숫자 (예: 1) -->
+    <TextView
+        android:id="@+id/team_rank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"/>
+
+    <!-- 팀 이름 -->
+    <TextView
+        android:id="@+id/team_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="myteam"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="20dp"
+        android:textStyle="bold"
+        android:textSize="20sp"/>
+
+    <!-- 챌린지 카테고리 -->
+    <TextView
+        android:id="@+id/challenge_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="누적 챌린지"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="45dp"
+        android:textColor="@android:color/darker_gray"/>
+
+    <!-- 팀 기록 시간 -->
+    <TextView
+        android:id="@+id/team_ox_record_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ddd일째"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="45dp"/>
+</FrameLayout>
