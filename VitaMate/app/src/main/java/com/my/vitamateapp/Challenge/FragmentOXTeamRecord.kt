@@ -38,7 +38,7 @@ class  FragmentOXTeamRecord : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // 레이아웃을 inflate
-        val view = inflater.inflate(R.layout.fragment_team_exercise_record, container, false)
+        val view = inflater.inflate(R.layout.fragment_ox_team_record, container, false)
 
 //        // 전달받은 데이터를 화면에 표시
 //        val challengeInfoTextView = view.findViewById<TextView>(R.id.challenge_info)

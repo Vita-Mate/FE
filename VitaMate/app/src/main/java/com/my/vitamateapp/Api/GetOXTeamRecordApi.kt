@@ -5,12 +5,14 @@ import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface GetOXTeamRecordApi {
 
     @GET("/challenges/OX/{category}/teamRecord")
     fun getOXTeamRecord(
         @Header("Authorization") Token: String,  // Access Token 추가
-        @Path("category") category: String,      // Path 변수 추가
+        @Path("challengeId") challengeId: Long,      // Path 변수 추가
+        @Query("date") selectedDate: String              // 쿼리 파라미터로 날짜 추가
     ): Call<GetOXTeamRecordResponse>
 }

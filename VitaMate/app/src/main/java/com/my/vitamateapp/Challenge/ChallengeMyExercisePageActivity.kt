@@ -80,8 +80,12 @@ class ChallengeMyExercisePageActivity : AppCompatActivity() {
                 selectedDate = date
                 calendarView.addDecorator(SelectedDayDecorator(date))
                 calendarView.invalidateDecorators()
+
+                // 선택된 날짜를 SharedPreferences에 저장
+                saveSelectedDate(date)
             }
         }
+
 
         calendarView.addDecorators(
             TodayDecorator(),
@@ -111,13 +115,20 @@ class ChallengeMyExercisePageActivity : AppCompatActivity() {
         // 챌린지 ID가 null이 아니어야 전달이 가능
         val bundle = Bundle().apply {
             putLong("challengeId", challengeId ?: -1L)
+
+            // 선택된 날짜를 String으로 변환하여 저장
+            selectedDate?.let {
+                val selectedDateString = "${it.year}-${it.month}-${it.day}"
+                putString("selectedDate", selectedDateString)
+            }
         }
         fragment.arguments = bundle
 
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.record_page_nav, fragment)
-        fragmentTransaction.addToBackStack(null) // 백스택에 추가
-        fragmentTransaction.commit()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.record_page_nav, fragment)
+            .addToBackStack(null) // 백스택에 추가
+            .commit()
+        supportFragmentManager.executePendingTransactions()
     }
 
 
@@ -180,6 +191,18 @@ class ChallengeMyExercisePageActivity : AppCompatActivity() {
         override fun decorate(view: DayViewFacade) {
             view.addSpan(ForegroundColorSpan(Color.BLUE))
         }
+    }
+
+    private fun saveSelectedDate(date: CalendarDay) {
+        val sharedPref = getSharedPreferences("selected_date", MODE_PRIVATE)
+        val editor = sharedPref.edit()
+
+        // 선택된 날짜를 String 형태로 저장 (예: "yyyy-MM-dd")
+        val selectedDateString = "${date.year}-${date.month}-${date.day}"
+        editor.putString("selected_date", selectedDateString)
+        editor.apply()
+
+        Log.d("ChallengeMyExercisePage", "Selected date saved: $selectedDateString")
     }
 
     private fun showToast(message: String) {

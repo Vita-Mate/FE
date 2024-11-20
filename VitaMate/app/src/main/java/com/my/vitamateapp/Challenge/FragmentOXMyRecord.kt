@@ -40,7 +40,6 @@ class FragmentOXMyRecord : Fragment() {
         // arguments에서 challengeId 가져오기
         challengeId = arguments?.getLong("challengeId")?.takeIf { it != -1L }
         if (challengeId == null) {
-            showToast("유효하지 않은 챌린지 ID입니다.")
             Log.e("FragmentOXMyRecord", "Invalid challengeId")
         }
 
@@ -112,7 +111,6 @@ class FragmentOXMyRecord : Fragment() {
      */
     private fun recordChallengeStatus(isOSelected: Boolean) {
         if (challengeId == null) {
-            showToast("유효하지 않은 챌린지 ID입니다.")
             Log.e("FragmentOXMyRecord", "Invalid challengeId")
             return
         }

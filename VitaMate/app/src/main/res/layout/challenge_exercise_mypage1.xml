@@ -57,22 +57,23 @@
             </androidx.appcompat.widget.Toolbar>
 
             <!-- Material Calendar View -->
+
+            <!-- ToggleButton to switch between week and month view -->
             <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-                android:background="@drawable/border"
-                android:backgroundTint="@color/baby_pink"
                 android:id="@+id/CalendarRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="24dp"
+                android:background="@drawable/border"
+                android:backgroundTint="@color/baby_pink"
                 android:theme="@style/CalendarViewCustom"
-                app:mcv_showOtherDates="all"
-                app:mcv_firstDayOfWeek="sunday"
-                app:layout_constraintTop_toBottomOf="@id/toolbar"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@id/toolbar"
+                app:mcv_firstDayOfWeek="sunday"
+                app:mcv_showOtherDates="all" />
 
-            <!-- ToggleButton to switch between week and month view -->
             <ToggleButton
                 android:id="@+id/toggleViewButton"
                 android:layout_width="wrap_content"
@@ -87,10 +88,9 @@
 
             <!-- Day text -->
             <TextView
-                android:id="@+id/challenge_dDay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="D+3"
+                android:text="D+"
                 android:textColor="@color/black"
                 android:textSize="25dp"
                 android:textStyle="bold"
@@ -98,8 +98,24 @@
                 app:layout_constraintTop_toBottomOf="@id/toggleViewButton"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
+            <!-- Day text -->
 
             <!--나의 기록 | 팀원 기록 | 팀원 순위-->
+
+            <TextView
+                android:id="@+id/challenge_dDay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="1"
+                android:textColor="@color/black"
+                android:textSize="25dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.556"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/toggleViewButton" />
+
             <LinearLayout
                 android:id="@+id/select_button"
                 android:layout_width="match_parent"

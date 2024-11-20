@@ -1,17 +1,42 @@
 package com.my.vitamateapp.Challenge
 
+import android.content.ContentValues.TAG
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.my.vitamateapp.Api.GetExerciseMyRecordApi
+import com.my.vitamateapp.Api.GetExerciseTeamRecordApi
+import com.my.vitamateapp.Api.RetrofitInstance
+import com.my.vitamateapp.ChallengeDTO.GetExerciseMyRecordResponse
+import com.my.vitamateapp.ChallengeDTO.GetExerciseTeamRecordResponse
+import com.my.vitamateapp.ChallengeDTO.GetResult
+import com.my.vitamateapp.ChallengeDTO.MyRecord
 import com.my.vitamateapp.R
 import com.my.vitamateapp.databinding.FragmentMyExerciseRecordBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
-class FragmentMyExerciseRecord : Fragment(R.layout.fragment_my_exercise_record) {
+class FragmentMyExerciseRecord : Fragment() {
+
     private lateinit var binding: FragmentMyExerciseRecordBinding
+    private lateinit var recyclerViewAdapter: MyRecordAdapter
     private var challengeId: Long? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        challengeId = arguments?.getLong("challengeId", -1L)
+        Log.d("FragmentMyExerciseRecord", "Received challengeId in onCreate: $challengeId")
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +62,67 @@ class FragmentMyExerciseRecord : Fragment(R.layout.fragment_my_exercise_record) 
             Log.d("FragmentMyExerciseRecord", "addMyRecord button clicked")
             showChallengeBottomSheetDialog(challengeId ?: -1L)  // challengeId를 BottomSheetDialogFragment로 전달
         }
+
+
+        // RecyclerView 설정
+        val recyclerView = binding.myRecordRecyclerView
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        // RecyclerView Adapter 초기화
+        recyclerViewAdapter = MyRecordAdapter()
+        recyclerView.adapter = recyclerViewAdapter
+
+        // challengeId가 유효한지 확인하고 API 호출
+        challengeId?.let {
+            fetchMyRecord(it) // Long을 String으로 변환하여 전달
+        } ?: run {
+            showError("Invalid challengeId")
+        }
+    }
+    private fun fetchMyRecord(challengeId: Long) {
+        val api = RetrofitInstance.getInstance().create(GetExerciseMyRecordApi::class.java)
+        val accessToken = getAccessToken(requireContext()) ?: run {
+            Log.w(TAG, "Access Token이 null입니다.")
+            return
+        }
+
+        // 날짜를 포함한 API 호출
+        val selectedDateString = arguments?.getString("selectedDate") ?: getCurrentDate()
+
+        Log.d(TAG, "Sending request with Token: Bearer $accessToken, challengeId: $challengeId, date: $selectedDateString")
+
+        // 날짜를 포함한 API 호출
+        api.getExerciseMyRecord("Bearer $accessToken", challengeId, selectedDateString).enqueue(object : Callback<GetExerciseMyRecordResponse> {
+            override fun onResponse(call: Call<GetExerciseMyRecordResponse>, response: Response<GetExerciseMyRecordResponse>) {
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    if (responseBody != null && responseBody.isSuccess == false) {
+                        updateUI(responseBody.result)
+                        Log.d("Success: ", "MyExerciseRecord : $responseBody")
+                    } else {
+                        showError(responseBody?.message ?: "Unknown error")
+                    }
+                } else {
+                    val errorBody = response.errorBody()?.string() // 서버의 오류 메시지 확인
+                    Log.e(TAG, "Error: $errorBody")
+                    showError("Error: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<GetExerciseMyRecordResponse>, t: Throwable) {
+                showError("Failed to load my record: ${t.message}")
+            }
+        })
+    }
+
+    private fun getCurrentDate(): String {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        return dateFormat.format(Date())
+    }
+
+    private fun updateUI(result: List<MyRecord>) {
+        // RecyclerView Adapter에 데이터 전달
+        recyclerViewAdapter.submitList(result)
     }
 
     private fun showChallengeBottomSheetDialog(challengeId: Long) {
@@ -48,9 +134,14 @@ class FragmentMyExerciseRecord : Fragment(R.layout.fragment_my_exercise_record) 
         bottomSheetFragment.show(childFragmentManager, bottomSheetFragment.tag)
     }
 
-    companion object {
-        fun newInstance(): FragmentMyExerciseRecord {
-            return FragmentMyExerciseRecord()
-        }
+
+    private fun showError(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        Log.e("FragmentMyExerciseRecord", message)
+    }
+
+    private fun getAccessToken(context: Context): String? {
+        val sharedPref = context.getSharedPreferences("saved_user_info", Context.MODE_PRIVATE)
+        return sharedPref.getString("accessToken", null)
     }
 }

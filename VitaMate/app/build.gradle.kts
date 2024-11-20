@@ -118,6 +118,10 @@ dependencies {
     implementation ("com.github.bumptech.glide:glide:4.12.0")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
 
+    implementation ("com.github.bumptech.glide:glide:4.15.1")  // Glide 의존성
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")  // Glide 컴파일러
+
+
 
 
 //    implementation("com.kizitonwose.calendar:view:2.6.0-beta04")

@@ -3,99 +3,128 @@ package com.my.vitamateapp.Challenge
 import TeamRankAdapter
 import android.content.ContentValues.TAG
 import android.content.Context
+import android.os.Build.VERSION_CODES.S
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.my.vitamateapp.Api.GetExerciseRankingApi
+import com.my.vitamateapp.Api.GetExerciseTeamRecordApi
 import com.my.vitamateapp.Api.RetrofitInstance
-import com.my.vitamateapp.ChallengeDTO.Category
+import com.my.vitamateapp.ChallengeDTO.GetExerciseTeamRecordResponse
+import com.my.vitamateapp.ChallengeDTO.GetResult
 import com.my.vitamateapp.ChallengeDTO.ListGetExerciseRankingResponse
-import com.my.vitamateapp.ChallengeDTO.TeamRank
-import com.my.vitamateapp.R
+import com.my.vitamateapp.ChallengeDTO.TeamRankItem
+import com.my.vitamateapp.databinding.FragmentTeamExerciseRecordBinding
+import com.my.vitamateapp.databinding.FragmentTeamRankBinding
+import com.prolificinteractive.materialcalendarview.CalendarDay
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+import java.text.SimpleDateFormat
+import java.util.*
+
 class TeamRank : Fragment() {
 
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: TeamRankAdapter
-    private var selectedCategory: Category? = null
+    private lateinit var binding: FragmentTeamRankBinding
+    private lateinit var recyclerViewAdapter: TeamRankAdapter
+    private var challengeId: Long? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        challengeId = arguments?.getLong("challengeId", -1L)
+        Log.d("FragmentTeamExerciseRecord", "Received challengeId in onCreate: $challengeId")
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_team_rank, container, false)
-
-        // RecyclerView 설정
-        recyclerView = view.findViewById(R.id.team_rank_recycler_view)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
-        // 전달받은 카테고리를 selectedCategory에 할당
-        val categoryString = arguments?.getString("category")
-        selectedCategory = categoryString?.let { Category.valueOf(it) }
-
-        // 데이터 가져오기
-        fetchRankingData()
-
-        return view
+    ): View {
+        binding = FragmentTeamRankBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    private fun fetchRankingData() {
+        // RecyclerView 설정
+        val recyclerView = binding.teamRankRecyclerView
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        // RecyclerView Adapter 초기화
+        recyclerViewAdapter = TeamRankAdapter()
+        recyclerView.adapter = recyclerViewAdapter
+
+        // challengeId가 유효한지 확인하고 API 호출
+        challengeId?.let {
+            fetchTeamRank(it) // Long을 String으로 변환하여 전달
+        } ?: run {
+            showError("Invalid challengeId")
+        }
+
+        val selectedDateString = arguments?.getString("selectedDate") ?: getCurrentDate()
+        Log.d("Fragment", "Selected Date: $selectedDateString")
+    }
+
+    private fun fetchTeamRank(challengeId: Long) {
         val api = RetrofitInstance.getInstance().create(GetExerciseRankingApi::class.java)
-
         val accessToken = getAccessToken(requireContext()) ?: run {
             Log.w(TAG, "Access Token이 null입니다.")
             return
         }
 
-        val challengeId = arguments?.getLong("challengeId")
-        challengeId?.let {
-            api.getExerciseRanking("Bearer $accessToken", selectedCategory?.name ?: "").enqueue(object : Callback<ListGetExerciseRankingResponse> {
-                override fun onResponse(
-                    call: Call<ListGetExerciseRankingResponse>,
-                    response: Response<ListGetExerciseRankingResponse>
-                ) {
-                    if (response.isSuccessful && response.body()?.isSuccess == true) {
-                        val rankingResult = response.body()?.result
+        // 날짜를 포함한 API 호출
+        val selectedDateString = arguments?.getString("selectedDate") ?: getCurrentDate()
 
-                        // List<TeamRankItem>로 데이터를 어댑터에 맞게 변환
-                        val rankingData = rankingResult ?: emptyList()
+        Log.d(TAG, "Sending request with Token: Bearer $accessToken, challengeId: $challengeId, date: $selectedDateString")
 
-                        // 어댑터에 데이터 설정
-                        adapter = TeamRankAdapter(rankingData)
-                        recyclerView.adapter = adapter
+        // 날짜를 포함한 API 호출
+        api.getExerciseRanking("Bearer $accessToken", challengeId, selectedDateString).enqueue(object : Callback<ListGetExerciseRankingResponse> {
+            override fun onResponse(call: Call<ListGetExerciseRankingResponse>, response: Response<ListGetExerciseRankingResponse>) {
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    if (responseBody != null && responseBody.isSuccess == false) {
+                        updateUI(responseBody.result)
+                        Log.d("Success: ", "TeamExerciseRanking : $responseBody")
                     } else {
-                        Log.e(TAG, "API 호출 실패: ${response.message()}")
+                        showError(responseBody?.message ?: "Unknown error")
                     }
-                }
-
-                override fun onFailure(call: Call<ListGetExerciseRankingResponse>, t: Throwable) {
-                    Log.e(TAG, "API 호출 실패: ${t.message}")
-                }
-            })
-        } ?: run {
-            Log.e(TAG, "Challenge ID가 유효하지 않습니다.")
-        }
-    }
-
-    companion object {
-        fun newInstance(challengeId: Long, category: String): com.my.vitamateapp.Challenge.TeamRank {
-            return TeamRank().apply {
-                arguments = Bundle().apply {
-                    putLong("challengeId", challengeId)
-                    putString("category", category)
+                } else {
+                    val errorBody = response.errorBody()?.string() // 서버의 오류 메시지 확인
+                    Log.e(TAG, "Error: $errorBody")
+                    showError("Error: ${response.code()}")
                 }
             }
-        }
+
+            override fun onFailure(call: Call<ListGetExerciseRankingResponse>, t: Throwable) {
+                showError("Failed to load team record: ${t.message}")
+            }
+        })
     }
+
+    private fun getCurrentDate(): String {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        return dateFormat.format(Date())
+    }
+
+    private fun updateUI(result: List<TeamRankItem>) {
+        // RecyclerView Adapter에 데이터 전달
+        recyclerViewAdapter.submitList(result)
+    }
+
+    private fun showError(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        Log.e("FragmentTeamExerciseRank", message)
+    }
+
     private fun getAccessToken(context: Context): String? {
         val sharedPref = context.getSharedPreferences("saved_user_info", Context.MODE_PRIVATE)
         return sharedPref.getString("accessToken", null)

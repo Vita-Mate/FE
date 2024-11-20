@@ -141,14 +141,14 @@ class ChallengeAdapter(
         if (response.isSuccessful) {
             response.body()?.let { result ->
                 if (result.isSuccess) {
-                    showToast("챌린지에 성공적으로 참여했습니다!")
+
                     Log.d("ChallengeAdapter", "Successfully joined challenge with ID: $challengeId")
                 } else {
-                    showToast("참여 실패: ${result.message}")
+
                     Log.e("ChallengeAdapter", "Failed to join challenge: ${result.message}")
                 }
             } ?: run {
-                showToast("응답이 유효하지 않습니다.")
+
                 Log.e("ChallengeAdapter", "Response body is null.")
             }
         } else {
@@ -168,7 +168,7 @@ class ChallengeAdapter(
         deleteApi.deleteChallenge("Bearer $accessToken", challengeId).enqueue(object : Callback<DeleteChallenge> {
             override fun onResponse(call: Call<DeleteChallenge>, response: Response<DeleteChallenge>) {
                 holder.cancelButton?.isEnabled = true
-                if (response.isSuccessful && response.body()?.isSuccess == true) {
+                if (response.isSuccessful && response.body()?.isSuccess == false) {
                     // 성공적으로 삭제되었을 때
                     // challengeList에서 해당 challengeId를 가진 항목 삭제
                     val position = challengeList.indexOfFirst { it.challengeId == challengeId }

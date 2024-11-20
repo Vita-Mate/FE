@@ -1,0 +1,89 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="150dp">
+
+    <!-- team_rank_container에 실제 Fragment가 삽입될 예정 -->
+
+    <FrameLayout
+        android:id="@+id/team_record_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bordering_gray"/>
+
+    <ImageView
+        android:id="@+id/team_record_image"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:background="@drawable/bordering_gray"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"/>
+
+
+
+    <!-- 유저 이름 -->
+    <TextView
+        android:id="@+id/user_nickname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="usernickname"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        android:textSize="20sp"/>
+
+    <!-- 운동 이름 -->
+    <TextView
+        android:id="@+id/exercise_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="운동 이름"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="45dp"
+        android:textColor="@android:color/darker_gray"/>
+
+    <!-- 팀 기록 시간 -->
+    <TextView
+        android:id="@+id/team_record_start_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="HH:MM"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginLeft="220dp"
+        android:layout_marginTop="71dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="시작 시간 : "
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="70dp"/>
+
+    <TextView
+        android:id="@+id/team_record_end_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="HH:MM"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginLeft="220dp"
+        android:layout_marginTop="91dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="끝난 시간 : "
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="90dp"/>
+
+    <!--코멘트-->
+    <TextView
+        android:id="@+id/comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="휴휴"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="110dp"/>
+
+
+
+</RelativeLayout>

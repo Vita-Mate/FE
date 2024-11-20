@@ -24,7 +24,7 @@
         android:id="@+id/team_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="myteam"
+        android:text="Challenge1"
         android:layout_marginLeft="50dp"
         android:layout_marginTop="20dp"
         android:textStyle="bold"
@@ -45,7 +45,7 @@
         android:id="@+id/team_ox_record_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ddd일째"
+        android:text="2일째"
         android:textColor="@android:color/darker_gray"
         android:layout_marginLeft="150dp"
         android:layout_marginTop="45dp"/>

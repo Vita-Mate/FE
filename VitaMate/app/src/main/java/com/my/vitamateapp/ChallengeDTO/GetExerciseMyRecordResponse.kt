@@ -4,11 +4,11 @@ data class GetExerciseMyRecordResponse(
     val isSuccess : Boolean,
     val code : String,
     val message : String,
-    val result : Record,
+    val result : List<MyRecord>,
     val success : Boolean
 )
 
-data class Record(
+data class MyRecord(
     val nickname : String,
     val imageURL : String,
     val exerciseType : String,

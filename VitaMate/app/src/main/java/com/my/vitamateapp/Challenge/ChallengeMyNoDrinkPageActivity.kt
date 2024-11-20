@@ -42,10 +42,13 @@ class ChallengeMyNoDrinkPageActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_challenge_my_no_drink_page)
         sharedPreferences = getSharedPreferences("MyPreferences", Context.MODE_PRIVATE)
 
+        // savedInstanceState로부터 challengeId 복원
+        challengeId = savedInstanceState?.getLong("challengeId")
+            ?: intent.getLongExtra("challengeId", -1L)
+
         // 전달된 challengeId 가져오기
         challengeId = intent.getLongExtra("challengeId", -1L)
         if (challengeId == -1L) {
-            showToast("유효하지 않은 챌린지 ID입니다.")
             finish()
             return
         }
@@ -113,18 +116,13 @@ class ChallengeMyNoDrinkPageActivity : AppCompatActivity() {
     }
 
     private fun showFragment(fragment: Fragment) {
-        if (challengeId == null) {
-            showToast("유효하지 않은 챌린지 ID입니다.")
-            return
-        }
-
         // 프래그먼트에 challengeId 전달
         fragment.arguments = Bundle().apply {
             putLong("challengeId", challengeId!!)
         }
 
         val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.ox_record_page_nav, fragment)
+        fragmentTransaction.replace(R.id.nav_host_fragment, fragment) // 수정된 ID 사용
         fragmentTransaction.addToBackStack(null) // 백스택에 추가
         fragmentTransaction.commit()
     }
@@ -145,7 +143,6 @@ class ChallengeMyNoDrinkPageActivity : AppCompatActivity() {
                             binding.challengeDDay.text = "D-${it.result.dday}"
                         }
                     } else {
-                        showToast("챌린지 정보를 불러올 수 없습니다.")
                     }
                 }
 

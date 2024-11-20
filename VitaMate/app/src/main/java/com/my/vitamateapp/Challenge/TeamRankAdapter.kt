@@ -2,12 +2,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.my.vitamateapp.ChallengeDTO.TeamRankItem
 import com.my.vitamateapp.R
 
-class TeamRankAdapter(private val items: List<TeamRankItem>) :
-    RecyclerView.Adapter<TeamRankAdapter.TeamRankViewHolder>() {
+class TeamRankAdapter :
+    ListAdapter<TeamRankItem, TeamRankAdapter.TeamRankViewHolder>(TeamRankItemDiffCallback()) {
 
     class TeamRankViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val rankTextView: TextView = itemView.findViewById(R.id.team_rank)
@@ -22,11 +24,22 @@ class TeamRankAdapter(private val items: List<TeamRankItem>) :
     }
 
     override fun onBindViewHolder(holder: TeamRankViewHolder, position: Int) {
-        val item = items[position]
+        val item = getItem(position)
         holder.rankTextView.text = item.rank.toString()
         holder.nicknameTextView.text = item.nickname
         holder.totalTimeTextView.text = item.totalExerciseTime
     }
 
-    override fun getItemCount(): Int = items.size
+    // DiffUtil callback class to optimize the list updates
+    class TeamRankItemDiffCallback : DiffUtil.ItemCallback<TeamRankItem>() {
+        override fun areItemsTheSame(oldItem: TeamRankItem, newItem: TeamRankItem): Boolean {
+            // Compare the unique IDs (or any other unique property) of the items
+            return oldItem == newItem
+        }
+
+        override fun areContentsTheSame(oldItem: TeamRankItem, newItem: TeamRankItem): Boolean {
+            // Compare the properties to check if the contents are the same
+            return oldItem == newItem
+        }
+    }
 }

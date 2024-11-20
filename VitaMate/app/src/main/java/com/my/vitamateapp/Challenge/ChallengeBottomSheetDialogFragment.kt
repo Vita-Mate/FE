@@ -3,25 +3,28 @@ package com.my.vitamateapp.Challenge
 import AddExerciseRecordApi
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.provider.ContactsContract.CommonDataKinds.Event.START_DATE
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.kakao.sdk.friend.m.t
 import com.my.vitamateapp.Api.RetrofitInstance
 import com.my.vitamateapp.ChallengeDTO.AddExerciseRecordResponse
+import com.my.vitamateapp.ChallengeDTO.AddExerciseResponseRequest
+import com.my.vitamateapp.ChallengeDTO.Intensity
+import com.my.vitamateapp.HomeActivity
 import com.my.vitamateapp.R
 import com.my.vitamateapp.databinding.FragmentChallengeBottomSheetDialogBinding
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.File
 
 class ChallengeBottomSheetDialogFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentChallengeBottomSheetDialogBinding? = null
@@ -33,23 +36,16 @@ class ChallengeBottomSheetDialogFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentChallengeBottomSheetDialogBinding.inflate(inflater, container, false)
+        return binding.root
 
-        // arguments에서 challengeId를 받음
-        challengeId = arguments?.getLong("challengeId", -1L)
-        Log.d("ChallengeBottomSheetDialogFragment", "Received challengeId: $challengeId")
 
-        // Other code for initialization...
-        return inflater.inflate(R.layout.fragment_challenge_bottom_sheet_dialog, container, false)
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        binding.userImageView.setOnClickListener {
-//            goSelectImage() // 눌렀을때 ChallengeImageViewFragment로 가게 하기
-//        }
 
+        // 버튼 클릭 리스너 설정
         binding.enrollExerciseSaveButton.setOnClickListener {
             saveInformation() // ChallengeBottomSheetDialog2Fragment로 이동
         }
@@ -57,47 +53,49 @@ class ChallengeBottomSheetDialogFragment : BottomSheetDialogFragment() {
         setupButtonListeners()
     }
 
-//    private fun goSelectImage() {
-//        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.fragment_challenge_image_view, null)
-//        val dialogBuilder = AlertDialog.Builder(requireContext())
-//            .setView(dialogView)
-//            .setCancelable(true)
-//
-//        val alertDialog = dialogBuilder.create()
-//
-//        val buttonCamera = dialogView.findViewById<ImageButton>(R.id.buttonCamera)
-//
-//        buttonCamera.setOnClickListener {
-//            alertDialog.dismiss()
-//        }
-//
-//        alertDialog.show()
-//    }
 
 
+    // ChallengeBottomSheetDialog2Fragment로 데이터를 전달하는 함수
     private fun saveInformation() {
 
-        val challengeId = getChallengeIdByCategory(context, "exercise")
+        val challengeId = getChallengeIdByCategory(context, "EXERCISE")
 
-// challengeId 값 확인
+/// challengeId 값 확인
         if (challengeId != -1L) {
             Log.d("Challenge", "Saved challengeId: $challengeId")
         } else {
             Log.d("Challenge", "No challengeId found for category.")
         }
 
+        // 운동 이름
         val exerciseName = binding.exerciseName.text.toString()
+
+        // 운동 강도 선택
         val exerciseIntensity = when {
-            binding.exerciseVeryEasy.isSelected -> "매우 가벼움"
-            binding.exerciseEasy.isSelected -> "가벼움"
-            binding.exerciseLittleStrong.isSelected -> "약간 힘듦"
-            binding.exerciseStrong.isSelected -> "힘듦"
-            binding.exerciseVeryStrong.isSelected -> "매우 힘듦"
-            else -> "미정"
+            binding.exerciseVeryEasy.isSelected -> Intensity.VERY_EASY
+            binding.exerciseEasy.isSelected -> Intensity.EASY
+            binding.exerciseLittleStrong.isSelected -> Intensity.MODERATE
+            binding.exerciseStrong.isSelected -> Intensity.VERY_HARD
+            binding.exerciseVeryStrong.isSelected -> Intensity.EXTREME
+            else -> Intensity.EASY // 기본 값 설정
         }
 
-        val exerciseTime = binding.exerciseTime.text.toString()
-        val memo = binding.recordExerciseMemo.text.toString()
+        val startHour = binding.startHour.text.toString().toIntOrNull() ?: 0
+        val startMinute = binding.startMinute.text.toString().toIntOrNull() ?: 0
+        val endHour = binding.endHour.text.toString().toIntOrNull() ?: 0
+        val endMinute = binding.endMinute.text.toString().toIntOrNull() ?: 0
+        val comment = binding.recordExerciseMemo.text.toString()
+
+        val request = AddExerciseResponseRequest(
+            exerciseType = exerciseName,
+            Intensity = exerciseIntensity,
+            startHour = startHour,
+            startMinute = startMinute,
+            endHour = endHour,
+            endMinute = endMinute,
+            comment = comment
+        )
+
 
         val accessToken = getAccessToken(requireContext()) ?: run {
             showToast("Access Token이 없습니다.")
@@ -105,60 +103,55 @@ class ChallengeBottomSheetDialogFragment : BottomSheetDialogFragment() {
         }
 
 
-        val api: AddExerciseRecordApi = RetrofitInstance.getInstance().create(AddExerciseRecordApi::class.java)
+        val api = RetrofitInstance.getInstance().create(AddExerciseRecordApi::class.java)
 
-        api.addExerciseRecord("Bearer $accessToken", challengeId).enqueue(object : Callback<AddExerciseRecordResponse> {
-            override fun onResponse(call: Call<AddExerciseRecordResponse>, response: Response<AddExerciseRecordResponse>) {
-                if (response.isSuccessful) {
-                    val responseBody = response.body()
-                    if (responseBody?.isSuccess == false) {
-                        val recordId = responseBody.result?.recordId
-                        if (recordId != null) {
-                            saveRecordIdByCategory(requireContext(), "exercise", recordId)
+        api.addExerciseRecord("Bearer $accessToken", challengeId, request).enqueue(object : Callback<AddExerciseRecordResponse> {
+            override fun onResponse(
+                call: Call<AddExerciseRecordResponse>,
+                response: Response<AddExerciseRecordResponse>
+            ) {
+                if (response.isSuccessful == true) {
+                    showToast("기록되었습니다")
+                    Log.d("ChallengeBottomSheetDialogFragment", "AddExercise Successful: ${response.body()}")
 
-                            // 화면 이동
-                            val fragment = ChallengeBottomSheetDialog2Fragment().apply {
-                                arguments = Bundle().apply {
-                                    putString("exerciseName", exerciseName)
-                                    putString("exerciseIntensity", exerciseIntensity)
-                                    putString("exerciseTime", exerciseTime)
-                                    putString("memo", memo)
-                                }
-                            }
-                            fragment.show(requireActivity().supportFragmentManager, fragment.tag)
-                        } else {
-                            Log.e("ChallengeBottomSheet", "Record ID is null")
-                            showToast("운동 기록 ID를 받아올 수 없습니다.")
-                        }
-                    } else {
-                        val errorMessage = responseBody?.message ?: "운동 기록 등록에 실패했습니다."
-                        Log.e("ChallengeBottomSheet", "Error Message: $errorMessage")
-                        showToast(errorMessage)
+                    // 성공적으로 저장되었으면 마이페이지 화면으로 이동
+                    val intent = Intent(requireContext(), ChallengeMyExercisePageActivity::class.java).apply {
+                        putExtra("challengeId", challengeId) // challengeId 전달
                     }
+                    startActivity(intent)
+                    requireActivity().finish()
                 } else {
-                    val errorMessage = response.errorBody()?.string()
-                    Log.e("ChallengeBottomSheet", "Error Response: $errorMessage")
-                    showToast(errorMessage ?: "운동 기록 등록에 실패했습니다.")
+                    val errorMessage = response.errorBody()?.string() ?: "운동 기록 등록에 실패했습니다."
+                    Log.e("ChallengeBottomSheetDialogFragment", "Error Response Code: ${response.code()}")
+                    Log.e("ChallengeBottomSheetDialogFragment", "Error Body: $errorMessage")
+                    showToast(errorMessage)
                 }
             }
 
             override fun onFailure(call: Call<AddExerciseRecordResponse>, t: Throwable) {
-                Log.e("ChallengeBottomSheet", "API 호출 실패: ${t.message}")
+                Log.e("ChallengeBottomSheetDialogFragment", "API 호출 실패: ${t.message}")
                 showToast("API 호출 실패: ${t.message}")
             }
         })
-    }
 
+
+//        // ChallengeBottomSheetDialog2Fragment로 데이터 전달
+//        val fragment = ChallengeBottomSheetDialog2Fragment().apply {
+//            arguments = bundle
+//        }
+
+        // 여기서 API 호출 후 성공 시
+        showToast("기록되었습니다")
+    }
 
     private fun getChallengeIdByCategory(context: Context?, category: String): Long {
         return context?.let {
-        val sharedPref = context.getSharedPreferences("ChallengePreferences", Context.MODE_PRIVATE)
-        val challengeId = sharedPref.getLong("challengeId_$category", -1L)
-        Log.d("Challenge", "Retrieved challengeId for category $category: $challengeId")
-        return challengeId
+            val sharedPref = context.getSharedPreferences("ChallengePreferences", Context.MODE_PRIVATE)
+            val challengeId = sharedPref.getLong("challengeId_$category", -1L)
+            Log.d("Challenge", "Retrieved challengeId for category $category: $challengeId")
+            return challengeId
         } ?: -1L
     }
-
 
     private fun saveRecordIdByCategory(context: Context, category: String, recordId: Long) {
         val sharedPref = context.getSharedPreferences("saved_user_info", Context.MODE_PRIVATE)
@@ -169,6 +162,7 @@ class ChallengeBottomSheetDialogFragment : BottomSheetDialogFragment() {
         editor.apply()
     }
 
+    // Initialize button click listeners
     private fun setupButtonListeners() {
         binding.exerciseVeryEasy.setOnClickListener { selectIntensityButton(binding.exerciseVeryEasy) }
         binding.exerciseEasy.setOnClickListener { selectIntensityButton(binding.exerciseEasy) }
@@ -177,7 +171,9 @@ class ChallengeBottomSheetDialogFragment : BottomSheetDialogFragment() {
         binding.exerciseVeryStrong.setOnClickListener { selectIntensityButton(binding.exerciseVeryStrong) }
     }
 
+    // Handle button selection and update UI
     private fun selectIntensityButton(selectedButton: View) {
+        // Deselect all buttons
         listOf(
             binding.exerciseVeryEasy,
             binding.exerciseEasy,
@@ -186,9 +182,11 @@ class ChallengeBottomSheetDialogFragment : BottomSheetDialogFragment() {
             binding.exerciseVeryStrong
         ).forEach {
             it.isSelected = it == selectedButton
+            // Optionally update button background color or drawable here
             it.setBackgroundResource(if (it.isSelected) R.drawable.button_selected_background else R.drawable.button_default_background)
         }
     }
+
 
     private fun getAccessToken(context: Context): String? {
         val sharedPref = context.getSharedPreferences("saved_user_info", Context.MODE_PRIVATE)

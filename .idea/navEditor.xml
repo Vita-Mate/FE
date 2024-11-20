@@ -246,18 +246,18 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="12" />
-                            <option name="y" value="46" />
+                            <option name="x" value="-88" />
+                            <option name="y" value="-3" />
                           </Point>
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_ox_record_to_team_rank">
+                            <entry key="action_ox_record_to_ox_team_rank">
                               <value>
                                 <LayoutPositions />
                               </value>
                             </entry>
-                            <entry key="action_ox_record_to_team_record">
+                            <entry key="action_ox_record_to_ox_team_record">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -272,8 +272,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="12" />
-                            <option name="y" value="12" />
+                            <option name="x" value="156" />
+                            <option name="y" value="-111" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -298,8 +298,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="256" />
-                            <option name="y" value="12" />
+                            <option name="x" value="379" />
+                            <option name="y" value="8" />
                           </Point>
                         </option>
                         <option name="myPositions">

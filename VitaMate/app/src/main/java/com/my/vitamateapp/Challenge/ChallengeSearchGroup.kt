@@ -56,7 +56,7 @@ class ChallengeSearchGroup : AppCompatActivity() {
     }
 
     private fun goBack() {
-        startActivity(Intent(this, ChallengeCreateOrSearchActivity::class.java))
+        finish()
     }
 
     private fun goCreate() {

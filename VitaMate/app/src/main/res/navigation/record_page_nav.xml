@@ -40,6 +40,6 @@
             app:destination="@id/exercise_my_record" />
         <action
             android:id="@+id/action_team_rank_to_team_record"
-            app:destination="@id/team_record" />
+            app:destination="@+id/team_record" />
     </fragment>
 </navigation>

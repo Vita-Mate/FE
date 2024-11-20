@@ -173,15 +173,12 @@
                 app:layout_constraintEnd_toEndOf="parent">
 
                 <androidx.fragment.app.FragmentContainerView
-                    android:id="@+id/ox_record_page_nav"
-                    android:name="androidx.navigation.fragment.NavHostFragment"
+                    android:id="@+id/nav_host_fragment"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:navGraph="@navigation/ox_record_page_nav"
                     app:defaultNavHost="true"
-                    app:layout_constraintTop_toBottomOf="@id/select_button"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    android:name="androidx.navigation.fragment.NavHostFragment" />
 
             </LinearLayout>
 
