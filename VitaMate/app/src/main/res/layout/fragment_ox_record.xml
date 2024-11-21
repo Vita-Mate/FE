@@ -2,44 +2,40 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="130dp"
+    android:layout_gravity="center_horizontal"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <FrameLayout
-        android:id="@+id/ox_select"
+    <!-- O/X 버튼 레이아웃 -->
+    <LinearLayout
+        android:id="@+id/o_x"
         android:layout_width="wrap_content"
-        android:layout_height="200dp"
-        android:layout_gravity="center_horizontal">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-            <!-- O/X 버튼 레이아웃 -->
-            <LinearLayout
-                android:id="@+id/o_x"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="16dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
 
-                <android.widget.Button
-                    android:id="@+id/button_o"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:text="O"
-                    android:textColor="@android:color/holo_blue_light"
-                    android:textSize="36sp"
-                    android:background="@drawable/bordering_gray"
-                    android:layout_marginEnd="16dp" />
+        <android.widget.Button
+            android:id="@+id/button_o"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/button_selected_background"
+            android:text="O"
+            android:textColor="@android:color/holo_blue_light"
+            android:textSize="36sp" />
 
-                <android.widget.Button
-                    android:id="@+id/button_x"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:text="X"
-                    android:textColor="@android:color/holo_red_light"
-                    android:textSize="36sp"
-                    android:background="@drawable/bordering_gray" />
-            </LinearLayout>
-    </FrameLayout>
+        <android.widget.Button
+            android:id="@+id/button_x"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/button_default_background"
+            android:text="X"
+            android:textColor="@android:color/holo_red_light"
+            android:textSize="36sp" />
+    </LinearLayout>
 </FrameLayout>

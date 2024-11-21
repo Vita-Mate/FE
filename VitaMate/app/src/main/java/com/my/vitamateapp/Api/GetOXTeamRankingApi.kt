@@ -8,7 +8,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface GetOXTeamRankingApi {
-    @GET("/challenges/OX/{category}/Ranking")
+    @GET("/challenges/OX/{challengeId}/Ranking")
     fun getOXRanking(
         @Header("Authorization") Token: String,  // Access Token 추가
         @Path("challengeId") challengeId: Long,      // Path 변수 추가

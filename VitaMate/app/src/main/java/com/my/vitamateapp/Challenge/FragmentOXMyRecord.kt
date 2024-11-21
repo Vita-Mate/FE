@@ -100,9 +100,8 @@ class FragmentOXMyRecord : Fragment() {
      * 버튼 배경 초기화
      */
     private fun resetButtonBackground() {
-        val defaultBackground = R.drawable.button_default_background
-        binding.buttonO.background = ContextCompat.getDrawable(requireContext(), defaultBackground)
-        binding.buttonX.background = ContextCompat.getDrawable(requireContext(), defaultBackground)
+        val isOSelected = sharedPreferences.getBoolean("buttonOSelected", true) // 기본값은 O 선택
+        updateButtonBackground(isOSelected)
     }
 
     /**

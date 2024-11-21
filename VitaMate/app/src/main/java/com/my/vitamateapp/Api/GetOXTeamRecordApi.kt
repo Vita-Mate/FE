@@ -9,7 +9,7 @@ import retrofit2.http.Query
 
 interface GetOXTeamRecordApi {
 
-    @GET("/challenges/OX/{category}/teamRecord")
+    @GET("/challenges/OX/{challengeId}/teamRecord")
     fun getOXTeamRecord(
         @Header("Authorization") Token: String,  // Access Token 추가
         @Path("challengeId") challengeId: Long,      // Path 변수 추가

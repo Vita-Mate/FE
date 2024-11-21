@@ -9,7 +9,7 @@ data class GetOXTeamRecordResponse(
 )
 
 data class OXTeamRecord(
-    val rank : Int,
     val nickname : String,
-    val totalExerciseTime : String
+    var record : String,
+    val oxrecordId : Long
 )

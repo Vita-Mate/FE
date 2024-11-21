@@ -116,15 +116,23 @@ class ChallengeMyNoDrinkPageActivity : AppCompatActivity() {
     }
 
     private fun showFragment(fragment: Fragment) {
-        // 프래그먼트에 challengeId 전달
-        fragment.arguments = Bundle().apply {
-            putLong("challengeId", challengeId!!)
-        }
+        // 챌린지 ID가 null이 아니어야 전달이 가능
+        val bundle = Bundle().apply {
+            putLong("challengeId", challengeId ?: -1L)
 
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.nav_host_fragment, fragment) // 수정된 ID 사용
-        fragmentTransaction.addToBackStack(null) // 백스택에 추가
-        fragmentTransaction.commit()
+            // 선택된 날짜를 String으로 변환하여 저장
+            selectedDate?.let {
+                val selectedDateString = "${it.year}-${it.month}-${it.day}"
+                putString("selectedDate", selectedDateString)
+            }
+        }
+        fragment.arguments = bundle
+
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.ox_record_page_nav, fragment)
+            .addToBackStack(null) // 백스택에 추가
+            .commit()
+        supportFragmentManager.executePendingTransactions()
     }
 
     private fun fetchChallengeData() {

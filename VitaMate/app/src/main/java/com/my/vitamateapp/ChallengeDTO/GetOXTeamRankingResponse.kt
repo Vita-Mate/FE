@@ -1,7 +1,5 @@
 package com.my.vitamateapp.ChallengeDTO
 
-import com.my.vitamateapp.Challenge.OXTeamRank
-
 data class GetOXTeamRankingResponse(
     val isSuccess : Boolean,
     val code : String,
@@ -11,7 +9,7 @@ data class GetOXTeamRankingResponse(
 )
 
 data class OXTeamRank(
-    val rank : Int,
+    var rank : Int,
     val nickname : String,
-    val totalExerciseTime : String
+    val successCount : Int
 )
