@@ -6,11 +6,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.my.vitamateapp.ChallengeDTO.MyRecord
+import com.my.vitamateapp.ChallengeDTO.GetMyResult
 import com.my.vitamateapp.databinding.FragmentMyExerciseRecordBinding
 import com.my.vitamateapp.databinding.FragmentMyExerciseRecordListBinding
 
-class MyRecordAdapter : ListAdapter<MyRecord, MyRecordAdapter.MyRecordViewHolder>(DiffCallback()) {
+class MyRecordAdapter : ListAdapter<GetMyResult, MyRecordAdapter.MyRecordViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyRecordViewHolder {
         val binding = FragmentMyExerciseRecordListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -24,7 +24,7 @@ class MyRecordAdapter : ListAdapter<MyRecord, MyRecordAdapter.MyRecordViewHolder
     }
 
     class MyRecordViewHolder(private val binding: FragmentMyExerciseRecordListBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(result: MyRecord) {
+        fun bind(result: GetMyResult) {
             Glide.with(binding.myRecordImage.context)
                 .load(result.imageURL) // Record 클래스의 필드 활용
                 .into(binding.myRecordImage)
@@ -36,12 +36,12 @@ class MyRecordAdapter : ListAdapter<MyRecord, MyRecordAdapter.MyRecordViewHolder
         }
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<MyRecord>() {
-        override fun areItemsTheSame(oldItem: MyRecord, newItem: MyRecord): Boolean {
+    class DiffCallback : DiffUtil.ItemCallback<GetMyResult>() {
+        override fun areItemsTheSame(oldItem: GetMyResult, newItem: GetMyResult): Boolean {
             return oldItem.exerciseRecordId == newItem.exerciseRecordId // 고유 ID 비교
         }
 
-        override fun areContentsTheSame(oldItem: MyRecord, newItem: MyRecord): Boolean {
+        override fun areContentsTheSame(oldItem: GetMyResult, newItem: GetMyResult): Boolean {
             return oldItem == newItem
         }
     }

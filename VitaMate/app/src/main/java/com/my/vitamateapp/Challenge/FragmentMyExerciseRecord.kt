@@ -15,8 +15,7 @@ import com.my.vitamateapp.Api.GetExerciseTeamRecordApi
 import com.my.vitamateapp.Api.RetrofitInstance
 import com.my.vitamateapp.ChallengeDTO.GetExerciseMyRecordResponse
 import com.my.vitamateapp.ChallengeDTO.GetExerciseTeamRecordResponse
-import com.my.vitamateapp.ChallengeDTO.GetResult
-import com.my.vitamateapp.ChallengeDTO.MyRecord
+import com.my.vitamateapp.ChallengeDTO.GetMyResult
 import com.my.vitamateapp.R
 import com.my.vitamateapp.databinding.FragmentMyExerciseRecordBinding
 import retrofit2.Call
@@ -120,7 +119,7 @@ class FragmentMyExerciseRecord : Fragment() {
         return dateFormat.format(Date())
     }
 
-    private fun updateUI(result: List<MyRecord>) {
+    private fun updateUI(result: List<GetMyResult>) {
         // RecyclerView Adapter에 데이터 전달
         recyclerViewAdapter.submitList(result)
     }
