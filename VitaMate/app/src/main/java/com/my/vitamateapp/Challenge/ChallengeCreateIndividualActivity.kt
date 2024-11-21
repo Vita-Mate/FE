@@ -1,6 +1,6 @@
 package com.my.vitamateapp.Challenge
 
-
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -8,16 +8,24 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.my.vitamateapp.Api.RetrofitInstance
+import com.my.vitamateapp.Api.PersonalCreateChallengeApi
+import com.my.vitamateapp.ChallengeDTO.CreateChallengePersonalRequest
+import com.my.vitamateapp.ChallengeDTO.CreateChallengePersonalResponse
+import com.my.vitamateapp.ChallengeDTO.IndCategory
+import com.my.vitamateapp.ChallengeDTO.IndDuration
 import com.my.vitamateapp.HomeActivity
-
 import com.my.vitamateapp.R
 import com.my.vitamateapp.databinding.ActivityChallengeCreateIndividualBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class ChallengeCreateIndividualActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityChallengeCreateIndividualBinding
     private lateinit var category: String
-    private var selectedDuration: String? = null
+    private var selectedDuration: IndDuration? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +49,7 @@ class ChallengeCreateIndividualActivity : AppCompatActivity() {
 
         binding.submitButton.setOnClickListener {
             logInputData() // 입력 데이터 로그 출력
-            navigateToNextActivity() // 다음 액티비티로 이동
+            createChallenge() // 서버로 챌린지 생성 요청
         }
     }
 
@@ -50,33 +58,79 @@ class ChallengeCreateIndividualActivity : AppCompatActivity() {
         val month = binding.startMonth.text.toString()
         val date = binding.startDate.text.toString()
         val frequency = binding.weekFreqency.text.toString()
-        val description = binding.description.text.toString()
 
         Log.d("ChallengeCreateIndividualActivity", "Start Date: $year-$month-$date")
         Log.d("ChallengeCreateIndividualActivity", "Weekly Frequency: $frequency")
-        Log.d("ChallengeCreateIndividualActivity", "Challenge Message: $description")
         Log.d("ChallengeCreateIndividualActivity", "Duration Selected: $selectedDuration") // 이 부분에서 로그를 확인
     }
 
-    private fun navigateToNextActivity() {
+    private fun createChallenge() {
         val year = binding.startYear.text.toString()
         val month = binding.startMonth.text.toString()
         val date = binding.startDate.text.toString()
         val frequency = binding.weekFreqency.text.toString().toInt()
-        val description = binding.description.text.toString()
 
-        // Intent에 데이터 추가
-        val intent = Intent(this, HomeActivity::class.java).apply {
-            putExtra("category", category) // 카테고리 저장
-            putExtra("startDate", "$year-$month-$date") // 시작 날짜 저장
-            putExtra("weeklyFrequency", frequency) // 주간 빈도 저장
-            putExtra("duration", selectedDuration) // 선택한 기간 저장
-            putExtra("description", description) // 설명 저장
+        // Access Token 가져오기
+        val accessToken = getAccessToken()
+        if (accessToken == null) {
+            showToast("Access Token이 없습니다. 로그인을 다시 시도하세요.")
+            return
+        }else Log.i(TAG, "액세스 토큰: ${accessToken}")
+
+        // Create challenge request
+        val indCategory = IndCategory.values().find { it.name == category } ?: run {
+            showToast("유효한 카테고리가 아닙니다.")
+            return
         }
-        // Toast로 생성 완료 알림 표시
-        Toast.makeText(this, "챌린지가 성공적으로 생성되었습니다.", Toast.LENGTH_SHORT).show()
 
+        // duration이 null일 경우 기본값을 설정
+        val duration = selectedDuration ?: IndDuration.ONE_WEEK
+
+        val request = CreateChallengePersonalRequest(
+            category = indCategory,
+            startDate = "$year-$month-$date",
+            duration = duration,
+            weeklyFrequency = frequency,
+        )
+
+        val apiService = RetrofitInstance.getInstance().create(PersonalCreateChallengeApi::class.java)
+        apiService.createPersonalChallenge("Bearer $accessToken", request)
+            .enqueue(object : Callback<CreateChallengePersonalResponse> {
+                override fun onResponse(
+                    call: Call<CreateChallengePersonalResponse>,
+                    response: Response<CreateChallengePersonalResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        Log.d("ChallengeCreateIndividualActivity", "Challenge created successfully.")
+                        showToast("챌린지가 성공적으로 생성되었습니다.")
+                        navigateToHomeActivity() // 생성 후 홈 화면으로 이동
+                    } else {
+                        val errorMessage = response.errorBody()?.string() ?: "Unknown error"
+                        Log.e("ChallengeCreateIndividualActivity", "API Error: $errorMessage")
+                        showToast("서버 에러 발생: $errorMessage")
+                    }
+                }
+
+                override fun onFailure(call: Call<CreateChallengePersonalResponse>, t: Throwable) {
+                    Log.e("ChallengeCreateIndividualActivity", "Network error: ${t.localizedMessage}")
+                    showToast("네트워크 에러: ${t.localizedMessage}")
+                }
+            })
+    }
+
+    private fun navigateToHomeActivity() {
+        val intent = Intent(this, HomeActivity::class.java)
         startActivity(intent)
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    // SharedPreferences에서 Access Token 가져오기
+    private fun getAccessToken(): String? {
+        val sharedPref = getSharedPreferences("saved_user_info", MODE_PRIVATE)
+        return sharedPref.getString("accessToken", null)
     }
 
     private var selectedDurationView: View? = null
@@ -104,11 +158,11 @@ class ChallengeCreateIndividualActivity : AppCompatActivity() {
 
         // 선택된 기간 설정
         selectedDuration = when (selectedId) {
-            R.id.duration_one_week -> "ONE_WEEK"
-            R.id.duration_one_month -> "ONE_MONTH"
-            R.id.duration_three_months -> "THREE_MONTHS"
-            R.id.duration_six_months -> "SIX_MONTHS"
-            R.id.duration_one_year -> "ONE_YEAR"
+            R.id.duration_one_week -> IndDuration.ONE_WEEK
+            R.id.duration_one_month -> IndDuration.ONE_MONTH
+            R.id.duration_three_months -> IndDuration.THREE_MONTHS
+            R.id.duration_six_months -> IndDuration.SIX_MONTHS
+            R.id.duration_one_year -> IndDuration.ONE_YEAR
             else -> null
         }
 

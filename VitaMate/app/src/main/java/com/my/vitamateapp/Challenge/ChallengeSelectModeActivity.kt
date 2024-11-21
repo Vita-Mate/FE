@@ -14,6 +14,7 @@ import com.my.vitamateapp.ChallengeDTO.Category
 import com.my.vitamateapp.ChallengeDTO.ChallengePreviewResponse
 import com.my.vitamateapp.HomeActivity
 import com.my.vitamateapp.R
+import com.my.vitamateapp.databinding.ActivityChallengePersonalCreateormypageBinding
 import com.my.vitamateapp.databinding.ActivityChallengeSelectModeBinding
 import retrofit2.Call
 import retrofit2.Callback
@@ -117,6 +118,9 @@ class ChallengeSelectModeActivity : AppCompatActivity() {
         binding.modeGroup.setOnClickListener {
             mode_group()
         }
+        binding.modeInd.setOnClickListener{
+            mode_ind()
+        }
     }
 
     private fun mode_group() {
@@ -139,9 +143,20 @@ class ChallengeSelectModeActivity : AppCompatActivity() {
     }
 
     private fun mode_ind() {
-        // 새로운 챌린지를 생성하는 페이지로 이동
-        val intent = Intent(this, ChallengeCreateIndividualActivity::class.java).apply {
+        val challengeId = getChallengeIdByCategory(selectedCategory)  // 카테고리별 challengeId 가져오기
+
+        val intent = Intent(this, ActivityChallengePersonalCreateormypageBinding::class.java).apply {
             selectedCategory?.let { putExtra("category", it.name) }  // Category 이름 전달
+            challengeId?.let { putExtra("challengeId", it) }  // challengeId 전달
+            // 디데이 확인 (startDate가 null이 아닌 경우)
+            startDate?.let {
+                Log.d("ChallengeSelectModeActivity", "startDate: $it")
+                putExtra("startDate", startDate)
+            }
+            dday?.let {
+                putExtra("dday", it)  // dday 값을 전달
+            }
+            Log.d(TAG, "Sending to ChallengeCreateOrSearchActivity: challengeId=$challengeId, Category=${selectedCategory?.name}, StartDate=$startDate, dday=$dday")
         }
         startActivity(intent)
     }

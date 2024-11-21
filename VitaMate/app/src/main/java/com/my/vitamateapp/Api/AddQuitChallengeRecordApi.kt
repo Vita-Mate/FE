@@ -4,13 +4,14 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface AddQuitChallengeRecordApi {
-    @POST("challenge/update-status")
+    @POST("/challenges/OX/{challengeId}/record")
     @FormUrlEncoded
     fun updateChallengeStatus(
         @Header("Authorization") token: String,
-        @Field("challengeId") challengeId: Long,
-        @Field("status") status: String // "O" 또는 "X"로 상태 전달
+        @Path("challengeId") challengeId: Long,
+        @Field("record") record: Boolean // true == O, false == X
     ): Call<AddQuitChallengeResponse>
 }

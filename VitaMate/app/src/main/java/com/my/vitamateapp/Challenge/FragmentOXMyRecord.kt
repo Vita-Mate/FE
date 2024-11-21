@@ -48,24 +48,34 @@ class FragmentOXMyRecord : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        // 전달받은 challengeId 확인
+        Log.d("FragmentOXMyRecord", "Received challengeId in onViewCreated: $challengeId")
+    }
+
     /**
      * UI 초기화 함수
      */
     private fun initializeUI() {
-        setButtonListeners() // 버튼 리스너 설정
         resetButtonBackground() // 버튼 배경 초기화
+        setButtonListeners() // 버튼 리스너 설정
+    }
+
+    /**
+     * 버튼 배경 초기화
+     */
+    private fun resetButtonBackground() {
+        val isOSelected = sharedPreferences.getBoolean("buttonOSelected", true) // 기본값은 O 선택
+        updateButtonBackground(isOSelected)
     }
 
     /**
      * 버튼 클릭 리스너 설정
      */
     private fun setButtonListeners() {
-        binding.buttonO.setOnClickListener {
-            handleSelection(isOSelected = true)
-        }
-        binding.buttonX.setOnClickListener {
-            handleSelection(isOSelected = false)
-        }
+        binding.buttonO.setOnClickListener { handleSelection(true) }
+        binding.buttonX.setOnClickListener { handleSelection(false) }
     }
 
     /**
@@ -73,8 +83,18 @@ class FragmentOXMyRecord : Fragment() {
      * @param isOSelected O 버튼이 선택되었는지 여부
      */
     private fun handleSelection(isOSelected: Boolean) {
-        updateButtonBackground(isOSelected) // 버튼 배경 업데이트
-        recordChallengeStatus(isOSelected) // 서버에 상태 기록
+        updateButtonBackground(isOSelected)
+        saveSelectionToPreferences(isOSelected)
+        recordChallengeStatus(isOSelected)
+    }
+
+    /**
+     * 선택한 버튼 상태를 SharedPreferences에 저장
+     */
+    private fun saveSelectionToPreferences(isOSelected: Boolean) {
+        sharedPreferences.edit()
+            .putBoolean("buttonOSelected", isOSelected)
+            .apply()
     }
 
     /**
@@ -97,49 +117,47 @@ class FragmentOXMyRecord : Fragment() {
     }
 
     /**
-     * 버튼 배경 초기화
-     */
-    private fun resetButtonBackground() {
-        val isOSelected = sharedPreferences.getBoolean("buttonOSelected", true) // 기본값은 O 선택
-        updateButtonBackground(isOSelected)
-    }
-
-    /**
      * 서버에 챌린지 상태 기록
      * @param isOSelected O 버튼이 선택되었는지 여부
      */
     private fun recordChallengeStatus(isOSelected: Boolean) {
         if (challengeId == null) {
+            showToast("챌린지 ID가 유효하지 않습니다.")
             Log.e("FragmentOXMyRecord", "Invalid challengeId")
             return
         }
 
         val accessToken = getAccessToken() ?: run {
+            Log.e("FragmentOXMyRecord", "Access Token is missing.")
             showToast("Access Token이 없습니다.")
             return
         }
 
-        val status = if (isOSelected) "O" else "X"
-        val apiService = RetrofitInstance.getInstance().create(AddQuitChallengeRecordApi::class.java)
+        Log.d("FragmentOXMyRecord", "Making API call with challengeId: $challengeId and status: $isOSelected")
 
-        apiService.updateChallengeStatus("Bearer $accessToken", challengeId!!, status)
+        val apiService = RetrofitInstance.getInstance().create(AddQuitChallengeRecordApi::class.java)
+        apiService.updateChallengeStatus("Bearer $accessToken", challengeId!!, isOSelected)
             .enqueue(object : Callback<AddQuitChallengeResponse> {
                 override fun onResponse(call: Call<AddQuitChallengeResponse>, response: Response<AddQuitChallengeResponse>) {
-                    if (response.isSuccessful == false) {
+                    if (response.isSuccessful) {
+                        Log.d("FragmentOXMyRecord", "Challenge status updated successfully.")
                         showToast("상태가 성공적으로 저장되었습니다.")
                     } else {
-                        val errorMessage = response.errorBody()?.string() ?: "Unknown error"
-                        Log.e("FragmentOXMyRecord", "Error: $errorMessage")
-                        showToast("서버 에러 발생: $errorMessage")
+                        val errorBody = response.errorBody()?.string() ?: "Unknown error"
+                        Log.e("FragmentOXMyRecord", "API Error: $errorBody")
+                        showToast("서버 에러 발생: $errorBody")
                     }
                 }
 
                 override fun onFailure(call: Call<AddQuitChallengeResponse>, t: Throwable) {
-                    Log.e("FragmentOXMyRecord", "Network error: ${t.localizedMessage}")
-                    showToast("네트워크 에러: ${t.localizedMessage}")
+                    val errorMessage = t.localizedMessage ?: "알 수 없는 네트워크 에러"
+                    Log.e("FragmentOXMyRecord", "Network error: $errorMessage")
+                    showToast("네트워크 에러: $errorMessage")
                 }
             })
     }
+
+
 
     /**
      * SharedPreferences에서 Access Token 가져오기

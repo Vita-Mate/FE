@@ -1,6 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="150dp">
+    android:layout_height="150dp"
+    android:layout_marginTop="10dp">
 
     <!-- team_rank_container에 실제 Fragment가 삽입될 예정 -->
 
