@@ -1,6 +1,7 @@
 package com.my.vitamateapp.intakeFragment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.my.vitamateapp.R
 import com.my.vitamateapp.databinding.ActivityScrapSupplementsBinding
 import com.my.vitamateapp.mySupplement.AddedSupplementModel
+import com.my.vitamateapp.mySupplement.MySupplementActivity
 import com.my.vitamateapp.mySupplement.NutrientInfo
 import com.my.vitamateapp.mySupplement.ScrapResult
 import com.my.vitamateapp.repository.SupplementsRepository
@@ -50,7 +52,10 @@ class ScrapSupplementsActivity : AppCompatActivity() {
         supplementsRepository = SupplementsRepository(this)
 
         // 스크랩한 영양제 리사이클러뷰 설정
-        scrapRvAdapter = ScrapSupplementsAdapter(scrapedSupplements)
+        scrapRvAdapter = ScrapSupplementsAdapter(scrapedSupplements) { supplementId ->
+            // 삭제 버튼 클릭 시 실행될 로직
+            removeSupplementFromScrap(supplementId)
+        }
         binding.scrapSupplementRv.adapter = scrapRvAdapter
         binding.scrapSupplementRv.layoutManager = LinearLayoutManager(this)
 
@@ -71,6 +76,12 @@ class ScrapSupplementsActivity : AppCompatActivity() {
             toggleSupplementList()  // 클릭 시 리스트 토글
         }
 
+        // 스크랩영양제 추가를 위해 영양제검색페이지로 전환
+        binding.addSupplement.setOnClickListener{
+            val intent = Intent(this, MySupplementActivity::class.java)
+            intent.putExtra("entry_mode", "scrap") // "scrap" 모드로 전달
+            startActivity(intent)
+        }
 
         // 스크랩한 영양제 목록 조회
         getScrapSupplements()
@@ -102,7 +113,6 @@ class ScrapSupplementsActivity : AppCompatActivity() {
                     scrapRvAdapter.notifyDataSetChanged() // 스크랩한 영양제 어댑터에 데이터 변경 알림
                 } else {
                     Log.d("ScrapSupplementsActivity", "스크랩한 영양제가 없음")
-                    Toast.makeText(this@ScrapSupplementsActivity, "스크랩한 영양제가 없습니다.", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -163,6 +173,32 @@ class ScrapSupplementsActivity : AppCompatActivity() {
         }
     }
 
+    // 영양제 스크랩 삭제 API 호출
+    private fun removeSupplementFromScrap(supplementId: Int) {
+        val sharedPreferences = getSharedPreferences("saved_user_info", Context.MODE_PRIVATE)
+        val accessToken = sharedPreferences.getString("accessToken", null)
+
+        if (accessToken.isNullOrEmpty()) {
+            Log.e("ScrapSupplementsActivity", "액세스 토큰이 유효하지 않습니다.")
+            return
+        }
+
+        lifecycleScope.launch {
+            Log.d("ScrapSupplementsActivity", "영양제 스크랩 삭제 요청: supplementId = $supplementId")
+
+            // 스크랩 삭제 API 호출 루테인
+            val success = supplementsRepository.deleteSupplementScrap(accessToken, supplementId)
+
+            if (success) {
+                // 삭제된 아이템을 리스트에서 제거
+                scrapedSupplements.removeAll { it.supplementId == supplementId }
+                scrapRvAdapter.notifyDataSetChanged() // 어댑터 갱신
+            } else {
+                Log.e("ScrapSupplementsActivity", "스크랩 삭제 실패")
+            }
+        }
+    }
+
     // 아이콘 바꿈 함수
     private fun toggleSupplementList() {
         isExpanded = !isExpanded
@@ -178,9 +214,20 @@ class ScrapSupplementsActivity : AppCompatActivity() {
 
     // 아이템 수에 맞게 프래그먼트 크기 조절 함수
     private fun adjustRecyclerViewHeight(itemCount: Int) {
-        val itemHeight = resources.getDimensionPixelSize(R.dimen.supplement_item_height)
+        val itemHeight = resources.getDimensionPixelSize(R.dimen.supplement_item_height) // 한 아이템 높이
+        val maxHeight = resources.getDimensionPixelSize(R.dimen.supplement_bar_fixed_height) // 기본 360dp 높이
+
+        val newHeight = if (isExpanded) {
+            // 확장 상태: 전체 아이템의 높이 반영
+            itemHeight * itemCount
+        } else {
+            // 축소 상태: 최대 높이(360dp)로 설정
+            maxHeight
+        }
+
+        // RecyclerView의 높이를 동적으로 설정
         val layoutParams = binding.supplementBarRv.layoutParams
-        layoutParams.height = itemHeight * itemCount
+        layoutParams.height = newHeight
         binding.supplementBarRv.layoutParams = layoutParams
     }
 

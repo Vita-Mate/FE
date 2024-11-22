@@ -3,6 +3,7 @@ package com.my.vitamateapp.mySupplement
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -33,6 +34,12 @@ class AllReviewsActivity : AppCompatActivity() {
 
         // API 호출하여 전체 리뷰 불러오기
         loadAllReviews()
+
+        //이전페이지로 이동
+        var pre_button = findViewById<ImageButton>(R.id.pre_button)
+        pre_button.setOnClickListener {
+            goPre()
+        }
     }
 
     private fun loadAllReviews() {
@@ -77,5 +84,10 @@ class AllReviewsActivity : AppCompatActivity() {
     private fun getSavedSupplementId(): Int {
         val sharedPref = getSharedPreferences("saved_supplement_info", Context.MODE_PRIVATE)
         return sharedPref.getInt("supplementId", -1) // 기본값 -1 (저장된 ID가 없을 때)
+    }
+
+    //이전 페이지로 이동 함수
+    private fun goPre() {
+        finish()
     }
 }

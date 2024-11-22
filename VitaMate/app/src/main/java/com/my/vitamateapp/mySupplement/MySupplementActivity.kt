@@ -56,8 +56,6 @@ class MySupplementActivity : AppCompatActivity() {
             val keyword = searchEditText.text.toString()
             if (keyword.isNotEmpty()) {
                 searchSupplements(keyword)
-            } else {
-                Toast.makeText(this, "검색어를 입력하세요.", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -112,14 +110,6 @@ class MySupplementActivity : AppCompatActivity() {
         }
     }
 
-    private fun showAddedSupplementsFragment() {
-        val addedSupplementsFragment = AddedSupplementsFragment()
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainerView, addedSupplementsFragment)
-            .addToBackStack(null) // 뒤로 가기 시 이전 프래그먼트로 돌아가기 위해 추가
-            .commit()
-    }
-
     private fun navigateHome() {
         val intent = Intent(this, HomeActivity::class.java)
         startActivity(intent)
@@ -138,6 +128,7 @@ class MySupplementActivity : AppCompatActivity() {
         }
     }
 }
+
 
 
 

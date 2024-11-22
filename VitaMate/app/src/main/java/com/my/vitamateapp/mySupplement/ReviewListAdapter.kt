@@ -26,8 +26,8 @@ class ReviewListAdapter(private val items: MutableList<ReviewItem>) : RecyclerVi
     }
 
     override fun getItemCount(): Int {
-        // isExpanded가 true면 전체 아이템을, false면 2개만 반환
-        return if (isExpanded) items.size else minOf(items.size, 2)
+        // 항상 2개만 보여주도록 설정
+        return minOf(items.size, 2)
     }
 
     // 전체 아이템 보여주기 함수

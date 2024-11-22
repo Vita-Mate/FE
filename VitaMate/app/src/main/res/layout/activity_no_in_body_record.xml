@@ -6,7 +6,7 @@
   <LinearLayout
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="703dp"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".registerPage.RegisterActivity">
 
@@ -106,10 +106,10 @@
       android:textColor="#000000"
       android:textSize="15sp">
 
-      <Button
+      <android.widget.Button
         android:id="@+id/previousBtn"
         android:layout_width="140dp"
-        android:layout_height="45dp"
+        android:layout_height="50dp"
         android:layout_marginLeft="40dp"
         android:background="@drawable/solid_button"
         android:gravity="center"
@@ -117,10 +117,10 @@
         android:text="이전"
         android:textColor="#000000" />
 
-      <Button
+      <android.widget.Button
         android:id="@+id/nextBtn"
         android:layout_width="140dp"
-        android:layout_height="45dp"
+        android:layout_height="50dp"
         android:layout_marginLeft="50dp"
         android:background="@drawable/solid_button"
         android:enabled="false"

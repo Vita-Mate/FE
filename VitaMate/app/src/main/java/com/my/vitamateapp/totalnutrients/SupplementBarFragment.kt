@@ -61,11 +61,9 @@ class SupplementBarFragment : Fragment() {
 
                 if (accessToken.isEmpty()) {
                     Log.e("SupplementBarFragment", "Access token is missing!")
-                    withContext(Dispatchers.Main) {
-                        Toast.makeText(context, "Access token is missing", Toast.LENGTH_SHORT).show()
-                    }
                     return@launch
                 }
+
                 // API 호출 및 응답 처리
                 supplementList = supplementsRepository.getTakingNutrients(accessToken)
 
@@ -75,19 +73,20 @@ class SupplementBarFragment : Fragment() {
                 val initialSupplementList = supplementList.take(3)
 
                 withContext(Dispatchers.Main) {
+                    // RecyclerView 어댑터 설정
                     adapter = SupplementBarAdapter(initialSupplementList)
                     recyclerView.adapter = adapter
                     Log.d("SupplementBarFragment", "Adapter set with fetched data.")
-                    adjustRecyclerViewHeight(initialSupplementList.size) // 아이템 개수에 맞는 크기 조정
+
+                    // RecyclerView의 기본 높이를 360dp로 유지
+                    adjustRecyclerViewHeight(supplementList.size.coerceAtLeast(3)) // 최소 3개 크기 유지
                 }
             } catch (e: Exception) {
                 Log.e("SupplementBarFragment", "Error fetching nutrient data: ${e.message}")
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(context, "데이터를 불러오는 중 오류가 발생했습니다.", Toast.LENGTH_SHORT).show()
-                }
             }
         }
     }
+
 
     private fun toggleSupplementList() {
         // 아이템 확장/축소 상태 변경
@@ -108,12 +107,20 @@ class SupplementBarFragment : Fragment() {
     }
 
     private fun adjustRecyclerViewHeight(itemCount: Int) {
-        // 각 아이템의 높이를 `dimens` 파일에서 가져옴
-        val itemHeight = resources.getDimensionPixelSize(R.dimen.supplement_item_height)
+        val itemHeight = resources.getDimensionPixelSize(R.dimen.supplement_item_height) // 한 아이템 높이
+        val baseHeight = resources.getDimensionPixelSize(R.dimen.supplement_bar_fixed_height) // 기본 높이 (360dp)
 
-        // RecyclerView의 높이를 조정
+        val newHeight = if (isExpanded) {
+            // 확장 상태에서는 전체 아이템 높이 반영
+            itemHeight * itemCount
+        } else {
+            // 축소 상태에서는 360dp 유지
+            baseHeight
+        }
+
+        // RecyclerView 높이 설정
         val layoutParams = recyclerView.layoutParams
-        layoutParams.height = itemHeight * itemCount
+        layoutParams.height = newHeight
         recyclerView.layoutParams = layoutParams
     }
 }

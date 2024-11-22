@@ -6,8 +6,10 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.Gravity
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -64,6 +66,7 @@ class RegisterActivity : AppCompatActivity() {
             isMaleSelected = true
             isFemaleSelected = false
             updateNextButtonState()
+            hideKeyboard()
         }
 
         binding.femaleButton.setOnClickListener {
@@ -114,9 +117,9 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun validateNickname(nickname: String): Boolean {
-        val regex = "^[가-힣]+$".toRegex()
+        val regex = "^[a-zA-Z가-힣]+$".toRegex() // 영어 대소문자와 한글만 허용
         if (!regex.matches(nickname)) {
-            Toast.makeText(this, "닉네임은 한글만 입력할 수 있습니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "닉네임은 한글 또는 영어만 입력할 수 있습니다.", Toast.LENGTH_SHORT).show()
             return false
         }
         return true
@@ -132,21 +135,33 @@ class RegisterActivity : AppCompatActivity() {
             val isDuplicate = repository.checkNicknameDuplicate(nickname)
 
             withContext(Dispatchers.Main) {
-                // 중복 확인 결과에 따른 UI 업데이트
-                if (isDuplicate) {
-                    // 중복되지 않는 경우 처리
-                    Log.d("RegisterActivity", "닉네임이 사용 가능합니다.")
-                    isDuplicateChecked = true  // 중복 확인이 성공했을 경우
-                    Toast.makeText(this@RegisterActivity, "닉네임이 사용 가능합니다.", Toast.LENGTH_SHORT).show()
+                // 스낵바를 표시하여 사용자에게 결과를 알림
+                val responseMessage = if (isDuplicate) {
+                    "중복된 닉네임입니다."
                 } else {
-                    // 중복된 경우 처리
-                    Log.d("RegisterActivity", "닉네임이 이미 사용 중입니다.")
-                    isDuplicateChecked = false  // 중복 확인이 실패했을 경우
-                    Toast.makeText(this@RegisterActivity, "닉네임이 이미 사용 중입니다.", Toast.LENGTH_SHORT).show()
+                    "사용 가능한 닉네임입니다."
                 }
-                updateNextButtonState() // 다음 버튼 상태 업데이트
+
+                showCustomSnackbar(responseMessage)
+
+                isDuplicateChecked = !isDuplicate // 중복 여부 저장
+                updateNextButtonState()
             }
         }
+    }
+
+    // 커스텀 스낵바 알람 띄우기 함수
+    private fun showCustomSnackbar(message: String) {
+        val snackbarView = layoutInflater.inflate(R.layout.custom_nicknamebar, null)
+
+        val snackbarTextView = snackbarView.findViewById<TextView>(R.id.snackbar_text)
+        snackbarTextView.text = message // 서버 응답 결과 메시지 설정 비타
+
+        Toast(this).apply {
+            duration = Toast.LENGTH_SHORT
+            view = snackbarView
+            setGravity(Gravity.TOP or Gravity.CENTER_HORIZONTAL, 0, 100) // 상단 중앙, Y 오프셋 100dp
+        }.show()
     }
 
     private fun createDateTextWatcher(): TextWatcher {
@@ -231,6 +246,5 @@ class RegisterActivity : AppCompatActivity() {
         editor.putInt("gender", gender)
         editor.apply()
 
-        Toast.makeText(this, "회원 정보가 저장되었습니다.", Toast.LENGTH_SHORT).show()
     }
 }

@@ -5,10 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.my.vitamateapp.R
 import com.my.vitamateapp.repository.SupplementsRepository
 import kotlinx.coroutines.CoroutineScope
@@ -33,15 +36,43 @@ class AddedSupplementsFragment : Fragment() {
 
         val rv: RecyclerView = view.findViewById(R.id.addedSupplements_rv)
         rvAdapter = AddedSupplementsAdapter(addedSupplements) { position ->
-            val supplementId = addedSupplements[position].id
-            deleteSupplement(supplementId, position) // 삭제 함수 호출
+            val supplement = addedSupplements[position]
+            showDeleteDialog(supplement.name, supplement.id, position) // 삭제 다이얼로그 호출
         }
         rv.adapter = rvAdapter
         rv.layoutManager = LinearLayoutManager(context)
 
-        loadTakingSupplements() // 섭취중인 영양제반환 api
+        loadTakingSupplements() // 섭취중인 영양제 반환 API 호출
 
         return view
+    }
+
+    // 삭제 확인 다이얼로그 표시
+    private fun showDeleteDialog(supplementName: String, supplementId: Int, position: Int) {
+        val dialogView = layoutInflater.inflate(R.layout.supplement_delete, null)
+
+        // 다이얼로그에 영양제 이름 설정
+        dialogView.findViewById<TextView>(R.id.supplementName).text = supplementName
+
+        val dialog = MaterialAlertDialogBuilder(requireContext())
+            .setView(dialogView)
+            .create()
+
+        // 둥근 모서리 배경 설정 오메가
+        dialog.window?.setBackgroundDrawableResource(R.drawable.rounded_background)
+
+        // 네 버튼 클릭 시 삭제 처리
+        dialogView.findViewById<Button>(R.id.button_yes).setOnClickListener {
+            deleteSupplement(supplementId, position)
+            dialog.dismiss()
+        }
+
+        // 아니오 버튼 클릭 시 다이얼로그 닫기
+        dialogView.findViewById<Button>(R.id.button_no).setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
     // 섭취 중인 영양제 리스트 가져오는 API 연동
@@ -50,7 +81,6 @@ class AddedSupplementsFragment : Fragment() {
         val accessToken = sharedPreferences.getString("accessToken", null)
 
         if (accessToken.isNullOrEmpty()) {
-            Toast.makeText(context, "액세스 토큰이 유효하지 않습니다.", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -71,7 +101,6 @@ class AddedSupplementsFragment : Fragment() {
         val accessToken = sharedPreferences.getString("accessToken", null)
 
         if (accessToken.isNullOrEmpty()) {
-            Toast.makeText(context, "액세스 토큰이 유효하지 않습니다.", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -86,6 +115,5 @@ class AddedSupplementsFragment : Fragment() {
         }
     }
 }
-
 
 

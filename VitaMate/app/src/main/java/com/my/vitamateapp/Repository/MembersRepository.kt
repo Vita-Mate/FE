@@ -2,7 +2,6 @@ package com.my.vitamateapp.repository
 
 import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import com.my.vitamateapp.Api.CheckNicknameApi
 import com.my.vitamateapp.Api.RetrofitInstance
 
@@ -20,13 +19,9 @@ class MembersRepository(private val context: Context) {
 
                 Log.d("MembersRepository", "API 응답 코드: ${response.code()}")
 
-                if (nicknameResponse.isSuccss) {
-                    Log.d("MembersRepository", "중복 확인 성공: ${nicknameResponse.result}")
-                    true // 중복되지 않음
-                } else {
-                    Log.d("MembersRepository", "중복 확인 실패: ${nicknameResponse.message}")
-                    false // 중복됨
-                }
+                val isDuplicate = nicknameResponse.result == "중복된 닉네임입니다."
+                Log.d("MembersRepository", "닉네임 중복 여부: $isDuplicate")
+                isDuplicate
             } else {
                 Log.e("MembersRepository", "응답 실패: ${response.code()}")
                 false // 요청 실패

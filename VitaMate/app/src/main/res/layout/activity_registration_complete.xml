@@ -33,7 +33,7 @@
     <TextView
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginTop="50dp"
+      android:layout_marginTop="40dp"
       android:gravity="center"
       android:padding="10sp"
       android:layout_marginLeft="100dp"
@@ -43,7 +43,7 @@
     <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_marginTop="50dp"
+      android:layout_marginTop="40dp"
       android:gravity="center"
       android:orientation="vertical"
       android:padding="10dp">
@@ -113,7 +113,7 @@
         android:text="상대의 잘못된 태도나 언행은 망설이지 말고 신고해 주세요." />
 
     </LinearLayout>
-    <Button
+    <android.widget.Button
       android:id="@+id/nextBtn"
       android:layout_width="290dp"
       android:layout_height="45dp"

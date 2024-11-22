@@ -49,6 +49,16 @@ class SupplementBarAdapter(private var supplementList: List<NutrientInfo>) :
             supplement.unit
         )
 
+        // 권장 섭취량보다 실제 섭취량이 많을 경우 텍스트를 빨간색과 Bold로 설정
+        if (supplement.nutrientAmount > supplement.recommendedAmount + 0.2f) {
+            holder.amountTextView.setTextColor(Color.RED) // 빨간색 설정
+            holder.amountTextView.setTypeface(null, android.graphics.Typeface.BOLD) // Bold 설정
+        } else {
+            holder.amountTextView.setTextColor(Color.BLACK) // 검은색으로 초기화
+            holder.amountTextView.setTypeface(null, android.graphics.Typeface.NORMAL) // 일반체로 초기화
+        }
+
+
         // 퍼센트 계산 (0에서 100 사이 값으로 조정)
         val percentage = (supplement.nutrientAmount.toFloat() / supplement.recommendedAmount.toFloat()) * 100
 
@@ -59,11 +69,11 @@ class SupplementBarAdapter(private var supplementList: List<NutrientInfo>) :
         // 데이터셋 생성 및 색상 설정
         val dataSet = BarDataSet(entries, supplement.nutrientName)
         dataSet.color = getColorForNutrient(position) // 색상 설정
-        dataSet.setDrawValues(true) // 값 표시 설정
+        dataSet.setDrawValues(false) // 숫자 숨기기
 
         // BarData 생성 및 막대 너비 설정
         val barData = BarData(dataSet)
-        barData.barWidth = 0.7f // 막대 너비 조정
+        barData.barWidth = 0.5f // 막대 너비 조정 (기본값보다 크게 설정)
 
         // 차트에 데이터 설정 및 축 조정
         holder.barChart.data = barData
@@ -74,6 +84,7 @@ class SupplementBarAdapter(private var supplementList: List<NutrientInfo>) :
         holder.barChart.axisLeft.axisMaximum = 100f // 0 ~ 100% 범위 설정
         holder.barChart.axisLeft.setDrawLabels(false)
         holder.barChart.axisLeft.setDrawGridLines(false)
+        holder.barChart.axisLeft.setDrawAxisLine(false)
 
         holder.barChart.axisRight.isEnabled = false
         holder.barChart.xAxis.isEnabled = false
@@ -81,6 +92,9 @@ class SupplementBarAdapter(private var supplementList: List<NutrientInfo>) :
         // 불필요한 레이블 숨기기
         holder.barChart.legend.isEnabled = false
         holder.barChart.description.isEnabled = false
+
+        // 테두리 추가: XML에서 background 속성 사용
+        holder.barChart.setDrawBarShadow(true) // 막대의 배경 그림자 활성화
 
         // 애니메이션 적용
         holder.barChart.invalidate()

@@ -41,15 +41,19 @@ class ReviewListFragment : Fragment() {
         val rv: RecyclerView = view.findViewById(R.id.review_item_rv)
         rvAdapter = ReviewListAdapter(reviews)
         rv.adapter = rvAdapter
-        rv.layoutManager = LinearLayoutManager(context)
+
+        // RecyclerView의 레이아웃 설정
+        val layoutManager = LinearLayoutManager(context)
+        layoutManager.stackFromEnd = false // 스크롤 막기
+        rv.layoutManager = layoutManager
 
         // API 호출하여 리뷰 목록 불러오기
         loadReviews()
 
-        // 전체 리뷰 보기 버튼 클릭 시 처리
+        // "리뷰 전체보기" 버튼 클릭 시 전체 리뷰 액티비티로 이동
         showMoreButton.setOnClickListener {
-            rvAdapter.expandItems() // 전체 아이템 보기
-            showMoreButton.visibility = View.GONE // 버튼 숨기기
+            val intent = Intent(requireContext(), AllReviewsActivity::class.java)
+            startActivity(intent)
         }
 
         // 리뷰 작성 버튼 클릭 시 리뷰 작성 액티비티로 이동
@@ -58,11 +62,6 @@ class ReviewListFragment : Fragment() {
             startActivity(intent)
         }
 
-        // 전체 리뷰 보기 버튼 클릭 시 전체 리뷰 액티비티로 이동
-        showMoreButton.setOnClickListener {
-            val intent = Intent(requireContext(), AllReviewsActivity::class.java)
-            startActivity(intent)
-        }
         return view
     }
 
@@ -88,17 +87,17 @@ class ReviewListFragment : Fragment() {
             val result = supplementsRepository.getSupplementReviews(accessToken, supplementId)
             withContext(Dispatchers.Main) {
                 if (result != null) {
-                    // 불러온 리뷰 데이터를 리스트에 추가
+                    // 불러온 리뷰 데이터를 리스트에 추가 (최대 2개만 표시)
                     reviews.clear()
-                    reviews.addAll(result)
+                    reviews.addAll(result.take(2))
+
+                    // 리뷰 리스트를 어댑터에 업데이트
+                    rvAdapter.notifyDataSetChanged()
 
                     // 로그로 모든 리뷰 데이터 출력
                     result.forEach { review ->
                         Log.d("ReviewListFragment", "리뷰: 닉네임=${review.nickname}, 별점=${review.grade}, 내용=${review.content}")
                     }
-
-                    // 리뷰 리스트를 어댑터에 업데이트
-                    rvAdapter.notifyDataSetChanged()
 
                 } else {
                     Toast.makeText(context, "리뷰 조회 실패", Toast.LENGTH_SHORT).show()

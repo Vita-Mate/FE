@@ -3,5 +3,6 @@
     <dimen name="imgSize">100dp</dimen>
 
     <!-- 막대바 각 아이템의 높이를 70dp로 지정 -->
+    <dimen name="supplement_bar_fixed_height">210dp</dimen>
     <dimen name="supplement_item_height">70dp</dimen>
 </resources>

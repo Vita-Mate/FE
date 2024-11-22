@@ -68,7 +68,6 @@ class NoInBodyRecordActivity : AppCompatActivity() {
         if (!isHeightValid) {
             // 유효하지 않을 때 키패드가 내려가면 토스트 메시지 표시
             hideKeyboard()
-            Toast.makeText(this, "정확한 키를 입력하시오.", Toast.LENGTH_SHORT).show()
         }
         checkFormValidity()
     }
@@ -79,7 +78,6 @@ class NoInBodyRecordActivity : AppCompatActivity() {
         if (!isWeightValid) {
             // 유효하지 않을 때 키패드가 내려가면 토스트 메시지 표시
             hideKeyboard()
-            Toast.makeText(this, "정확한 몸무게를 입력하시오.", Toast.LENGTH_SHORT).show()
         }
         checkFormValidity()
     }
@@ -112,11 +110,6 @@ class NoInBodyRecordActivity : AppCompatActivity() {
             editor.putInt("weight", weight)
             editor.apply() // 변경 사항 저장
         }
-
-        // 저장된 데이터 확인
-        val savedHeight = sharedPreferences.getInt("height", 0)
-        val savedWeight = sharedPreferences.getInt("weight", 0)
-        Toast.makeText(this, "저장된 키: $savedHeight, 저장된 몸무게: $savedWeight", Toast.LENGTH_SHORT).show()
     }
 
 

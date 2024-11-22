@@ -85,11 +85,9 @@ class SupplementDetailActivity : AppCompatActivity() {
             if (success) {  // 반환된 Boolean 값이 true일 경우
                 isScraped = true
                 binding.scrapButton.setImageResource(R.drawable.bookmark_color) // 스크랩 버튼 이미지 변경
-                Toast.makeText(this@SupplementDetailActivity, "스크랩이 추가되었습니다.", Toast.LENGTH_SHORT).show()
                 Log.d("SupplementDetailActivity", "스크랩 추가 성공")
             } else {
                 Log.e("SupplementDetailActivity", "스크랩 추가 실패")
-                Toast.makeText(this@SupplementDetailActivity, "스크랩 추가 실패", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -113,10 +111,8 @@ class SupplementDetailActivity : AppCompatActivity() {
             if (success) {
                 isScraped = false
                 binding.scrapButton.setImageResource(R.drawable.bookmark_white)  // 스크랩 버튼 이미지 변경
-                Toast.makeText(this@SupplementDetailActivity, "스크랩이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
             } else {
                 Log.e("SupplementDetailActivity", "스크랩 삭제 실패")
-                Toast.makeText(this@SupplementDetailActivity, "스크랩 삭제 실패", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -151,7 +147,7 @@ class SupplementDetailActivity : AppCompatActivity() {
                 Log.d("SupplementDetailActivity", "영양제 상세 정보 조회 성공: $detail")
             } ?: run {
                 Log.e("SupplementDetailActivity", "영양제 상세 정보 조회 실패: null 반환")
-                Toast.makeText(this@SupplementDetailActivity, "영양제 상세 정보 조회 실패", Toast.LENGTH_SHORT).show()
+
             }
         }
     }

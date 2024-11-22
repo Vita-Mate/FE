@@ -57,7 +57,6 @@ class SupplementsRepository(private val context: Context) {
             val response = apiService.deleteTakingSupplements("Bearer $accessToken", supplementId)
             if (response.isSuccessful) {
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(context, "영양제가 삭제되었습니다.", Toast.LENGTH_SHORT).show()
                 }
                 true
             } else {
@@ -86,7 +85,6 @@ class SupplementsRepository(private val context: Context) {
             // 응답이 성공적인지 확인
             if (response.isSuccess || response.code == "COMMON200") {
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(context, "리뷰가 성공적으로 작성되었습니다.", Toast.LENGTH_SHORT).show()
                 }
                 true // 성공 시 true 반환
             } else {

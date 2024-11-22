@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -19,6 +20,10 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
+
+        // 사용자 닉네임 설정
+        displayNickname()
 
         // Intent에서 데이터 수신
         val challengeCreated = intent.getBooleanExtra("challengeCreated", false)
@@ -30,9 +35,11 @@ class HomeActivity : AppCompatActivity() {
             Toast.makeText(this, message ?: "챌린지가 생성되었습니다.", Toast.LENGTH_SHORT).show()
         }
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
-
-
+        // 사용자 아이콘 클릭시 userPage로 이동
+        binding.goUserPage.setOnClickListener{
+            val intent = Intent(this, UserPageActivity::class.java)
+            startActivity(intent)
+        }
 
         // 버튼 클릭 리스너 설정
         binding.homeHealthBtn.setOnClickListener {
@@ -51,14 +58,6 @@ class HomeActivity : AppCompatActivity() {
             selectedCategory = "QUIT_SMOKE"  // 금연 선택
             challengeId = getChallengeIdByCategory(selectedCategory)
             goSelectmode()
-        }
-
-        binding.kakaoLogoutButton.setOnClickListener {
-            vitamate_logout()
-        }
-
-        binding.deleteAccountButton.setOnClickListener {
-            deleteAccount()
         }
 
         binding.clearSharedPreferences.setOnClickListener {
@@ -91,31 +90,18 @@ class HomeActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    // 사용자 닉네임 보여주기 함수
+    private fun displayNickname() {
+        // SharedPreferences에서 닉네임 가져오기
+        val sharedPreferences = getSharedPreferences("saved_user_info", Context.MODE_PRIVATE)
+        val userNickname = sharedPreferences.getString("nickname", "사용자") ?: "사용자"
 
-    // 로그아웃 기능
-    private fun vitamate_logout() {
-        UserApiClient.instance.logout { error ->
-            if (error != null) {
-                Log.e("HomeActivity", "로그아웃 실패", error)
-            } else {
-                Log.i("HomeActivity", "로그아웃 성공")
-                startActivity(Intent(this, MainActivity::class.java))
-                finish() // 로그아웃 성공하면 다시 앱 초기 화면으로 이동.
-            }
-        }
-    }
+        // 로그로 저장된 닉네임 출력
+        Log.d("NicknameLog", "저장된 닉네임: $userNickname")
 
-    // 계정 삭제 기능
-    private fun deleteAccount() {
-        UserApiClient.instance.unlink { error ->
-            if (error != null) {
-                Log.e("HomeActivity", "연결 끊기 실패", error)
-            } else {
-                Log.i("HomeActivity", "연결 끊기 성공")
-                startActivity(Intent(this, MainActivity::class.java))
-                finish() // 계정 삭제 성공하면 다시 앱 초기 화면으로 이동.
-            }
-        }
+        // 닉네임 TextView에 값 설정
+        val nicknameTextView: TextView = findViewById(R.id.nickname)
+        nicknameTextView.text = "$userNickname"
     }
 
     // SharedPreferences 초기화 기능

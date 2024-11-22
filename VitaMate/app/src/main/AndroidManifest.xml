@@ -83,9 +83,6 @@
             android:name=".Challenge.ChallengeCreateGroupObjectiveActivity"
             android:exported="false" />
         <activity
-            android:name=".Challenge.ChallengeCreatePersonalActivity"
-            android:exported="false" />
-        <activity
             android:name=".Challenge.ChallengeCreateGroupActivity"
             android:exported="false" />
         <activity
@@ -117,6 +114,9 @@
             android:exported="false" />
         <activity
           android:name=".intakeFragment.ScrapSupplementsActivity"
+          android:exported="false"/>
+        <activity
+          android:name=".UserPageActivity"
           android:exported="false"/>
         <activity
             android:name=".Challenge.ChallengeActivity"

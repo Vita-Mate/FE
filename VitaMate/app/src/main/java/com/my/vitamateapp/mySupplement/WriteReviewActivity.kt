@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -69,7 +70,8 @@ class WriteReviewActivity : AppCompatActivity() {
 
         // 작성완료 버튼 클릭
         submitButton.setOnClickListener {
-            writeSupplementsReview() // 리뷰 제출 함수 호출 비타
+            hideKeyboard()
+            writeSupplementsReview() // 리뷰 제출 함수 호출 최고네요 짱짱
 
             //영양제 상세정보 페이지로 다시 이동
             val intent = Intent(this, SupplementDetailActivity::class.java)
@@ -168,5 +170,13 @@ class WriteReviewActivity : AppCompatActivity() {
     //이전 페이지로 이동 함수
     private fun goPre() {
         finish()
+    }
+
+    //키보드 내리기 함수
+    private fun hideKeyboard() {
+        val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        currentFocus?.let {
+            inputMethodManager.hideSoftInputFromWindow(it.windowToken, 0)
+        }
     }
 }

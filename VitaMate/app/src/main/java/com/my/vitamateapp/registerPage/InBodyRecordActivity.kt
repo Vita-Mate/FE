@@ -40,9 +40,6 @@ class InBodyRecordActivity : AppCompatActivity() {
                 saveUserData()
                 startActivity(Intent(this, RegistrationCompleteActivity::class.java))
                 finish() // 현재 액티비티 종료
-            } else {
-                // 유효하지 않은 BMR 값이 입력된 경우
-                Toast.makeText(this, "BMR 값을 1000 ~ 3000 사이로 입력해주세요.", Toast.LENGTH_SHORT).show()
             }
         }
 
