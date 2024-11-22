@@ -21,7 +21,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ChallengeCreateIndividualActivity : AppCompatActivity() {
+class ChallengeCreatePersonalActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityChallengeCreateIndividualBinding
     private lateinit var category: String
@@ -101,18 +101,18 @@ class ChallengeCreateIndividualActivity : AppCompatActivity() {
                     response: Response<CreateChallengePersonalResponse>
                 ) {
                     if (response.isSuccessful) {
-                        Log.d("ChallengeCreateIndividualActivity", "Challenge created successfully.")
+                        Log.d("ChallengeCreatePersonalActivity", "Challenge created successfully.")
                         showToast("챌린지가 성공적으로 생성되었습니다.")
                         navigateToHomeActivity() // 생성 후 홈 화면으로 이동
                     } else {
                         val errorMessage = response.errorBody()?.string() ?: "Unknown error"
-                        Log.e("ChallengeCreateIndividualActivity", "API Error: $errorMessage")
+                        Log.e("ChallengeCreatePersonalActivity", "API Error: $errorMessage")
                         showToast("서버 에러 발생: $errorMessage")
                     }
                 }
 
                 override fun onFailure(call: Call<CreateChallengePersonalResponse>, t: Throwable) {
-                    Log.e("ChallengeCreateIndividualActivity", "Network error: ${t.localizedMessage}")
+                    Log.e("ChallengeCreatePersonalActivity", "Network error: ${t.localizedMessage}")
                     showToast("네트워크 에러: ${t.localizedMessage}")
                 }
             })
@@ -144,7 +144,7 @@ class ChallengeCreateIndividualActivity : AppCompatActivity() {
             selectedDurationView?.setBackgroundResource(R.drawable.button_background)
             selectedDurationView = null
             selectedDuration = null
-            Log.d("ChallengeCreateIndividualActivity", "Selection cleared.")
+            Log.d("ChallengeCreatePersonalActivity", "Selection cleared.")
             return
         }
 
@@ -169,6 +169,6 @@ class ChallengeCreateIndividualActivity : AppCompatActivity() {
         // 현재 선택된 뷰 업데이트
         selectedDurationView = selectedView
 
-        Log.d("ChallengeCreateIndividualActivity", "Selected duration: $selectedDuration")
+        Log.d("ChallengeCreatePersonalActivity", "Selected duration: $selectedDuration")
     }
 }

@@ -31,7 +31,21 @@
         </provider>
 
 
-
+        <activity
+            android:name=".Challenge.ChallengePersonalCreateOrMyPageActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".Challenge.ChallengeCreatePersonalActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".Challenge.ChallengePersonalMyExercisePageActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".Challenge.ChallengePersonalMyNoDrinkPageActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".Challenge.ChallengePersonalMyNoSmokePageActivity"
+            android:exported="false"/>
         <activity
             android:name=".Challenge.ChallengeMyNoSmokePageActivity"
             android:exported="false" />
@@ -69,7 +83,7 @@
             android:name=".Challenge.ChallengeCreateGroupObjectiveActivity"
             android:exported="false" />
         <activity
-            android:name=".Challenge.ChallengeCreateIndividualActivity"
+            android:name=".Challenge.ChallengeCreatePersonalActivity"
             android:exported="false" />
         <activity
             android:name=".Challenge.ChallengeCreateGroupActivity"
