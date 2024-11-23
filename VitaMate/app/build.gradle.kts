@@ -1,11 +1,8 @@
-import org.gradle.kotlin.dsl.support.kotlinCompilerOptions
-import org.jetbrains.kotlin.storage.CacheResetOnProcessCanceled.enabled
 
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id("kotlin-parcelize")
-//    id("org.jetbrains.kotlin.android") //Parcelize사용을 위한 추가
 
 }
 
@@ -63,9 +60,6 @@ android {
 
 dependencies {
 
-//    implementation(libs.androidx.core.ktx)
-//    implementation(libs.androidx.appcompat)
-//    implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.identity.credential.android)
@@ -89,44 +83,23 @@ dependencies {
 
     implementation ("androidx.core:core-ktx:1.12.0")
     implementation ("androidx.appcompat:appcompat:1.7.0")
-//    implementation ("com.google.android.material:material:1.11.0")
     implementation ("androidx.constraintlayout:constraintlayout:2.1.4")
-
     implementation ("androidx.recyclerview:recyclerview:1.3.1")//RecyclerView
-
     implementation ("org.jetbrains.kotlin:kotlin-stdlib:1.9.10")
-
     implementation ("com.google.android.material:material:1.9.0")
-
-
     coreLibraryDesugaring ("com.android.tools:desugar_jdk_libs:1.1.5") // 최신 버전으로 변경 가능
-
     implementation ("androidx.room:room-runtime:2.5.0")
     annotationProcessor ("androidx.room:room-compiler:2.5.0")
     // Kotlin Annotation Processor
-
     //영양제 막대바를 위한 라이브러리 추가
     implementation("com.github.PhilJay:MPAndroidChart:3.1.0")
-
     //백엔드 api사용을 위해 retrofit추가
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
-
     implementation ("com.github.prolificinteractive:material-calendarview:1.4.3")
-
-    //이미지 가져오기 위한 glide 추가
-    implementation ("com.github.bumptech.glide:glide:4.12.0")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
-
     implementation ("com.github.bumptech.glide:glide:4.15.1")  // Glide 의존성
     annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1")  // Glide 컴파일러
 
-
-
-
-//    implementation("com.kizitonwose.calendar:view:2.6.0-beta04")
-////    implementation("com.kizitonwose.calendar:data:2.6.0-beta04")
-////    implementation("com.kizitonwose.calendar:core:2.6.0-beta04")
-//    implementation("com.kizitonwose.calendar:compose-multiplatform-android:2.6.0-alpha05") //kizitonwose의 캘린더
 
 }

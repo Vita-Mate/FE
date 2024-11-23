@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat.startActivity
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.kakao.sdk.friend.m.t
 import com.my.vitamateapp.Api.RetrofitInstance
@@ -43,7 +44,9 @@ class ChallengeBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding.userImageView.setOnClickListener {
+            uploadPicture()
+        }
 
         // 버튼 클릭 리스너 설정
         binding.enrollExerciseSaveButton.setOnClickListener {
@@ -54,13 +57,34 @@ class ChallengeBottomSheetDialogFragment : BottomSheetDialogFragment() {
     }
 
 
+    private fun uploadPicture() {
+
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.fragment_challenge_image_view, null)
+        val dialogBuilder = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .setCancelable(true)
+
+        val alertDialog = dialogBuilder.create()
+
+        // Set up button actions
+        val buttonCamera = dialogView.findViewById<ImageButton>(R.id.buttonCamera)
+
+        buttonCamera.setOnClickListener {
+            // Handle camera button click
+            alertDialog.dismiss()
+        }
+
+        alertDialog.show()
+    }
+
+
 
     // ChallengeBottomSheetDialog2Fragment로 데이터를 전달하는 함수
     private fun saveInformation() {
 
         val challengeId = getChallengeIdByCategory(context, "EXERCISE")
 
-/// challengeId 값 확인
+        // challengeId 값 확인
         if (challengeId != -1L) {
             Log.d("Challenge", "Saved challengeId: $challengeId")
         } else {
