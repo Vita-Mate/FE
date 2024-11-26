@@ -147,9 +147,9 @@ class ChallengeMyNoSmokePageActivity : AppCompatActivity() {
             .enqueue(object : Callback<ChallengePreviewResponse> {
                 override fun onResponse(call: Call<ChallengePreviewResponse>, response: Response<ChallengePreviewResponse>) {
                     if (response.isSuccessful) {
-                        response.body()?.let {
-                            binding.challengeDDay.text = "D-${it.result.dday}"
-                        }
+//                        response.body()?.let {
+//                            binding.challengeDDay.text = "D-${it.result.dday}"
+//                        }
                     } else {
                     }
                 }

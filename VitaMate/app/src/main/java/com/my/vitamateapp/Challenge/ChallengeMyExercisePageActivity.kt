@@ -9,6 +9,7 @@ import android.widget.ToggleButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import com.google.android.material.datepicker.MaterialCalendar
 import com.my.vitamateapp.R
 import com.my.vitamateapp.databinding.ChallengeExerciseMypage1Binding
 import com.prolificinteractive.materialcalendarview.CalendarDay
@@ -30,21 +31,46 @@ class ChallengeMyExercisePageActivity : AppCompatActivity() {
         // 바인딩 초기화
         binding = DataBindingUtil.setContentView(this, R.layout.challenge_exercise_mypage1)
 
+        // 캘린더 참조
+        val calendarView = binding.CalendarRecyclerView // 여기서 calendarView를 바인딩 객체에서 가져옴
+
+
         challengeId = intent.getLongExtra("challengeId", -1L)  // challengeId를 Intent에서 받음
         Log.d("ChallengeMyExercisePageActivity", "Received challengeId: $challengeId")
 
 
-        // 캘린더 설정
-        val calendarView = binding.CalendarRecyclerView
-        calendarView.state().edit()
-            .setFirstDayOfWeek(Calendar.SUNDAY)
-            .setCalendarDisplayMode(CalendarMode.WEEKS)
-            .commit()
-        calendarView.setCurrentDate(CalendarDay.today()) // 오늘 날짜로 초기화
+
+        // 캘린더에서 날짜 선택 리스너 설정
+        calendarView.setOnDateChangedListener { widget, date, selected ->
+            if (selected) {
+                selectedDate = date  // 선택된 날짜를 CalendarDay 객체로 저장
+                calendarView.addDecorator(SelectedDayDecorator(date))  // 날짜를 선택된 상태로 표시
+                calendarView.invalidateDecorators()
+
+                // 선택된 날짜를 String 형식으로 변환하여 Fragment에 전달
+                val selectedDateString = "${date.year}-${date.month + 1}-${date.day}"
+
+                // Fragment에 전달할 데이터 준비
+                val bundle = Bundle().apply {
+                    putLong("challengeId", challengeId ?: -1L)
+                    putString("selectedDate", selectedDateString)
+                }
+
+                val fragment = FragmentMyExerciseRecord()  // 전달할 Fragment
+                fragment.arguments = bundle
+
+                // Fragment를 화면에 추가
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.record_page_nav, fragment)
+                    .addToBackStack(null)
+                    .commit()
+            }
+        }
+
 
         // 캘린더 토글 버튼 설정
         val toggleCalendarView = binding.toggleViewButton
-        toggleCalendarView.isChecked = true // 기본은 주간 보기
+        toggleCalendarView.isChecked = false // 기본은 주간 보기
         setupCalendar(calendarView, toggleCalendarView)
 
         // 클릭 리스너 설정

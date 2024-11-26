@@ -81,19 +81,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
-            <!-- Day text -->
-            <TextView
-                android:id="@+id/challenge_dDay"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="D+2"
-                android:textColor="@color/black"
-                android:textSize="25dp"
-                android:textStyle="bold"
-                android:layout_margin="20dp"
-                app:layout_constraintTop_toBottomOf="@id/toggleViewButton"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+<!--            &lt;!&ndash; Day text &ndash;&gt;-->
+<!--            <TextView-->
+<!--                android:id="@+id/challenge_dDay"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="D+2"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="25dp"-->
+<!--                android:textStyle="bold"-->
+<!--                android:layout_margin="20dp"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/toggleViewButton"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent" />-->
 
             <!--나의 기록 | 팀원 기록 | 팀원 순위-->
             <LinearLayout
@@ -102,7 +102,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_margin="10dp"
-                app:layout_constraintTop_toBottomOf="@id/challenge_dDay"
+                app:layout_constraintTop_toBottomOf="@id/toggleViewButton"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
 

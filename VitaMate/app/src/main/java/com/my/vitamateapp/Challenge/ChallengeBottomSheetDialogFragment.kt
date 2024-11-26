@@ -170,21 +170,21 @@ class ChallengeBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     private fun getChallengeIdByCategory(context: Context?, category: String): Long {
         return context?.let {
-            val sharedPref = context.getSharedPreferences("ChallengePreferences", Context.MODE_PRIVATE)
+            val sharedPref = context.getSharedPreferences("ChallengePrefs", Context.MODE_PRIVATE)
             val challengeId = sharedPref.getLong("challengeId_$category", -1L)
             Log.d("Challenge", "Retrieved challengeId for category $category: $challengeId")
             return challengeId
         } ?: -1L
     }
 
-    private fun saveRecordIdByCategory(context: Context, category: String, recordId: Long) {
-        val sharedPref = context.getSharedPreferences("saved_user_info", Context.MODE_PRIVATE)
-        val editor = sharedPref.edit()
-
-        // 카테고리별로 recordId를 저장
-        editor.putString("recordId_$category", recordId.toString())
-        editor.apply()
-    }
+//    private fun saveRecordIdByCategory(context: Context, category: String, recordId: Long) {
+//        val sharedPref = context.getSharedPreferences("saved_user_info", Context.MODE_PRIVATE)
+//        val editor = sharedPref.edit()
+//
+//        // 카테고리별로 recordId를 저장
+//        editor.putString("recordId_$category", recordId.toString())
+//        editor.apply()
+//    }
 
     // Initialize button click listeners
     private fun setupButtonListeners() {

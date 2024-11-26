@@ -33,29 +33,30 @@ class ChallengeCreateOrSearchActivity : AppCompatActivity() {
 
         // Intent로 전달된 데이터 가져오기
         selectedCategory = intent.getStringExtra("category")?.let { Category.valueOf(it) }
-        challengeId = intent.getLongExtra("challengeId", -1L)
 
         binding.closeBtn.setOnClickListener { finish() }
-        updateChallengeButton()
+        updateChallengeButton()  // 챌린지 ID를 기반으로 버튼 업데이트
 
         binding.searchChallenge.setOnClickListener { searchChallenge() }
     }
 
     override fun onResume() {
         super.onResume()
-        updateChallengeButton()
+        updateChallengeButton()  // 챌린지 상태가 갱신될 때마다 버튼 업데이트
     }
 
     private fun updateChallengeButton() {
-        challengeId = selectedCategory?.let { getChallengeIdFromPreferences(it) }
 
-        if (!isValidChallengeId(challengeId!!)) {
-            setupCreateChallengeButton()
+        val challengeId = getChallengeIdByCategory(selectedCategory)  // 카테고리별 challengeId 가져오기
+
+        // challengeId 유효성 확인 후 버튼 설정
+        if (challengeId != null && isValidChallengeId(challengeId!!)) {
+
+            setupMyPageButton() // "마이 페이지" 버튼 설정
         } else {
-            setupMyPageButton()
+            setupCreateChallengeButton() // "챌린지 만들기" 버튼 설정
         }
     }
-
 
     private fun setupCreateChallengeButton() {
         binding.createChallenge.text = "챌린지 만들기"
@@ -63,46 +64,59 @@ class ChallengeCreateOrSearchActivity : AppCompatActivity() {
     }
 
     private fun setupMyPageButton() {
-        fetchChallengeData()
+        fetchChallengeData() // 최신 데이터 동기화
         binding.createChallenge.text = "마이 페이지"
-        binding.createChallenge.setOnClickListener { challengeId?.let { goToMyPage(it) } }
+        binding.createChallenge.setOnClickListener {
+            challengeId?.let { goToMyPage(it) }
+        }
     }
 
     private fun fetchChallengeData() {
+        if (selectedCategory == null) {
+            showToast("카테고리를 선택해 주세요.")
+            return
+        }
+
         val accessToken = getAccessToken(this) ?: run {
             showToast("Access Token이 없습니다.")
             return
         }
 
-        selectedCategory?.let { category ->
-            participatingApi.ParticipatingList("Bearer $accessToken", category.name)
-                .enqueue(object : Callback<ChallengePreviewResponse> {
-                    override fun onResponse(
-                        call: Call<ChallengePreviewResponse>,
-                        response: Response<ChallengePreviewResponse>
-                    ) {
-                        if (response.isSuccessful && response.body()?.isSuccess == false) {
-                            response.body()?.result?.let { result ->
-                                dday = result.dday
-                                startDate = result.startDate
-                                Log.d("ChallengeActivity", "dday: $dday, startDate: $startDate")
-                            } ?: showToast("챌린지 정보를 불러오는 데 실패했습니다.")
-                        } else {
-                            handleError(response)
-                        }
-                    }
+        participatingApi.ParticipatingList("Bearer $accessToken", selectedCategory?.name ?: "")
+            .enqueue(object : Callback<ChallengePreviewResponse> {
+                override fun onResponse(
+                    call: Call<ChallengePreviewResponse>,
+                    response: Response<ChallengePreviewResponse>
+                ) {
+                    if (response.isSuccessful && response.body()?.isSuccess == false) {
+                        val participating = response.body()?.result
+                        if (participating != null) {
+                            dday = participating.dday
+                            startDate = participating.startDate
+                            challengeId = participating.challengeId
 
-                    override fun onFailure(call: Call<ChallengePreviewResponse>, t: Throwable) {
-                        Log.e("ChallengeActivity", "API 호출 실패: ${t.message}")
-                        showToast("네트워크 오류가 발생했습니다.")
+
+
+                            // challengeId 저장
+                            selectedCategory?.let { saveChallengeIdToPreferences(it, challengeId!!) }
+                            // API 응답 후 버튼 설정
+                            updateChallengeButton()
+                        }
+                    } else {
+                        handleError(response)
                     }
-                })
-        } ?: showToast("카테고리를 선택해 주세요.")
+                }
+
+                override fun onFailure(call: Call<ChallengePreviewResponse>, t: Throwable) {
+                    Log.e("ChallengeCreateOrSearch", "API 호출 실패: ${t.message}")
+                    showToast("네트워크 오류가 발생했습니다.")
+                }
+            })
     }
 
     private fun handleError(response: Response<ChallengePreviewResponse>) {
         val errorMsg = response.body()?.message ?: "챌린지 정보를 불러오는 데 실패했습니다."
-        Log.e("ChallengeActivity", "Error: $errorMsg")
+        Log.e("ChallengeCreateOrSearch", "Error: $errorMsg")
         showToast(errorMsg)
     }
 
@@ -126,20 +140,21 @@ class ChallengeCreateOrSearchActivity : AppCompatActivity() {
             return
         }
 
-        if (dday != null && dday!! > 0) {
-            showToast("아직 챌린지가 시작되지 않았습니다.")
-            return
+        // dday가 0 이하일 때만 마이 페이지로 이동하도록 조건 변경
+        if (dday != null && dday!! <= 0) {
+            val intent = when (selectedCategory) {
+                Category.EXERCISE -> Intent(this, ChallengeMyExercisePageActivity::class.java)
+                Category.QUIT_ALCOHOL -> Intent(this, ChallengeMyNoDrinkPageActivity::class.java)
+                Category.QUIT_SMOKE -> Intent(this, ChallengeMyNoSmokePageActivity::class.java)
+                else -> null
+            }?.apply { putExtra("challengeId", challengeId) }
+
+            intent?.let { startActivity(it) } ?: showToast("올바른 카테고리가 아닙니다.")
+        } else {
+            showToast("챌린지가 시작되지 않았거나, 아직 진행되지 않았습니다.")
         }
-
-        val intent = when (selectedCategory) {
-            Category.EXERCISE -> Intent(this, ChallengeMyExercisePageActivity::class.java)
-            Category.QUIT_ALCOHOL -> Intent(this, ChallengeMyNoDrinkPageActivity::class.java)
-            Category.QUIT_SMOKE -> Intent(this, ChallengeMyNoSmokePageActivity::class.java)
-            else -> null
-        }?.apply { putExtra("challengeId", challengeId) }
-
-        intent?.let { startActivity(it) } ?: showToast("올바른 카테고리가 아닙니다.")
     }
+
 
     private fun getAccessToken(context: Context): String? {
         return context.getSharedPreferences("saved_user_info", Context.MODE_PRIVATE)
@@ -150,16 +165,17 @@ class ChallengeCreateOrSearchActivity : AppCompatActivity() {
         getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).edit()
             .putLong("challengeId_${category.name}", challengeId)
             .apply()
-        Log.d("ChallengeCreateOrSearch", "챌린지 ID 저장: 카테고리=${category.name}, ID=$challengeId")
-    }
+        }
 
-    private fun getChallengeIdFromPreferences(category: Category): Long {
-        return getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
-            .getLong("challengeId_${category.name}", DEFAULT_CHALLENGE_ID)
+    private fun getChallengeIdByCategory(category: Category?): Long? {
+        if (category == null) return null
+        val sharedPref = getSharedPreferences("ChallengePrefs", MODE_PRIVATE)
+        val key = "challengeId_${category.name}"  // 카테고리별 키
+        return sharedPref.getLong(key, -1L).takeIf { it != -1L }
     }
 
     private fun isValidChallengeId(challengeId: Long): Boolean {
-        return challengeId != -1L && challengeId != 0L
+        return challengeId > 0 // 0보다 크면 유효
     }
 
     private fun showToast(message: String) {
@@ -167,7 +183,8 @@ class ChallengeCreateOrSearchActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val PREF_NAME = "ChallengePreferences"
+        private const val PREF_NAME = "ChallengePrefs"
         private const val DEFAULT_CHALLENGE_ID = -1L
     }
 }
+

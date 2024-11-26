@@ -80,14 +80,10 @@ class ChallengeSearchGroup : AppCompatActivity() {
                     if (response.isSuccessful && response.body()?.result != null) {
                         val challengeList = response.body()?.result?.challengeList ?: emptyList()
                         fetchParticipatingChallenges(accessToken, category.name) { participatingChallenge ->
-                            // 참여 중인 챌린지가 있을 경우 필터링
-                            // 필터링된 리스트를 MutableList로 변환
-                            val filteredChallengeList = challengeList.filter { it.challengeId != participatingChallenge?.challengeId }.toMutableList()
-
-                            // 어댑터에 필터링된 데이터 전달
+                            // 필터링하지 않고 모든 챌린지 목록을 그대로 사용
                             val adapter = ChallengeAdapter(
                                 participatingChallenge,
-                                filteredChallengeList,  // 필터링된 데이터
+                                challengeList,  // 필터링 없이 모든 데이터
                                 RetrofitInstance.getInstance().create(ChallengeJoinResultApi::class.java),
                                 this@ChallengeSearchGroup
                             )
@@ -111,6 +107,7 @@ class ChallengeSearchGroup : AppCompatActivity() {
             showToast("카테고리가 선택되지 않았습니다.")
         }
     }
+
 
     private fun fetchParticipatingChallenges(accessToken: String, category: String, callback: (Participating?) -> Unit) {
         val api = RetrofitInstance.getInstance().create(ParticipatingChallengeApi::class.java)

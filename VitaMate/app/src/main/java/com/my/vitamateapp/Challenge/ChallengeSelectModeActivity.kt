@@ -86,6 +86,12 @@ class ChallengeSelectModeActivity : AppCompatActivity() {
                             val participating = challengeData.result
                             dday = participating.dday
                             startDate = participating.startDate
+
+                            // challengeId 저장 로직 추가
+                            val sharedPref = getSharedPreferences("ChallengePrefs", MODE_PRIVATE)
+                            sharedPref.edit().putLong("challengeId_${selectedCategory?.name}", participating.challengeId).apply()
+
+
                             Log.d("ChallengeSelectModeActivity", "dday: $dday, startDate: $startDate")
                         } else {
                             Log.e("ChallengeSelectModeActivity", "Error: ${challengeData?.message}")
@@ -105,7 +111,7 @@ class ChallengeSelectModeActivity : AppCompatActivity() {
     }
 
     private fun isParticipatingInChallenge(key: String?): Boolean {
-        val sharedPreferences = getSharedPreferences("ChallengePreferences", MODE_PRIVATE)
+        val sharedPreferences = getSharedPreferences("ChallengePrefs", MODE_PRIVATE)
         return sharedPreferences.getBoolean(key, false)
     }
 
@@ -167,9 +173,9 @@ class ChallengeSelectModeActivity : AppCompatActivity() {
 
     private fun getChallengeIdByCategory(category: Category?): Long? {
         if (category == null) return null
-        val sharedPreferences = getSharedPreferences("ChallengePreferences", MODE_PRIVATE)
+        val sharedPref = getSharedPreferences("ChallengePrefs", MODE_PRIVATE)
         val key = "challengeId_${category.name}"  // 카테고리별 키
-        return sharedPreferences.getLong(key, -1L).takeIf { it != -1L }
+        return sharedPref.getLong(key, -1L).takeIf { it != -1L }
     }
 
     private fun getAccessToken(context: Context): String? {

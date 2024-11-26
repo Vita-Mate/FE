@@ -182,12 +182,12 @@ class ChallengeCreateGroupPeopleActivity : AppCompatActivity() {
 
 
             private fun saveChallengeIdByCategory(context: Context, category: String, challengeId: Long) {
-                val sharedPref = context.getSharedPreferences("ChallengePreferences", Context.MODE_PRIVATE)
+                val sharedPref = context.getSharedPreferences("ChallengePrefs", Context.MODE_PRIVATE)
                 sharedPref.edit().putLong("challengeId_$category", challengeId).apply()
             }
 
             private fun getChallengeIdByCategory(context: Context, category: String): Long {
-                val sharedPref = context.getSharedPreferences("ChallengePreferences", Context.MODE_PRIVATE)
+                val sharedPref = context.getSharedPreferences("ChallengePrefs", Context.MODE_PRIVATE)
                 val challengeId = sharedPref.getLong("challengeId_$category", -1L)
                 Log.d("Challenge", "Retrieved challengeId for category $category: $challengeId")
                 return challengeId
@@ -202,7 +202,7 @@ class ChallengeCreateGroupPeopleActivity : AppCompatActivity() {
 
 
     private fun saveChallengeToPreferences(category: String, challengeId: Long) {
-        val sharedPref = getSharedPreferences("ChallengePreferences", Context.MODE_PRIVATE)
+        val sharedPref = getSharedPreferences("ChallengePrefs", Context.MODE_PRIVATE)
         with(sharedPref.edit()) {
             putLong("challengeId_$category", challengeId)
             apply()

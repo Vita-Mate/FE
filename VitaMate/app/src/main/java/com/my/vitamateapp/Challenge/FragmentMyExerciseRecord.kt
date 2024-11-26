@@ -1,5 +1,6 @@
 package com.my.vitamateapp.Challenge
 
+import android.app.DatePickerDialog
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.os.Bundle
@@ -11,24 +12,23 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.my.vitamateapp.Api.GetExerciseMyRecordApi
-import com.my.vitamateapp.Api.GetExerciseTeamRecordApi
 import com.my.vitamateapp.Api.RetrofitInstance
 import com.my.vitamateapp.ChallengeDTO.GetExerciseMyRecordResponse
-import com.my.vitamateapp.ChallengeDTO.GetExerciseTeamRecordResponse
 import com.my.vitamateapp.ChallengeDTO.GetMyResult
 import com.my.vitamateapp.R
 import com.my.vitamateapp.databinding.FragmentMyExerciseRecordBinding
+import com.prolificinteractive.materialcalendarview.CalendarDay
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import java.util.*
 
 class FragmentMyExerciseRecord : Fragment() {
 
     private lateinit var binding: FragmentMyExerciseRecordBinding
     private lateinit var recyclerViewAdapter: MyRecordAdapter
+    private var selectedDate: String? = null  // 문자열로 날짜 저장
     private var challengeId: Long? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,13 +56,6 @@ class FragmentMyExerciseRecord : Fragment() {
         // 전달받은 challengeId 확인
         Log.d("FragmentMyExerciseRecord", "Received challengeId in onViewCreated: $challengeId")
 
-        // 버튼 클릭 리스너 설정
-        binding.addMyRecord.setOnClickListener {
-            Log.d("FragmentMyExerciseRecord", "addMyRecord button clicked")
-            showChallengeBottomSheetDialog(challengeId ?: -1L)  // challengeId를 BottomSheetDialogFragment로 전달
-        }
-
-
         // RecyclerView 설정
         val recyclerView = binding.myRecordRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -77,7 +70,10 @@ class FragmentMyExerciseRecord : Fragment() {
         } ?: run {
             showError("Invalid challengeId")
         }
+
     }
+
+    // 선택한 날짜를 사용하여 운동 기록을 불러옵니다.
     private fun fetchMyRecord(challengeId: Long) {
         val api = RetrofitInstance.getInstance().create(GetExerciseMyRecordApi::class.java)
         val accessToken = getAccessToken(requireContext()) ?: run {
@@ -86,11 +82,10 @@ class FragmentMyExerciseRecord : Fragment() {
         }
 
         // 날짜를 포함한 API 호출
-        val selectedDateString = arguments?.getString("selectedDate") ?: getCurrentDate()
+        val selectedDateString = selectedDate ?: getCurrentDate()
 
         Log.d(TAG, "Sending request with Token: Bearer $accessToken, challengeId: $challengeId, date: $selectedDateString")
 
-        // 날짜를 포함한 API 호출
         api.getExerciseMyRecord("Bearer $accessToken", challengeId, selectedDateString).enqueue(object : Callback<GetExerciseMyRecordResponse> {
             override fun onResponse(call: Call<GetExerciseMyRecordResponse>, response: Response<GetExerciseMyRecordResponse>) {
                 if (response.isSuccessful) {
@@ -114,33 +109,28 @@ class FragmentMyExerciseRecord : Fragment() {
         })
     }
 
+    // 현재 날짜를 반환합니다.
     private fun getCurrentDate(): String {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         return dateFormat.format(Date())
     }
 
+    // UI 업데이트
     private fun updateUI(result: List<GetMyResult>) {
         // RecyclerView Adapter에 데이터 전달
         recyclerViewAdapter.submitList(result)
     }
 
-    private fun showChallengeBottomSheetDialog(challengeId: Long) {
-        val bottomSheetFragment = ChallengeBottomSheetDialogFragment().apply {
-            arguments = Bundle().apply {
-                putLong("challengeId", challengeId)
-            }
-        }
-        bottomSheetFragment.show(childFragmentManager, bottomSheetFragment.tag)
-    }
-
-
+    // 에러 메시지를 표시합니다.
     private fun showError(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
         Log.e("FragmentMyExerciseRecord", message)
     }
 
+    // SharedPreferences에서 AccessToken을 가져옵니다.
     private fun getAccessToken(context: Context): String? {
         val sharedPref = context.getSharedPreferences("saved_user_info", Context.MODE_PRIVATE)
         return sharedPref.getString("accessToken", null)
     }
 }
+

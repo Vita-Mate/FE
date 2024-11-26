@@ -117,8 +117,14 @@ class ChallengeAdapter(
             return
         }
 
+
+
         holder.joinButton?.isEnabled = false
         Log.d("ChallengeAdapter", "Attempting to join challenge with ID: $challengeId")
+
+        val sharedPref = context.getSharedPreferences("ChallengePrefs", Context.MODE_PRIVATE)
+        sharedPref.edit().putLong("ChallengePrefs", challengeId).apply()
+
 
         // challengeId를 Long으로 그대로 전달
         apiService.joinChallenge("Bearer $accessToken", challengeId).enqueue(object :
@@ -143,6 +149,10 @@ class ChallengeAdapter(
                 if (result.isSuccess) {
 
                     Log.d("ChallengeAdapter", "Successfully joined challenge with ID: $challengeId")
+
+                    val sharedPref = context.getSharedPreferences("ChallengePrefs", Context.MODE_PRIVATE)
+                    sharedPref.edit().putLong("ChallengePrefs", challengeId).apply()
+
                 } else {
 
                     Log.e("ChallengeAdapter", "Failed to join challenge: ${result.message}")

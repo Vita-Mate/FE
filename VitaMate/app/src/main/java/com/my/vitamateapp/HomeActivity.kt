@@ -68,7 +68,7 @@ class HomeActivity : AppCompatActivity() {
 
 
     private fun getChallengeIdByCategory(category: String?): Long {
-        val sharedPref = getSharedPreferences("ChallengePreferences", Context.MODE_PRIVATE)
+        val sharedPref = getSharedPreferences("ChallengePref", Context.MODE_PRIVATE)
         return if (category != null) {
             sharedPref.getLong("challengeId_$category", -1L) // 기본값 -1L
         } else {
@@ -107,8 +107,8 @@ class HomeActivity : AppCompatActivity() {
     // SharedPreferences 초기화 기능
     private fun clearAllSharedPreferences() {
         // "ChallengePreferences" 초기화
-        val challengePref = getSharedPreferences("ChallengePreferences", Context.MODE_PRIVATE)
-        val challengeEditor = challengePref.edit()
+        val sharedPref = getSharedPreferences("ChallengePrefs", Context.MODE_PRIVATE)
+        val challengeEditor = sharedPref.edit()
         challengeEditor.clear()
         challengeEditor.apply()
         Log.d("SharedPreferences", "모든 SharedPreferences 초기화 완료")
