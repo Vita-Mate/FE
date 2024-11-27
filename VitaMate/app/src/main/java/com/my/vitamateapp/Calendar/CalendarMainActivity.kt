@@ -51,8 +51,11 @@ class CalendarMainActivity : AppCompatActivity() {
 
         // 날짜 선택 리스너 설정
         calendarView.setOnDateChangedListener { _, date, _ ->
-            Log.d("CalendarMainActivity", "Selected date: ${date.year}-${date.month + 1}-${date.day}")
+            // `month`는 0부터 시작하므로 +1 필요
+            val formattedDate = "${date.year}-${date.month + 1}-${date.day}"
+            Log.d("CalendarMainActivity", "Selected date saved: $formattedDate")
         }
+
 
         // 초기 설정은 월간 모드
         setupMonthView()

@@ -111,7 +111,7 @@ class ChallengePersonalMyExercisePageActivity : AppCompatActivity() {
 
             // 선택된 날짜를 String으로 변환하여 저장
             selectedDate?.let {
-                val selectedDateString = "${it.year}-${it.month}-${it.day}"
+                val selectedDateString = "${it.year}-${it.month+1}-${it.day}"
                 putString("selectedDate", selectedDateString)
             }
         }
@@ -186,7 +186,7 @@ class ChallengePersonalMyExercisePageActivity : AppCompatActivity() {
         val editor = sharedPref.edit()
 
         // 선택된 날짜를 String 형태로 저장 (예: "yyyy-MM-dd")
-        val selectedDateString = "${date.year}-${date.month}-${date.day}"
+        val selectedDateString = "${date.year}-${date.month+1}-${date.day}"
         editor.putString("selected_date", selectedDateString)
         editor.apply()
 

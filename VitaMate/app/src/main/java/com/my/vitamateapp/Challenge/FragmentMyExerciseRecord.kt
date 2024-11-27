@@ -56,6 +56,13 @@ class FragmentMyExerciseRecord : Fragment() {
         // 전달받은 challengeId 확인
         Log.d("FragmentMyExerciseRecord", "Received challengeId in onViewCreated: $challengeId")
 
+        // 버튼 클릭 리스너 설정
+        binding.addMyRecord.setOnClickListener {
+            Log.d("FragmentMyExerciseRecord", "addMyRecord button clicked")
+            showChallengeBottomSheetDialog(challengeId ?: -1L)  // challengeId를 BottomSheetDialogFragment로 전달
+        }
+
+
         // RecyclerView 설정
         val recyclerView = binding.myRecordRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -107,6 +114,15 @@ class FragmentMyExerciseRecord : Fragment() {
                 showError("Failed to load my record: ${t.message}")
             }
         })
+    }
+
+    private fun showChallengeBottomSheetDialog(challengeId: Long) {
+        val bottomSheetFragment = ChallengeBottomSheetDialogFragment().apply {
+            arguments = Bundle().apply {
+                putLong("challengeId", challengeId)
+            }
+        }
+        bottomSheetFragment.show(childFragmentManager, bottomSheetFragment.tag)
     }
 
     // 현재 날짜를 반환합니다.

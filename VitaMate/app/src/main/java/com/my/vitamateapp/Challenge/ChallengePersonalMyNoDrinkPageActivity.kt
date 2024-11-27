@@ -116,7 +116,7 @@ class ChallengePersonalMyNoDrinkPageActivity : AppCompatActivity() {
 
             // 선택된 날짜를 String으로 변환하여 저장
             selectedDate?.let {
-                val selectedDateString = "${it.year}-${it.month}-${it.day}"
+                val selectedDateString = "${it.year}-${it.month+1}-${it.day}"
                 putString("selectedDate", selectedDateString)
             }
         }
