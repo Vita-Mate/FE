@@ -82,22 +82,27 @@ class ChallengeMyNoSmokePageActivity : AppCompatActivity() {
     }
 
     private fun setupCalendar(calendarView: MaterialCalendarView, toggleCalendarView: ToggleButton) {
-        val selectedDayDecorator = SelectedDayDecorator()
-
-        calendarView.state().edit()
-            .setFirstDayOfWeek(Calendar.SUNDAY)
-            .setCalendarDisplayMode(CalendarMode.WEEKS)
-            .commit()
-
-        calendarView.setOnDateChangedListener { _, date, selected ->
+        calendarView.setOnDateChangedListener { widget, date, selected ->
             if (selected) {
-                selectedDayDecorator.updateDate(date)
-                calendarView.invalidateDecorators() // 데코레이터 새로 고침
+                selectedDate?.let {
+                    calendarView.removeDecorators()
+                    calendarView.addDecorators(TodayDecorator(),
+                        SundayDecorator(),
+                        SaturdayDecorator()
+                    )
+                }
+
+                selectedDate = date
+                calendarView.addDecorator(SelectedDayDecorator(date))
+                calendarView.invalidateDecorators()
+
+                // 선택된 날짜를 SharedPreferences에 저장
+                saveSelectedDate(date)
             }
         }
 
+
         calendarView.addDecorators(
-            selectedDayDecorator,
             TodayDecorator(),
             SundayDecorator(),
             SaturdayDecorator()
@@ -169,26 +174,28 @@ class ChallengeMyNoSmokePageActivity : AppCompatActivity() {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    private inner class SelectedDayDecorator : DayViewDecorator {
-        private var selectedDate: CalendarDay? = null
-        private val drawable = ContextCompat.getDrawable(this@ChallengeMyNoSmokePageActivity, R.drawable.transparent_calendar_element)
-
-        fun updateDate(date: CalendarDay) {
-            selectedDate = date
-        }
+    private inner class SelectedDayDecorator(private val selectedDate: CalendarDay) :
+        DayViewDecorator {
+        private val drawable = ContextCompat.getDrawable(
+            this@ChallengeMyNoSmokePageActivity,
+            R.drawable.transparent_calendar_element
+        )
 
         override fun shouldDecorate(day: CalendarDay): Boolean {
             return day == selectedDate
         }
 
         override fun decorate(view: DayViewFacade) {
-            drawable?.let { view.setBackgroundDrawable(it) }
             view.addSpan(ForegroundColorSpan(Color.BLACK))
+            drawable?.let { view.setBackgroundDrawable(it) }
         }
     }
 
     private inner class TodayDecorator : DayViewDecorator {
-        private val drawable = ContextCompat.getDrawable(this@ChallengeMyNoSmokePageActivity, R.drawable.calendar_circle_white)
+        private val drawable = ContextCompat.getDrawable(
+            this@ChallengeMyNoSmokePageActivity,
+            R.drawable.calendar_circle_white
+        )
 
         override fun shouldDecorate(day: CalendarDay): Boolean {
             return day == CalendarDay.today()
@@ -201,7 +208,10 @@ class ChallengeMyNoSmokePageActivity : AppCompatActivity() {
 
     private class SundayDecorator : DayViewDecorator {
         override fun shouldDecorate(day: CalendarDay): Boolean {
-            return day.calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY
+            val currentCalendar = Calendar.getInstance()
+            return day.calendar.get(Calendar.MONTH) == currentCalendar.get(Calendar.MONTH) &&
+                    day.calendar.get(Calendar.YEAR) == currentCalendar.get(Calendar.YEAR) &&
+                    day.calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY
         }
 
         override fun decorate(view: DayViewFacade) {
@@ -211,11 +221,26 @@ class ChallengeMyNoSmokePageActivity : AppCompatActivity() {
 
     private class SaturdayDecorator : DayViewDecorator {
         override fun shouldDecorate(day: CalendarDay): Boolean {
-            return day.calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY
+            val currentCalendar = Calendar.getInstance()
+            return day.calendar.get(Calendar.MONTH) == currentCalendar.get(Calendar.MONTH) &&
+                    day.calendar.get(Calendar.YEAR) == currentCalendar.get(Calendar.YEAR) &&
+                    day.calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY
         }
 
         override fun decorate(view: DayViewFacade) {
             view.addSpan(ForegroundColorSpan(Color.BLUE))
         }
+    }
+
+    private fun saveSelectedDate(date: CalendarDay) {
+        val sharedPref = getSharedPreferences("selected_date", MODE_PRIVATE)
+        val editor = sharedPref.edit()
+
+        // 선택된 날짜를 String 형태로 저장 (예: "yyyy-MM-dd")
+        val selectedDateString = "${date.year}-${date.month+1}-${date.day}"
+        editor.putString("selected_date", selectedDateString)
+        editor.apply()
+
+        Log.d("ChallengeMyExercisePage", "Selected date saved: $selectedDateString")
     }
 }

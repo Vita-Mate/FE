@@ -63,9 +63,9 @@ class CalendarMainActivity : AppCompatActivity() {
         // ToggleButton을 사용하여 주간/월간 모드 전환
         toggleButton.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                setupWeekView()  // 주간 모드로 전환
+                setupMonthView()  // 주간 모드로 전환
             } else {
-                setupMonthView()  // 월간 모드로 전환
+                setupWeekView()  // 월간 모드로 전환
             }
             Log.d("CalendarMainActivity", "Switch calendar mode: ${if (isChecked) "Weekly" else "Monthly"}")
         }
