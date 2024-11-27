@@ -6,7 +6,7 @@
   <LinearLayout
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="708dp"
+    android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".registerPage.RegisterActivity">
@@ -36,7 +36,7 @@
       android:textSize="15sp" />
 
 
-    <Button
+    <android.widget.Button
       android:id="@+id/checkDuplicateBtn"
       android:layout_width="300dp"
       android:layout_height="45dp"
@@ -47,7 +47,7 @@
       android:padding="1dp"
       android:text="중복 확인"
       android:textColor="#000000"
-      android:textSize="15sp" />
+      android:textSize="16sp" />
 
 
     <TextView
@@ -141,7 +141,7 @@
         android:src="@drawable/female" />
     </LinearLayout>
 
-    <Button
+    <android.widget.Button
       android:id="@+id/nextBtn"
       android:layout_width="150dp"
       android:layout_height="45dp"
@@ -152,6 +152,6 @@
       android:padding="1dp"
       android:text="다음"
       android:textColor="#000000"
-      android:textSize="15sp" />
+      android:textSize="16sp" />
   </LinearLayout>
 </layout>

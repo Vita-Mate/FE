@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
   android:layout_height="wrap_content"
-  android:layout_margin="11dp">
+  android:padding="7dp"
+  android:layout_marginTop="5dp">
 
   <TextView
     android:id="@+id/supplement_name"
@@ -23,6 +24,6 @@
   <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:textSize="14sp"
+    android:textSize="13sp"
     android:text="일째 복용중" />
 </LinearLayout>

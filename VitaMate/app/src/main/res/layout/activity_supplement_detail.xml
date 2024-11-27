@@ -4,14 +4,19 @@
   <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
 
     <!-- 툴바: 상단에 고정 -->
     <androidx.appcompat.widget.Toolbar
       android:id="@+id/toolbar"
       android:layout_width="match_parent"
       android:layout_height="?attr/actionBarSize"
-      android:background="@color/gray">
+      android:background="@color/gray"
+      android:paddingStart="0dp"
+      android:paddingEnd="0dp"
+      app:contentInsetStart="0dp"
+      app:contentInsetEnd="0dp">
 
       <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -22,6 +27,7 @@
           android:id="@+id/pre_button"
           android:layout_width="33dp"
           android:layout_height="33dp"
+          android:layout_marginStart="5dp"
           android:background="@android:color/transparent"
           android:contentDescription="이전 페이지 버튼"
           android:clickable="true"
@@ -30,8 +36,7 @@
           android:src="@drawable/pre_btn"
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintTop_toTopOf="parent"
-          app:layout_constraintBottom_toBottomOf="parent"
-          android:layout_marginStart="8dp" />
+          app:layout_constraintBottom_toBottomOf="parent" />
 
         <!-- 중앙의 텍스트뷰 -->
         <TextView
@@ -42,32 +47,31 @@
           android:text="영양제 이름"
           android:textAlignment="center"
           android:textColor="@color/black"
-          android:textSize="24sp"
+          android:textSize="19sp"
           app:layout_constraintBottom_toBottomOf="parent"
           app:layout_constraintEnd_toEndOf="parent"
           app:layout_constraintStart_toStartOf="parent"
           app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- 왼쪽의 이전 페이지 버튼 -->
+        <!-- 오른쪽의 스크랩 버튼 -->
         <ImageView
           android:id="@+id/scrap_button"
           android:layout_width="26dp"
-          android:layout_height="30dp"
+          android:layout_height="27dp"
           android:background="@android:color/transparent"
           android:clickable="true"
           android:contentDescription="스크랩"
           android:focusable="true"
           android:scaleType="centerCrop"
           android:src="@drawable/bookmark_white"
+          android:layout_marginRight="17dp"
           app:layout_constraintBottom_toBottomOf="parent"
           app:layout_constraintEnd_toEndOf="parent"
-          app:layout_constraintHorizontal_bias="0.909"
-          app:layout_constraintStart_toStartOf="@+id/pre_button"
-          app:layout_constraintTop_toTopOf="parent"
-          app:layout_constraintVertical_bias="0.516" />
+          app:layout_constraintTop_toTopOf="parent" />
 
       </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>
+
 
     <!-- 스크롤 가능 영역 -->
     <ScrollView
@@ -113,7 +117,7 @@
           android:id="@+id/supplements_review_container"
           android:name="androidx.navigation.fragment.NavHostFragment"
           android:layout_width="match_parent"
-          android:layout_height="match_parent"
+          android:layout_height="wrap_content"
           android:layout_marginTop="20dp"
           app:defaultNavHost="true"
           app:navGraph="@navigation/supplement_review_nav"/>
@@ -144,13 +148,14 @@
 
         <!-- 추가 버튼 -->
         <android.widget.Button
-          android:id="@+id/add_button"
+          android:id="@+id/addButton"
           android:layout_width="280dp"
           android:layout_height="wrap_content"
           android:layout_marginTop="24dp"
           android:layout_gravity="center"
           android:background="@drawable/button_background"
-          android:textSize="20sp"
+          android:textSize="16sp"
+          android:layout_marginBottom="30dp"
           android:text="추가" />
       </LinearLayout>
     </ScrollView>

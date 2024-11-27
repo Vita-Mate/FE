@@ -3,7 +3,7 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:orientation="vertical"
-  android:background="@color/white"
+  android:background="@color/myBackgroundColor"
   android:padding="20dp">
 
   <LinearLayout
@@ -77,29 +77,29 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_marginLeft="100dp"
-      android:layout_marginTop="5dp">
+      android:layout_marginTop="8dp">
 
       <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="My 영양제"
-        android:textSize="26dp"
+        android:textSize="24dp"
         android:textStyle="bold"
-        android:layout_marginEnd="15dp"/>
+        android:layout_marginEnd="16dp"/>
 
       <ImageView
         android:id="@+id/scrap_supplements"
-        android:layout_width="36dp"
-        android:layout_height="35dp"
+        android:layout_width="33dp"
+        android:layout_height="34dp"
         android:layout_gravity="center"
-        android:layout_marginEnd="12dp"
+        android:layout_marginEnd="14dp"
         android:src="@drawable/bookmark_white"
         />
 
       <ImageView
         android:id="@+id/add_supplement"
-        android:layout_width="36dp"
-        android:layout_height="35dp"
+        android:layout_width="33dp"
+        android:layout_height="34dp"
         android:layout_gravity="center"
         android:src="@drawable/add_supplement_button"
         android:textStyle="bold"
@@ -111,6 +111,6 @@
       android:id="@+id/taking_supplements_list_rv"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:layout_margin="14dp"/>
+      android:layout_margin="16dp" />
   </LinearLayout>
 </LinearLayout>

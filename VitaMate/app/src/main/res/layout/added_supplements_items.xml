@@ -24,15 +24,15 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:text="Supplement Name" />
 
       <ImageView
         android:id="@+id/delete_button"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_margin="10dp"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+
         android:layout_gravity="center_vertical"
         android:src="@drawable/delete_button"
         android:contentDescription="Delete Button" />
@@ -48,13 +48,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="2dp"
-        android:textSize="15sp"
+        android:textSize="14sp"
         android:text="intake_duration" />
       <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:textSize="15sp"
+        android:textSize="14sp"
         android:text="일째 복용중" />
     </LinearLayout>
   </LinearLayout>

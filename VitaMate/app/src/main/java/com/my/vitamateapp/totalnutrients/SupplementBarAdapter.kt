@@ -17,8 +17,15 @@ class SupplementBarAdapter(private var supplementList: List<NutrientInfo>) :
     RecyclerView.Adapter<SupplementBarAdapter.SupplementViewHolder>() {
 
     private val nutrientColors = listOf(
-        Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW, Color.CYAN,
-        Color.MAGENTA, Color.LTGRAY, Color.DKGRAY, Color.BLACK, Color.GRAY
+        Color.parseColor("#FF8094"),  // 진한 파스텔 핑크
+        Color.parseColor("#FFB88C"),  // 진한 파스텔 오렌지
+        Color.parseColor("#FFEC7A"),  // 진한 파스텔 노랑
+        Color.parseColor("#91FF99"),  // 진한 파스텔 민트
+        Color.parseColor("#90BFFF"),  // 진한 파스텔 블루
+        Color.parseColor("#A98CFF"),  // 진한 파스텔 라벤더
+        Color.parseColor("#88E0A0"),  // 진한 파스텔 그린
+        Color.parseColor("#A0FFEB"),  // 진한 파스텔 청록색
+        Color.parseColor("#FFB8A0")   // 진한 파스텔 코랄
     )
 
     // Position 기반으로 색상을 할당하는 함수
@@ -51,13 +58,12 @@ class SupplementBarAdapter(private var supplementList: List<NutrientInfo>) :
 
         // 권장 섭취량보다 실제 섭취량이 많을 경우 텍스트를 빨간색과 Bold로 설정
         if (supplement.nutrientAmount > supplement.recommendedAmount + 0.2f) {
-            holder.amountTextView.setTextColor(Color.RED) // 빨간색 설정
+            holder.amountTextView.setTextColor(Color.parseColor("#FF6F6F")) // 파스텔 핑크 색상 설정
             holder.amountTextView.setTypeface(null, android.graphics.Typeface.BOLD) // Bold 설정
         } else {
             holder.amountTextView.setTextColor(Color.BLACK) // 검은색으로 초기화
             holder.amountTextView.setTypeface(null, android.graphics.Typeface.NORMAL) // 일반체로 초기화
         }
-
 
         // 퍼센트 계산 (0에서 100 사이 값으로 조정)
         val percentage = (supplement.nutrientAmount.toFloat() / supplement.recommendedAmount.toFloat()) * 100
@@ -95,6 +101,10 @@ class SupplementBarAdapter(private var supplementList: List<NutrientInfo>) :
 
         // 테두리 추가: XML에서 background 속성 사용
         holder.barChart.setDrawBarShadow(true) // 막대의 배경 그림자 활성화
+
+        // 하이라이트 비활성화
+        holder.barChart.isHighlightPerTapEnabled = false // 터치 시 하이라이트 비활성화
+        holder.barChart.isHighlightPerDragEnabled = false // 드래그 시 하이라이트 비활성화
 
         // 애니메이션 적용
         holder.barChart.invalidate()

@@ -3,6 +3,7 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   android:orientation="vertical"
   android:background="@color/white"
   tools:context=".foodRecord.AddFoodFragment">
@@ -12,12 +13,39 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:background="@color/black" />
+    android:background="@color/gray"
+    android:paddingStart="0dp"
+    android:paddingEnd="0dp"
+    app:contentInsetStart="0dp"
+    app:contentInsetEnd="0dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+
+      <!-- 왼쪽의 이전 페이지 버튼 -->
+      <ImageButton
+        android:id="@+id/pre_button"
+        android:layout_width="33dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="5dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="이전 페이지 버튼"
+        android:clickable="true"
+        android:focusable="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/pre_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+  </androidx.appcompat.widget.Toolbar>
 
   <!-- 검색 입력 필드 및 돋보기 아이콘 -->
   <FrameLayout
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="57dp"
     android:background="@drawable/search_field_bg"
     android:layout_margin="20dp"
     android:padding="15dp">
@@ -37,8 +65,8 @@
     <!-- 돋보기 아이콘 -->
     <ImageView
       android:id="@+id/search_icon"
-      android:layout_width="40dp"
-      android:layout_height="40dp"
+      android:layout_width="28dp"
+      android:layout_height="28dp"
       android:src="@drawable/search_icon"
       android:layout_gravity="end|center_vertical"
       android:scaleType="fitCenter"

@@ -22,7 +22,11 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/gray">
+        android:background="@color/gray"
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp"
+        app:contentInsetStart="0dp"
+        app:contentInsetEnd="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
           android:layout_width="match_parent"
@@ -33,6 +37,7 @@
             android:id="@+id/pre_button"
             android:layout_width="33dp"
             android:layout_height="33dp"
+            android:layout_marginStart="5dp"
             android:background="@android:color/transparent"
             android:contentDescription="이전 페이지 버튼"
             android:clickable="true"
@@ -41,22 +46,21 @@
             android:src="@drawable/pre_btn"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginStart="8dp" />
+            app:layout_constraintBottom_toBottomOf="parent" />
 
           <!-- 중앙의 텍스트뷰 -->
           <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="리뷰 작성하기"
-            android:textAlignment="center"
             android:gravity="center"
+            android:text="리뷰 작성"
+            android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="24sp"
-            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="19sp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
       </androidx.appcompat.widget.Toolbar>
@@ -65,17 +69,17 @@
         android:id="@+id/supplement_name_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="30dp"
-        android:textSize="30sp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="55dp"
+        android:textSize="22sp"
         android:textStyle="bold"
         android:text="영양제 이름" />
 
       <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="40dp"
         android:textSize="12sp"
         android:text="이 상품에 만족하셨나요?" />
 
@@ -84,7 +88,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_marginStart="30dp">
 
         <TextView
@@ -92,7 +96,7 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:text="☆"
-          android:textSize="30sp"
+          android:textSize="26sp"
           android:textColor="@android:color/darker_gray"
           android:padding="7dp" />
 
@@ -101,7 +105,7 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:text="☆"
-          android:textSize="30sp"
+          android:textSize="26sp"
           android:textColor="@android:color/darker_gray"
           android:padding="7dp" />
 
@@ -110,7 +114,7 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:text="☆"
-          android:textSize="30sp"
+          android:textSize="26sp"
           android:textColor="@android:color/darker_gray"
           android:padding="7dp" />
 
@@ -119,7 +123,7 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:text="☆"
-          android:textSize="30sp"
+          android:textSize="26sp"
           android:textColor="@android:color/darker_gray"
           android:padding="7dp" />
 
@@ -128,7 +132,7 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:text="☆"
-          android:textSize="30sp"
+          android:textSize="26sp"
           android:textColor="@android:color/darker_gray"
           android:padding="7dp" />
       </LinearLayout>
@@ -157,7 +161,7 @@
         android:layout_marginTop="50dp"
         android:background="@drawable/button_background"
         android:text="작성완료"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
     </LinearLayout>
   </androidx.core.widget.NestedScrollView>
 </layout>
