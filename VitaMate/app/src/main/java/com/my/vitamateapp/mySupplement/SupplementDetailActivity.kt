@@ -31,9 +31,11 @@ class SupplementDetailActivity : AppCompatActivity() {
         getSupplementDetail(supplementId)
 
         binding.addButton.setOnClickListener {
+            Log.d("AddButton", "Add button clicked")
             val intent = Intent(this, SupplementStartActivity::class.java)
             startActivity(intent)
         }
+
 
         // 연관상품 이미지 추가
         val imageResources = listOf(

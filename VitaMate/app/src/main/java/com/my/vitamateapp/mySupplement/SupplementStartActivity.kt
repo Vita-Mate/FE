@@ -36,8 +36,8 @@ class SupplementStartActivity : AppCompatActivity() {
 
         // SharedPreferences에서 영양제 이름 가져와서 툴바 텍스트뷰에 설정
         val supplementName = getSharedPreferences("saved_supplement_info", Context.MODE_PRIVATE)
-            .getString("supplementName", null) // 기본값을 null로 설정
-        binding.toolbar.findViewById<TextView>(R.id.supplement_name).text = supplementName // null일 경우 빈 문자열로 설정됨
+            .getString("supplementName", "") // 기본값을 null로 설정
+        binding.toolbar.findViewById<TextView>(R.id.supplement_name_detail).text = supplementName // null일 경우 빈 문자열로 설정됨
 
 
         // 완료 버튼 클릭 시 섭취 영양제로 추가

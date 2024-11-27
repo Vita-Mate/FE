@@ -26,7 +26,7 @@ class AllReviewsActivity : AppCompatActivity() {
         // RecyclerView 설정
         val rv: RecyclerView = findViewById(R.id.all_review_list_rv)
         rv.layoutManager = LinearLayoutManager(this)
-        rvAdapter = ReviewListAdapter(reviews)
+        rvAdapter = ReviewListAdapter(reviews, isDetailView = false)  // 액티비티에서는 isDetailView=false
         rv.adapter = rvAdapter
 
         // supplementsRepository 초기화
@@ -36,8 +36,8 @@ class AllReviewsActivity : AppCompatActivity() {
         loadAllReviews()
 
         //이전페이지로 이동
-        var pre_button = findViewById<ImageButton>(R.id.pre_button)
-        pre_button.setOnClickListener {
+        var preButton = findViewById<ImageButton>(R.id.pre_button)
+        preButton.setOnClickListener {
             goPre()
         }
     }
@@ -64,17 +64,15 @@ class AllReviewsActivity : AppCompatActivity() {
             val result = supplementsRepository.getSupplementReviews(accessToken, supplementId)
             withContext(Dispatchers.Main) {
                 if (result != null) {
-                    // 불러온 리뷰 데이터를 리스트에 추가
+                    // 리뷰 데이터를 리스트에 추가
                     reviews.clear()
                     reviews.addAll(result)
 
-                    // 리뷰 리스트를 어댑터에 업데이트
+                    // 어댑터 업데이트
+                    rvAdapter.expandItems() // 모든 아이템 표시
                     rvAdapter.notifyDataSetChanged()
-
-                    // 전체 아이템 표시
-                    rvAdapter.expandItems() // 전체 리뷰 표시
                 } else {
-                    Log.e("AllReviewsActivity", "리뷰 조회 실패")
+                    Log.e("ReviewListFragment", "리뷰 조회 실패")
                 }
             }
         }

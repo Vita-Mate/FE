@@ -8,8 +8,8 @@
     android:background="@android:color/transparent">
 
     <com.google.android.material.card.MaterialCardView
-      android:layout_width="330dp"
-      android:layout_height="330dp"
+      android:layout_width="310dp"
+      android:layout_height="310dp"
       android:elevation="1.5dp"
       app:cardCornerRadius="30dp"
       app:cardBackgroundColor="@android:color/white"
@@ -32,16 +32,16 @@
           android:layout_height="wrap_content"
           android:layout_gravity="center_horizontal"
           android:text="supplement_name"
-          android:textSize="24sp"
+          android:textSize="20sp"
           android:textStyle="bold" />
 
         <TextView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:layout_marginTop="7dp"
+          android:layout_marginTop="15dp"
           android:layout_gravity="center_horizontal"
           android:text="정말 삭제하시겠습니까?"
-          android:textSize="24sp" />
+          android:textSize="18sp" />
 
         <LinearLayout
           android:layout_width="wrap_content"
@@ -51,20 +51,20 @@
 
           <android.widget.Button
             android:id="@+id/button_yes"
-            android:layout_width="122dp"
-            android:layout_height="55dp"
+            android:layout_width="110dp"
+            android:layout_height="40dp"
             android:background="@drawable/button_background"
             android:text="네"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
           <android.widget.Button
             android:id="@+id/button_no"
-            android:layout_width="122dp"
-            android:layout_height="55dp"
+            android:layout_width="110dp"
+            android:layout_height="40dp"
             android:layout_marginStart="30dp"
             android:background="@drawable/button_background"
             android:text="아니오"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
         </LinearLayout>
       </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

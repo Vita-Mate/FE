@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:orientation="vertical">
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+  <!-- 상단: 닉네임과 별점 -->
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginBottom="8dp">
+
+    <!-- 사용자 닉네임 -->
+    <TextView
+      android:id="@+id/user_nickname"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="사용자 닉네임"
+      android:textSize="18sp"
+      android:textStyle="bold" />
+
+    <!-- 별점 (임시로 ★ 문자 사용) -->
+    <TextView
+      android:id="@+id/user_rating"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="5dp"
+      android:text="★★★★★"
+      android:textColor="@android:color/holo_orange_light"
+      android:textSize="16sp" />
+  </LinearLayout>
+
+  <!-- 리뷰 내용 -->
+  <TextView
+    android:id="@+id/user_review"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:layout_marginTop="7dp"
+    android:text="리뷰 내용이 여기에 표시됩니다."
+    android:textSize="16sp" />
+
+  <!-- 리뷰가 없을 때 보여줄 메시지 -->
+  <TextView
+    android:id="@+id/no_reviews_message"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="아직 작성된 리뷰가 없습니다."
+    android:visibility="gone"
+    android:textSize="16sp"
+    android:layout_marginTop="8dp" />
+  </LinearLayout>
+
+  <View
+    android:layout_width="wrap_content"
+    android:layout_height="1dp"
+    android:layout_marginTop="5dp"
+    android:background="@android:color/darker_gray" />
+</LinearLayout>
+

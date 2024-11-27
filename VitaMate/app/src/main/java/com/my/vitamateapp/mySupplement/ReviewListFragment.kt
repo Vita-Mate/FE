@@ -39,13 +39,14 @@ class ReviewListFragment : Fragment() {
 
         // RecyclerView와 어댑터 설정
         val rv: RecyclerView = view.findViewById(R.id.review_item_rv)
-        rvAdapter = ReviewListAdapter(reviews)
+        rvAdapter = ReviewListAdapter(reviews, isDetailView = true)  // 프래그먼트에서는 isDetailView=true
         rv.adapter = rvAdapter
 
         // RecyclerView의 레이아웃 설정
         val layoutManager = LinearLayoutManager(context)
-        layoutManager.stackFromEnd = false // 스크롤 막기
         rv.layoutManager = layoutManager
+        rv.setHasFixedSize(true)  // RecyclerView 크기 고정
+        rv.isNestedScrollingEnabled = false  // 스크롤 비활성화
 
         // API 호출하여 리뷰 목록 불러오기
         loadReviews()
@@ -66,14 +67,12 @@ class ReviewListFragment : Fragment() {
     }
 
     private fun loadReviews() {
-        // 저장된 영양제 ID 가져오기
         val supplementId = getSavedSupplementId()
         if (supplementId == -1) {
             Log.d("ReviewListFragment", "유효하지 않은 영양제 ID")
             return
         }
 
-        // SharedPreferences에서 액세스 토큰 가져오기
         val sharedPreferences = requireContext().getSharedPreferences("saved_user_info", Context.MODE_PRIVATE)
         val accessToken = sharedPreferences.getString("accessToken", null)
 
@@ -82,25 +81,18 @@ class ReviewListFragment : Fragment() {
             return
         }
 
-        // 코루틴을 사용하여 API 호출
         CoroutineScope(Dispatchers.IO).launch {
             val result = supplementsRepository.getSupplementReviews(accessToken, supplementId)
             withContext(Dispatchers.Main) {
                 if (result != null) {
-                    // 불러온 리뷰 데이터를 리스트에 추가 (최대 2개만 표시)
+                    Log.d("ReviewListFragment", "Loaded reviews: ${result.size}")
                     reviews.clear()
-                    reviews.addAll(result.take(2))
+                    reviews.addAll(result.take(2)) // 최대 2개의 리뷰만 추가
 
-                    // 리뷰 리스트를 어댑터에 업데이트
-                    rvAdapter.notifyDataSetChanged()
-
-                    // 로그로 모든 리뷰 데이터 출력
-                    result.forEach { review ->
-                        Log.d("ReviewListFragment", "리뷰: 닉네임=${review.nickname}, 별점=${review.grade}, 내용=${review.content}")
-                    }
-
+                    rvAdapter.notifyDataSetChanged() // 어댑터에 변경사항 알리기
+                    Log.d("ReviewListFragment", "Updated reviews: ${reviews.size}")
                 } else {
-                    Toast.makeText(context, "리뷰 조회 실패", Toast.LENGTH_SHORT).show()
+                    Log.e("ReviewListFragment", "리뷰 조회 실패")
                 }
             }
         }
@@ -109,14 +101,6 @@ class ReviewListFragment : Fragment() {
     // 저장된 영양제 ID를 가져오는 함수
     private fun getSavedSupplementId(): Int {
         val sharedPref = requireContext().getSharedPreferences("saved_supplement_info", Context.MODE_PRIVATE)
-        val supplementId = sharedPref.getInt("supplementId", -1) // 기본값 -1 (저장된 ID가 없을 때)
-
-        // 로그 추가
-        if (supplementId != -1) {
-            Log.d("ReviewListFragment", "저장된 영양제 ID: $supplementId")
-        } else {
-            Log.d("ReviewListFragment", "저장된 영양제 ID가 없습니다.")
-        }
-        return supplementId
+        return sharedPref.getInt("supplementId", -1) // 기본값 -1 (저장된 ID가 없을 때)
     }
 }

@@ -20,7 +20,11 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/gray">
+        android:background="@color/gray"
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp"
+        app:contentInsetStart="0dp"
+        app:contentInsetEnd="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
           android:layout_width="match_parent"
@@ -31,6 +35,7 @@
             android:id="@+id/pre_button"
             android:layout_width="33dp"
             android:layout_height="33dp"
+            android:layout_marginStart="5dp"
             android:background="@android:color/transparent"
             android:contentDescription="이전 페이지 버튼"
             android:clickable="true"
@@ -39,22 +44,21 @@
             android:src="@drawable/pre_btn"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginStart="8dp" />
+            app:layout_constraintBottom_toBottomOf="parent" />
 
           <!-- 중앙의 텍스트뷰 -->
           <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="식단 기록"
             android:textAlignment="center"
-            android:gravity="center"
             android:textColor="@color/black"
-            android:textSize="24sp"
-            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="19sp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
       </androidx.appcompat.widget.Toolbar>
@@ -64,7 +68,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:text="아침"
-        android:textSize="40dp"
+        android:textSize="32dp"
         android:textStyle="bold"
         android:gravity="center" />
 
@@ -80,7 +84,7 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:text="0"
-          android:textSize="36dp"
+          android:textSize="30dp"
           android:textStyle="bold"
           android:gravity="center" />
 
@@ -89,7 +93,7 @@
           android:layout_height="wrap_content"
           android:layout_marginLeft="10dp"
           android:text="kcal"
-          android:textSize="36dp"
+          android:textSize="30dp"
           android:textStyle="bold"
           android:gravity="center" />
       </LinearLayout>
@@ -111,11 +115,11 @@
     <android.widget.Button
       android:id="@+id/saveButton"
       android:layout_width="250dp"
-      android:layout_height="60dp"
+      android:layout_height="wrap_content"
       android:layout_gravity="center_horizontal"
       android:background="@drawable/button_background"
       android:text="저장"
-      android:textSize="20dp"
+      android:textSize="16dp"
       android:textColor="#000000"
       android:layout_marginBottom="20dp"/>
   </LinearLayout>
