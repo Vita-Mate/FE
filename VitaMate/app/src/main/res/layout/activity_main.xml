@@ -20,14 +20,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.479" />
 
-    <TextView
-      android:layout_width="wrap_content"
+    <ImageView
+      android:layout_width="255dp"
       android:layout_height="wrap_content"
       android:padding="10dp"
-      android:text="VitaMate"
-      android:textColor="@color/black"
-      android:textScaleX="1"
-      android:textSize="42sp"
+      android:src="@drawable/vitamate_font"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintHorizontal_bias="0.504"
