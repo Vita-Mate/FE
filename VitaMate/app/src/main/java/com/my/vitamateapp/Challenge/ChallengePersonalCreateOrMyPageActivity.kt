@@ -61,10 +61,11 @@ class ChallengePersonalCreateOrMyPageActivity : AppCompatActivity() {
     }
 
     private fun setupMyPageButton() {
-        fetchChallengeData()
+        fetchChallengeData() // 최신 데이터 동기화
         binding.createPersonalChallenge.text = "마이 페이지"
-        binding.createPersonalChallenge.setOnClickListener { challengeId?.let { goToMyPage(it) } }
-    }
+        binding.createPersonalChallenge.setOnClickListener {
+            challengeId?.let { goToMyPage(it) }
+        }}
 
     private fun fetchChallengeData() {
         val accessToken = getAccessToken(this) ?: run {

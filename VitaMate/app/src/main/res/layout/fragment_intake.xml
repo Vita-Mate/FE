@@ -12,7 +12,7 @@
     android:layout_height="240dp"
     android:layout_margin="10dp"
     android:background="@drawable/home_border"
-    android:elevation="15dp"
+    android:elevation="7dp"
     android:orientation="vertical">
 
     <!--식단 | 영양제 | 물 버튼-->
