@@ -76,7 +76,7 @@
                     android:id="@+id/create_personal_challenge"
                     android:background="@drawable/button_background"
                     android:layout_width="150dp"
-                    android:layout_height="62dp"
+                    android:layout_height="wrap_content"
                     android:text="만들기"
                     android:textSize="18sp" />
 

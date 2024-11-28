@@ -21,6 +21,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Calendar
+import kotlin.math.log
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -119,7 +120,7 @@ class RegisterActivity : AppCompatActivity() {
     private fun validateNickname(nickname: String): Boolean {
         val regex = "^[a-zA-Z가-힣]+$".toRegex() // 영어 대소문자와 한글만 허용
         if (!regex.matches(nickname)) {
-            Toast.makeText(this, "닉네임은 한글 또는 영어만 입력할 수 있습니다.", Toast.LENGTH_SHORT).show()
+
             return false
         }
         return true
@@ -213,7 +214,6 @@ class RegisterActivity : AppCompatActivity() {
 
         isDateValid = validateDate(year, month, day)
         if (!isDateValid) {
-            Toast.makeText(this, "정확한 생년월일을 입력하세요.", Toast.LENGTH_SHORT).show()
         }
         updateNextButtonState()
         hideKeyboard()

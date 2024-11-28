@@ -55,14 +55,14 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="Vita Mate"
-            android:textSize="40sp" />
+            android:textSize="30dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="좋은 습관 챌린지"
-            android:textSize="40sp" />
+            android:textSize="30dp" />
       </LinearLayout>
 
       <!-- Buttons -->
@@ -76,7 +76,7 @@
             android:id="@+id/mode_group"
             android:background="@drawable/button_background"
             android:layout_width="122dp"
-            android:layout_height="62dp"
+            android:layout_height="wrap_content"
             android:text="단체"
             android:textSize="18sp" />
 
@@ -84,7 +84,7 @@
             android:id="@+id/mode_ind"
             android:background="@drawable/button_background"
             android:layout_width="122dp"
-            android:layout_height="62dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:text="개인"
             android:textSize="18sp" />

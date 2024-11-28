@@ -9,6 +9,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.kakao.sdk.friend.m.t
 import com.my.vitamateapp.R
 import com.my.vitamateapp.databinding.ActivityInBodyRecordBinding
 
@@ -62,7 +63,6 @@ class InBodyRecordActivity : AppCompatActivity() {
         val bmrText = binding.bmrEditText.text.toString()
         isBmrValid = validateBmr(bmrText)
         if (!isBmrValid && bmrText.isNotEmpty()) {
-            Toast.makeText(this, "정확한 BMR 값을 입력하시오.", Toast.LENGTH_SHORT).show()
         }
         binding.nextBtn.isEnabled = isBmrValid
         hideKeyboard()
@@ -88,7 +88,6 @@ class InBodyRecordActivity : AppCompatActivity() {
 
         // 저장된 데이터 확인
         val savedBmr = sharedPreferences.getInt("bmr", 0)
-        Toast.makeText(this, "저장된 BMR: $savedBmr", Toast.LENGTH_SHORT).show()
     }
 
 

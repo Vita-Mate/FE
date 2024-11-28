@@ -75,7 +75,6 @@ class FragmentMyExerciseRecord : Fragment() {
         challengeId?.let {
             fetchMyRecord(it) // Long을 String으로 변환하여 전달
         } ?: run {
-            showError("Invalid challengeId")
         }
 
     }
