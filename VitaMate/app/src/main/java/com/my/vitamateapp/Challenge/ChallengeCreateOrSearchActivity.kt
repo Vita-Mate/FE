@@ -44,7 +44,6 @@ class ChallengeCreateOrSearchActivity : AppCompatActivity() {
         super.onResume()
         updateChallengeButton()  // 챌린지 상태가 갱신될 때마다 버튼 업데이트
     }
-
     private fun updateChallengeButton() {
 
         val challengeId = getChallengeIdByCategory(selectedCategory)  // 카테고리별 challengeId 가져오기
@@ -57,6 +56,7 @@ class ChallengeCreateOrSearchActivity : AppCompatActivity() {
             setupCreateChallengeButton() // "챌린지 만들기" 버튼 설정
         }
     }
+
 
     private fun setupCreateChallengeButton() {
         binding.createChallenge.text = "챌린지 만들기"
@@ -165,14 +165,14 @@ class ChallengeCreateOrSearchActivity : AppCompatActivity() {
         getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE).edit()
             .putLong("challengeId_${category.name}", challengeId)
             .apply()
-        }
-
-    private fun getChallengeIdByCategory(category: Category?): Long? {
+        }private fun getChallengeIdByCategory(category: Category?): Long? {
         if (category == null) return null
         val sharedPref = getSharedPreferences("ChallengePrefs", MODE_PRIVATE)
         val key = "challengeId_${category.name}"  // 카테고리별 키
         return sharedPref.getLong(key, -1L).takeIf { it != -1L }
     }
+
+
 
     private fun isValidChallengeId(challengeId: Long): Boolean {
         return challengeId > 0 // 0보다 크면 유효
